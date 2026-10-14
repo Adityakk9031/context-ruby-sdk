@@ -118,6 +118,19 @@ module ContextDev
       end
       attr_writer :product
 
+      # Authenticated browser profile used for this scrape, or null when no profile was
+      # requested. New and existing profile requests both return the profile ID.
+      sig { returns(T.nilable(ContextDev::Models::WebScrapeResponse::Profile)) }
+      attr_reader :profile
+
+      sig do
+        params(
+          profile:
+            T.nilable(ContextDev::Models::WebScrapeResponse::Profile::OrHash)
+        ).void
+      end
+      attr_writer :profile
+
       # Unique ID of this request, also in `X-Request-Id`. Include it when contacting
       # support.
       sig { returns(String) }
@@ -184,6 +197,8 @@ module ContextDev
           metadata: ContextDev::Models::WebScrapeResponse::Metadata::OrHash,
           parsed: ContextDev::Models::WebScrapeResponse::Parsed::OrHash,
           product: ContextDev::Models::WebScrapeResponse::Product::OrHash,
+          profile:
+            T.nilable(ContextDev::Models::WebScrapeResponse::Profile::OrHash),
           request_id: String,
           screenshot: ContextDev::Models::WebScrapeResponse::Screenshot::OrHash,
           url: String,
@@ -216,6 +231,9 @@ module ContextDev
         parsed:,
         # Product details found on the page.
         product:,
+        # Authenticated browser profile used for this scrape, or null when no profile was
+        # requested. New and existing profile requests both return the profile ID.
+        profile:,
         # Unique ID of this request, also in `X-Request-Id`. Include it when contacting
         # support.
         request_id:,
@@ -245,6 +263,7 @@ module ContextDev
             metadata: ContextDev::Models::WebScrapeResponse::Metadata,
             parsed: ContextDev::Models::WebScrapeResponse::Parsed,
             product: ContextDev::Models::WebScrapeResponse::Product,
+            profile: T.nilable(ContextDev::Models::WebScrapeResponse::Profile),
             request_id: String,
             screenshot: ContextDev::Models::WebScrapeResponse::Screenshot,
             url: String,
@@ -2076,6 +2095,35 @@ module ContextDev
               end
             end
           end
+        end
+      end
+
+      class Profile < ContextDev::Internal::Type::BaseModel
+        OrHash =
+          T.type_alias do
+            T.any(
+              ContextDev::Models::WebScrapeResponse::Profile,
+              ContextDev::Internal::AnyHash
+            )
+          end
+
+        # Save this ID after creating a profile, then reuse it as
+        # sharedParams.profile.profileId with type "existing".
+        sig { returns(String) }
+        attr_accessor :id
+
+        # Authenticated browser profile used for this scrape, or null when no profile was
+        # requested. New and existing profile requests both return the profile ID.
+        sig { params(id: String).returns(T.attached_class) }
+        def self.new(
+          # Save this ID after creating a profile, then reuse it as
+          # sharedParams.profile.profileId with type "existing".
+          id:
+        )
+        end
+
+        sig { override.returns({ id: String }) }
+        def to_hash
         end
       end
 

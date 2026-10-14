@@ -12,6 +12,7 @@ module ContextDev
         metadata: ContextDev::Models::WebScrapeResponse::Metadata,
         parsed: ContextDev::Models::WebScrapeResponse::Parsed,
         product: ContextDev::Models::WebScrapeResponse::Product,
+        profile: ContextDev::Models::WebScrapeResponse::Profile?,
         request_id: String,
         screenshot: ContextDev::Models::WebScrapeResponse::Screenshot,
         url: String,
@@ -39,6 +40,8 @@ module ContextDev
       attr_accessor parsed: ContextDev::Models::WebScrapeResponse::Parsed
 
       attr_accessor product: ContextDev::Models::WebScrapeResponse::Product
+
+      attr_accessor profile: ContextDev::Models::WebScrapeResponse::Profile?
 
       attr_accessor request_id: String
 
@@ -69,6 +72,7 @@ module ContextDev
         metadata: ContextDev::Models::WebScrapeResponse::Metadata,
         parsed: ContextDev::Models::WebScrapeResponse::Parsed,
         product: ContextDev::Models::WebScrapeResponse::Product,
+        profile: ContextDev::Models::WebScrapeResponse::Profile?,
         request_id: String,
         screenshot: ContextDev::Models::WebScrapeResponse::Screenshot,
         url: String,
@@ -87,6 +91,7 @@ module ContextDev
         metadata: ContextDev::Models::WebScrapeResponse::Metadata,
         parsed: ContextDev::Models::WebScrapeResponse::Parsed,
         product: ContextDev::Models::WebScrapeResponse::Product,
+        profile: ContextDev::Models::WebScrapeResponse::Profile?,
         request_id: String,
         screenshot: ContextDev::Models::WebScrapeResponse::Screenshot,
         url: String,
@@ -956,6 +961,16 @@ module ContextDev
             end
           end
         end
+      end
+
+      type profile = { id: String }
+
+      class Profile < ContextDev::Internal::Type::BaseModel
+        attr_accessor id: String
+
+        def initialize: (id: String) -> void
+
+        def to_hash: -> { id: String }
       end
 
       type screenshot =

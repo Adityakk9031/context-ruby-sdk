@@ -109,6 +109,7 @@ class ContextDev::Test::Resources::WebTest < ContextDev::Test::ResourceTest
         metadata: ContextDev::Models::WebScrapeResponse::Metadata,
         parsed: ContextDev::Models::WebScrapeResponse::Parsed,
         product: ContextDev::Models::WebScrapeResponse::Product,
+        profile: ContextDev::Models::WebScrapeResponse::Profile | nil,
         request_id: String,
         screenshot: ContextDev::Models::WebScrapeResponse::Screenshot,
         url: String,

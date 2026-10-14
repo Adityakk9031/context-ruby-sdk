@@ -655,6 +655,14 @@ module ContextDev
         #   @return [ContextDev::Models::WebScrapeParams::SharedParams::Parsers, nil]
         optional :parsers, -> { ContextDev::WebScrapeParams::SharedParams::Parsers }
 
+        # @!attribute profile
+        #   Create or reuse an authenticated browser profile. Requires a paid plan and an
+        #   HTTPS target. Profiles persist session state, bypass shared caches, and cannot
+        #   be combined with ZDR, custom headers, or raw bytes.
+        #
+        #   @return [ContextDev::Models::WebScrapeParams::SharedParams::Profile::Existing, ContextDev::Models::WebScrapeParams::SharedParams::Profile::New, nil]
+        optional :profile, union: -> { ContextDev::WebScrapeParams::SharedParams::Profile }
+
         # @!attribute settle_animations
         #   Wait for CSS animations to finish before capture. Defaults to `true` when
         #   `screenshot` is requested.
@@ -686,7 +694,7 @@ module ContextDev
                  },
                  api_name: :waitFor
 
-        # @!method initialize(actions: nil, country: nil, dismiss_cookies: nil, dismiss_popups: nil, exclude_selectors: nil, headers: nil, include_frames: nil, include_selectors: nil, main_content_only: nil, parsers: nil, settle_animations: nil, theme: nil, viewport: nil, wait_for: nil)
+        # @!method initialize(actions: nil, country: nil, dismiss_cookies: nil, dismiss_popups: nil, exclude_selectors: nil, headers: nil, include_frames: nil, include_selectors: nil, main_content_only: nil, parsers: nil, profile: nil, settle_animations: nil, theme: nil, viewport: nil, wait_for: nil)
         #   Some parameter documentations has been truncated, see
         #   {ContextDev::Models::WebScrapeParams::SharedParams} for more details.
         #
@@ -711,6 +719,8 @@ module ContextDev
         #   @param main_content_only [Boolean] Keep only the main content. Doesn't affect `screenshot`, `bytes`, or `product`.
         #
         #   @param parsers [ContextDev::Models::WebScrapeParams::SharedParams::Parsers] Document parsing options.
+        #
+        #   @param profile [ContextDev::Models::WebScrapeParams::SharedParams::Profile::Existing, ContextDev::Models::WebScrapeParams::SharedParams::Profile::New] Create or reuse an authenticated browser profile. Requires a paid plan and an HT
         #
         #   @param settle_animations [Boolean] Wait for CSS animations to finish before capture. Defaults to `true` when `scree
         #
@@ -934,6 +944,72 @@ module ContextDev
               #   @return [Array<Symbol>]
             end
           end
+        end
+
+        # Create or reuse an authenticated browser profile. Requires a paid plan and an
+        # HTTPS target. Profiles persist session state, bypass shared caches, and cannot
+        # be combined with ZDR, custom headers, or raw bytes.
+        #
+        # @see ContextDev::Models::WebScrapeParams::SharedParams#profile
+        module Profile
+          extend ContextDev::Internal::Type::Union
+
+          discriminator :type
+
+          variant :existing, -> { ContextDev::WebScrapeParams::SharedParams::Profile::Existing }
+
+          variant :new, -> { ContextDev::WebScrapeParams::SharedParams::Profile::New }
+
+          class Existing < ContextDev::Internal::Type::BaseModel
+            # @!attribute profile_id
+            #   The ID returned in profile.id by an earlier scrape.
+            #
+            #   @return [String]
+            required :profile_id, String, api_name: :profileId
+
+            # @!attribute type
+            #   Reuse a saved browser profile.
+            #
+            #   @return [Symbol, :existing]
+            required :type, const: :existing
+
+            # @!method initialize(profile_id:, type: :existing)
+            #   @param profile_id [String] The ID returned in profile.id by an earlier scrape.
+            #
+            #   @param type [Symbol, :existing] Reuse a saved browser profile.
+          end
+
+          class New < ContextDev::Internal::Type::BaseModel
+            # @!attribute identifier
+            #   Username or email for the target website.
+            #
+            #   @return [String]
+            required :identifier, String
+
+            # @!attribute type
+            #   Sign in and create a browser profile.
+            #
+            #   @return [Symbol, :new]
+            required :type, const: :new
+
+            request_only do
+              # @!attribute password
+              #   Password used to sign in. It is never stored in the profile.
+              #
+              #   @return [String]
+              required :password, String
+            end
+
+            # @!method initialize(identifier:, password:, type: :new)
+            #   @param identifier [String] Username or email for the target website.
+            #
+            #   @param password [String] Password used to sign in. It is never stored in the profile.
+            #
+            #   @param type [Symbol, :new] Sign in and create a browser profile.
+          end
+
+          # @!method self.variants
+          #   @return [Array(ContextDev::Models::WebScrapeParams::SharedParams::Profile::Existing, ContextDev::Models::WebScrapeParams::SharedParams::Profile::New)]
         end
 
         # Emulate a light or dark color scheme.

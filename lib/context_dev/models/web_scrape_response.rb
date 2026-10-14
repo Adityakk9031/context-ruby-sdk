@@ -66,6 +66,13 @@ module ContextDev
       #   @return [ContextDev::Models::WebScrapeResponse::Product]
       required :product, -> { ContextDev::Models::WebScrapeResponse::Product }
 
+      # @!attribute profile
+      #   Authenticated browser profile used for this scrape, or null when no profile was
+      #   requested. New and existing profile requests both return the profile ID.
+      #
+      #   @return [ContextDev::Models::WebScrapeResponse::Profile, nil]
+      required :profile, -> { ContextDev::Models::WebScrapeResponse::Profile }, nil?: true
+
       # @!attribute request_id
       #   Unique ID of this request, also in `X-Request-Id`. Include it when contacting
       #   support.
@@ -98,7 +105,7 @@ module ContextDev
       #   @return [ContextDev::Models::WebScrapeResponse::KeyMetadata, nil]
       optional :key_metadata, -> { ContextDev::Models::WebScrapeResponse::KeyMetadata }
 
-      # @!method initialize(bytes:, cache_metadata:, highlights:, html:, images:, json:, markdown:, metadata:, parsed:, product:, request_id:, screenshot:, url:, is_partial: nil, key_metadata: nil)
+      # @!method initialize(bytes:, cache_metadata:, highlights:, html:, images:, json:, markdown:, metadata:, parsed:, product:, profile:, request_id:, screenshot:, url:, is_partial: nil, key_metadata: nil)
       #   Some parameter documentations has been truncated, see
       #   {ContextDev::Models::WebScrapeResponse} for more details.
       #
@@ -121,6 +128,8 @@ module ContextDev
       #   @param parsed [ContextDev::Models::WebScrapeResponse::Parsed] Fields from `parseParams.rules`, after content filters. Unmatched fields are `nu
       #
       #   @param product [ContextDev::Models::WebScrapeResponse::Product] Product details found on the page.
+      #
+      #   @param profile [ContextDev::Models::WebScrapeResponse::Profile, nil] Authenticated browser profile used for this scrape, or null when no profile was
       #
       #   @param request_id [String] Unique ID of this request, also in `X-Request-Id`. Include it when contacting su
       #
@@ -1117,6 +1126,25 @@ module ContextDev
             end
           end
         end
+      end
+
+      # @see ContextDev::Models::WebScrapeResponse#profile
+      class Profile < ContextDev::Internal::Type::BaseModel
+        # @!attribute id
+        #   Save this ID after creating a profile, then reuse it as
+        #   sharedParams.profile.profileId with type "existing".
+        #
+        #   @return [String]
+        required :id, String
+
+        # @!method initialize(id:)
+        #   Some parameter documentations has been truncated, see
+        #   {ContextDev::Models::WebScrapeResponse::Profile} for more details.
+        #
+        #   Authenticated browser profile used for this scrape, or null when no profile was
+        #   requested. New and existing profile requests both return the profile ID.
+        #
+        #   @param id [String] Save this ID after creating a profile, then reuse it as sharedParams.profile.pro
       end
 
       # @see ContextDev::Models::WebScrapeResponse#screenshot

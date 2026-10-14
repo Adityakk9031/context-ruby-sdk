@@ -544,6 +544,7 @@ module ContextDev
           include_selectors: ::Array[String],
           main_content_only: bool,
           parsers: ContextDev::WebScrapeParams::SharedParams::Parsers,
+          profile: ContextDev::Models::WebScrapeParams::SharedParams::profile,
           settle_animations: bool,
           theme: ContextDev::Models::WebScrapeParams::SharedParams::theme,
           viewport: ContextDev::WebScrapeParams::SharedParams::Viewport,
@@ -595,6 +596,12 @@ module ContextDev
           ContextDev::WebScrapeParams::SharedParams::Parsers
         ) -> ContextDev::WebScrapeParams::SharedParams::Parsers
 
+        attr_reader profile: ContextDev::Models::WebScrapeParams::SharedParams::profile?
+
+        def profile=: (
+          ContextDev::Models::WebScrapeParams::SharedParams::profile
+        ) -> ContextDev::Models::WebScrapeParams::SharedParams::profile
+
         attr_reader settle_animations: bool?
 
         def settle_animations=: (bool) -> bool
@@ -628,6 +635,7 @@ module ContextDev
           ?include_selectors: ::Array[String],
           ?main_content_only: bool,
           ?parsers: ContextDev::WebScrapeParams::SharedParams::Parsers,
+          ?profile: ContextDev::Models::WebScrapeParams::SharedParams::profile,
           ?settle_animations: bool,
           ?theme: ContextDev::Models::WebScrapeParams::SharedParams::theme,
           ?viewport: ContextDev::WebScrapeParams::SharedParams::Viewport,
@@ -645,6 +653,7 @@ module ContextDev
           include_selectors: ::Array[String],
           main_content_only: bool,
           parsers: ContextDev::WebScrapeParams::SharedParams::Parsers,
+          profile: ContextDev::Models::WebScrapeParams::SharedParams::profile,
           settle_animations: bool,
           theme: ContextDev::Models::WebScrapeParams::SharedParams::theme,
           viewport: ContextDev::WebScrapeParams::SharedParams::Viewport,
@@ -835,6 +844,46 @@ module ContextDev
               def self?.values: -> ::Array[ContextDev::Models::WebScrapeParams::SharedParams::Parsers::Pdf::ocr]
             end
           end
+        end
+
+        type profile =
+          ContextDev::WebScrapeParams::SharedParams::Profile::Existing
+          | ContextDev::WebScrapeParams::SharedParams::Profile::New
+
+        module Profile
+          extend ContextDev::Internal::Type::Union
+
+          type existing = { profile_id: String, type: :existing }
+
+          class Existing < ContextDev::Internal::Type::BaseModel
+            attr_accessor profile_id: String
+
+            attr_accessor type: :existing
+
+            def initialize: (profile_id: String, ?type: :existing) -> void
+
+            def to_hash: -> { profile_id: String, type: :existing }
+          end
+
+          type new_ = { identifier: String, password: String, type: :new }
+
+          class New < ContextDev::Internal::Type::BaseModel
+            attr_accessor identifier: String
+
+            attr_accessor type: :new
+
+            attr_accessor password: String
+
+            def initialize: (
+              identifier: String,
+              password: String,
+              ?type: :new
+            ) -> void
+
+            def to_hash: -> { identifier: String, password: String, type: :new }
+          end
+
+          def self?.variants: -> ::Array[ContextDev::Models::WebScrapeParams::SharedParams::profile]
         end
 
         type theme = :light | :dark

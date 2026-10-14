@@ -1377,6 +1377,32 @@ module ContextDev
         end
         attr_writer :parsers
 
+        # Create or reuse an authenticated browser profile. Requires a paid plan and an
+        # HTTPS target. Profiles persist session state, bypass shared caches, and cannot
+        # be combined with ZDR, custom headers, or raw bytes.
+        sig do
+          returns(
+            T.nilable(
+              T.any(
+                ContextDev::WebScrapeParams::SharedParams::Profile::Existing,
+                ContextDev::WebScrapeParams::SharedParams::Profile::New
+              )
+            )
+          )
+        end
+        attr_reader :profile
+
+        sig do
+          params(
+            profile:
+              T.any(
+                ContextDev::WebScrapeParams::SharedParams::Profile::Existing::OrHash,
+                ContextDev::WebScrapeParams::SharedParams::Profile::New::OrHash
+              )
+          ).void
+        end
+        attr_writer :profile
+
         # Wait for CSS animations to finish before capture. Defaults to `true` when
         # `screenshot` is requested.
         sig { returns(T.nilable(T::Boolean)) }
@@ -1459,6 +1485,11 @@ module ContextDev
             include_selectors: T::Array[String],
             main_content_only: T::Boolean,
             parsers: ContextDev::WebScrapeParams::SharedParams::Parsers::OrHash,
+            profile:
+              T.any(
+                ContextDev::WebScrapeParams::SharedParams::Profile::Existing::OrHash,
+                ContextDev::WebScrapeParams::SharedParams::Profile::New::OrHash
+              ),
             settle_animations: T::Boolean,
             theme: ContextDev::WebScrapeParams::SharedParams::Theme::OrSymbol,
             viewport:
@@ -1490,6 +1521,10 @@ module ContextDev
           main_content_only: nil,
           # Document parsing options.
           parsers: nil,
+          # Create or reuse an authenticated browser profile. Requires a paid plan and an
+          # HTTPS target. Profiles persist session state, bypass shared caches, and cannot
+          # be combined with ZDR, custom headers, or raw bytes.
+          profile: nil,
           # Wait for CSS animations to finish before capture. Defaults to `true` when
           # `screenshot` is requested.
           settle_animations: nil,
@@ -1525,6 +1560,11 @@ module ContextDev
               include_selectors: T::Array[String],
               main_content_only: T::Boolean,
               parsers: ContextDev::WebScrapeParams::SharedParams::Parsers,
+              profile:
+                T.any(
+                  ContextDev::WebScrapeParams::SharedParams::Profile::Existing,
+                  ContextDev::WebScrapeParams::SharedParams::Profile::New
+                ),
               settle_animations: T::Boolean,
               theme: ContextDev::WebScrapeParams::SharedParams::Theme::OrSymbol,
               viewport: ContextDev::WebScrapeParams::SharedParams::Viewport,
@@ -2019,6 +2059,111 @@ module ContextDev
               def self.values
               end
             end
+          end
+        end
+
+        # Create or reuse an authenticated browser profile. Requires a paid plan and an
+        # HTTPS target. Profiles persist session state, bypass shared caches, and cannot
+        # be combined with ZDR, custom headers, or raw bytes.
+        module Profile
+          extend ContextDev::Internal::Type::Union
+
+          Variants =
+            T.type_alias do
+              T.any(
+                ContextDev::WebScrapeParams::SharedParams::Profile::Existing,
+                ContextDev::WebScrapeParams::SharedParams::Profile::New
+              )
+            end
+
+          class Existing < ContextDev::Internal::Type::BaseModel
+            OrHash =
+              T.type_alias do
+                T.any(
+                  ContextDev::WebScrapeParams::SharedParams::Profile::Existing,
+                  ContextDev::Internal::AnyHash
+                )
+              end
+
+            # The ID returned in profile.id by an earlier scrape.
+            sig { returns(String) }
+            attr_accessor :profile_id
+
+            # Reuse a saved browser profile.
+            sig { returns(Symbol) }
+            attr_accessor :type
+
+            sig do
+              params(profile_id: String, type: Symbol).returns(T.attached_class)
+            end
+            def self.new(
+              # The ID returned in profile.id by an earlier scrape.
+              profile_id:,
+              # Reuse a saved browser profile.
+              type: :existing
+            )
+            end
+
+            sig { override.returns({ profile_id: String, type: Symbol }) }
+            def to_hash
+            end
+          end
+
+          class New < ContextDev::Internal::Type::BaseModel
+            OrHash =
+              T.type_alias do
+                T.any(
+                  ContextDev::WebScrapeParams::SharedParams::Profile::New,
+                  ContextDev::Internal::AnyHash
+                )
+              end
+
+            # Username or email for the target website.
+            sig { returns(String) }
+            attr_accessor :identifier
+
+            # Sign in and create a browser profile.
+            sig { returns(Symbol) }
+            attr_accessor :type
+
+            # Password used to sign in. It is never stored in the profile.
+            sig { returns(String) }
+            attr_accessor :password
+
+            sig do
+              params(
+                identifier: String,
+                password: String,
+                type: Symbol
+              ).returns(T.attached_class)
+            end
+            def self.new(
+              # Username or email for the target website.
+              identifier:,
+              # Password used to sign in. It is never stored in the profile.
+              password:,
+              # Sign in and create a browser profile.
+              type: :new
+            )
+            end
+
+            sig do
+              override.returns(
+                { identifier: String, password: String, type: Symbol }
+              )
+            end
+            def to_hash
+            end
+          end
+
+          sig do
+            override.returns(
+              T::Array[
+                ContextDev::WebScrapeParams::SharedParams::Profile::Variants
+              ]
+            )
+          end
+          def self.variants
           end
         end
 
