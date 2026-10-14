@@ -757,13 +757,29 @@ module ContextDev
           message: String
         }
 
-        type type_ = :custom | :"google-maps"
+        type type_ =
+          :custom
+          | :"google-maps"
+          | :"google-play"
+          | :"google-play-reviews"
+          | :"app-store"
+          | :"app-store-reviews"
+          | :emails
+          | :"phone-numbers"
+          | :links
 
         module Type
           extend ContextDev::Internal::Type::Enum
 
           CUSTOM: :custom
           GOOGLE_MAPS: :"google-maps"
+          GOOGLE_PLAY: :"google-play"
+          GOOGLE_PLAY_REVIEWS: :"google-play-reviews"
+          APP_STORE: :"app-store"
+          APP_STORE_REVIEWS: :"app-store-reviews"
+          EMAILS: :emails
+          PHONE_NUMBERS: :"phone-numbers"
+          LINKS: :links
 
           def self?.values: -> ::Array[ContextDev::Models::WebScrapeResponse::Parsed::type_]
         end

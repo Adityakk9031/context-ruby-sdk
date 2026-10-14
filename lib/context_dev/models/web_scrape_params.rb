@@ -490,9 +490,28 @@ module ContextDev
 
         class PrebuiltParser < ContextDev::Internal::Type::BaseModel
           # @!attribute parser
-          #   Parse Google Maps business data into data.results. Accepts Maps place, search,
-          #   and internal data URLs. Uses a US exit and English labels regardless of hl or
-          #   Accept-Language, and reads Maps data independently of DOM filters.
+          #   google-maps parses Google Maps business data into data.results. Accepts Maps
+          #   place, search, and internal data URLs. Uses a US exit and English labels
+          #   regardless of hl or Accept-Language. google-play parses a Play Store app into
+          #   data: details, developer contact, ratings, price, permissions, and data safety.
+          #   google-play-reviews returns the 200 newest reviews of the app, with developer
+          #   replies, in data.reviews. Both Play parsers accept app details URLs
+          #   (play.google.com/store/apps/details?id=…); hl and gl set the language and
+          #   storefront, defaulting to en and us. app-store parses an App Store app into
+          #   data: details, developer, ratings, price, version, and screenshots.
+          #   app-store-reviews returns up to the 500 newest reviews in data.reviews. Both App
+          #   Store parsers accept app URLs (apps.apple.com/us/app/…/id…); the country in the
+          #   path sets the storefront, defaulting to us. emails accepts any page and returns
+          #   its email addresses as data.emails ([{ email }]), read from mailto links,
+          #   Cloudflare-protected addresses, and visible text. phone-numbers accepts any page
+          #   and returns its valid phone numbers in E.164 as data.phone_numbers ([{ phone
+          #   }]), read from tel links and visible text; numbers without a country code are
+          #   read for the country of the site TLD, defaulting to US. links accepts any page
+          #   and returns its unique http(s) links as data.links ([{ url, text }]), with
+          #   absolute URLs; text falls back to aria-label or image alt and is null when a
+          #   link has none. The emails parser reads the rendered page and respects content
+          #   filters; the other prebuilt parsers read their data independently of DOM
+          #   filters.
           #
           #   @return [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::Parser]
           required :parser, enum: -> { ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser }
@@ -508,19 +527,45 @@ module ContextDev
           #   {ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser} for more
           #   details.
           #
-          #   @param parser [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::Parser] Parse Google Maps business data into data.results. Accepts Maps place, search, a
+          #   @param parser [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::Parser] google-maps parses Google Maps business data into data.results. Accepts Maps pla
           #
           #   @param type [Symbol, :prebuilt] Use a prebuilt parser instead of custom rules.
 
-          # Parse Google Maps business data into data.results. Accepts Maps place, search,
-          # and internal data URLs. Uses a US exit and English labels regardless of hl or
-          # Accept-Language, and reads Maps data independently of DOM filters.
+          # google-maps parses Google Maps business data into data.results. Accepts Maps
+          # place, search, and internal data URLs. Uses a US exit and English labels
+          # regardless of hl or Accept-Language. google-play parses a Play Store app into
+          # data: details, developer contact, ratings, price, permissions, and data safety.
+          # google-play-reviews returns the 200 newest reviews of the app, with developer
+          # replies, in data.reviews. Both Play parsers accept app details URLs
+          # (play.google.com/store/apps/details?id=…); hl and gl set the language and
+          # storefront, defaulting to en and us. app-store parses an App Store app into
+          # data: details, developer, ratings, price, version, and screenshots.
+          # app-store-reviews returns up to the 500 newest reviews in data.reviews. Both App
+          # Store parsers accept app URLs (apps.apple.com/us/app/…/id…); the country in the
+          # path sets the storefront, defaulting to us. emails accepts any page and returns
+          # its email addresses as data.emails ([{ email }]), read from mailto links,
+          # Cloudflare-protected addresses, and visible text. phone-numbers accepts any page
+          # and returns its valid phone numbers in E.164 as data.phone_numbers ([{ phone
+          # }]), read from tel links and visible text; numbers without a country code are
+          # read for the country of the site TLD, defaulting to US. links accepts any page
+          # and returns its unique http(s) links as data.links ([{ url, text }]), with
+          # absolute URLs; text falls back to aria-label or image alt and is null when a
+          # link has none. The emails parser reads the rendered page and respects content
+          # filters; the other prebuilt parsers read their data independently of DOM
+          # filters.
           #
           # @see ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser#parser
           module Parser
             extend ContextDev::Internal::Type::Enum
 
             GOOGLE_MAPS = :"google-maps"
+            GOOGLE_PLAY = :"google-play"
+            GOOGLE_PLAY_REVIEWS = :"google-play-reviews"
+            APP_STORE = :"app-store"
+            APP_STORE_REVIEWS = :"app-store-reviews"
+            EMAILS = :emails
+            PHONE_NUMBERS = :"phone-numbers"
+            LINKS = :links
 
             # @!method self.values
             #   @return [Array<Symbol>]

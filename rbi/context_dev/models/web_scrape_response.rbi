@@ -96,8 +96,12 @@ module ContextDev
       attr_writer :metadata
 
       # Custom rules return fields after content filters; unmatched fields are null ([]
-      # for lists). The google-maps parser returns business records in data.results and
-      # reads Maps data directly, independently of DOM filters and other outputs.
+      # for lists). The google-maps parser returns business records in data.results, and
+      # the google-play parser returns one app record as data, google-play-reviews
+      # returns data.reviews, app-store and app-store-reviews do the same for the App
+      # Store, emails, phone-numbers, and links return data.emails, data.phone_numbers,
+      # and data.links from the rendered page; the store and Maps parsers read their
+      # data directly, independently of DOM filters and other outputs.
       sig { returns(ContextDev::Models::WebScrapeResponse::Parsed) }
       attr_reader :parsed
 
@@ -228,8 +232,12 @@ module ContextDev
         # Page metadata. Fields are omitted when not found.
         metadata:,
         # Custom rules return fields after content filters; unmatched fields are null ([]
-        # for lists). The google-maps parser returns business records in data.results and
-        # reads Maps data directly, independently of DOM filters and other outputs.
+        # for lists). The google-maps parser returns business records in data.results, and
+        # the google-play parser returns one app record as data, google-play-reviews
+        # returns data.reviews, app-store and app-store-reviews do the same for the App
+        # Store, emails, phone-numbers, and links return data.emails, data.phone_numbers,
+        # and data.links from the rendered page; the store and Maps parsers read their
+        # data directly, independently of DOM filters and other outputs.
         parsed:,
         # Product details found on the page.
         product:,
@@ -1616,8 +1624,12 @@ module ContextDev
         attr_writer :message
 
         # Custom rules return fields after content filters; unmatched fields are null ([]
-        # for lists). The google-maps parser returns business records in data.results and
-        # reads Maps data directly, independently of DOM filters and other outputs.
+        # for lists). The google-maps parser returns business records in data.results, and
+        # the google-play parser returns one app record as data, google-play-reviews
+        # returns data.reviews, app-store and app-store-reviews do the same for the App
+        # Store, emails, phone-numbers, and links return data.emails, data.phone_numbers,
+        # and data.links from the rendered page; the store and Maps parsers read their
+        # data directly, independently of DOM filters and other outputs.
         sig do
           params(
             data: T.nilable(T::Hash[Symbol, T.anything]),
@@ -1678,6 +1690,41 @@ module ContextDev
           GOOGLE_MAPS =
             T.let(
               :"google-maps",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          GOOGLE_PLAY =
+            T.let(
+              :"google-play",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          GOOGLE_PLAY_REVIEWS =
+            T.let(
+              :"google-play-reviews",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          APP_STORE =
+            T.let(
+              :"app-store",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          APP_STORE_REVIEWS =
+            T.let(
+              :"app-store-reviews",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          EMAILS =
+            T.let(
+              :emails,
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          PHONE_NUMBERS =
+            T.let(
+              :"phone-numbers",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          LINKS =
+            T.let(
+              :links,
               ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
             )
 
