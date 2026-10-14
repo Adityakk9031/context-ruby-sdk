@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.25.0](https://github.com/context-dot-dev/context-ruby-sdk/compare/v2.24.0...v2.25.0) (2026-10-14)
+
+
+### Features
+
+* **scrape:** add login profiles for authenticated scraping ([#1617](https://github.com/context-dot-dev/context-ruby-sdk/issues/1617)) ([76c6fbe](https://github.com/context-dot-dev/context-ruby-sdk/commit/76c6fbef7df133997753b5e4d4bb6bd5d0e8f173))
+* **scrape:** add prebuilt Google Maps parsing ([#1824](https://github.com/context-dot-dev/context-ruby-sdk/issues/1824)) ([1348168](https://github.com/context-dot-dev/context-ruby-sdk/commit/1348168fc7b15fda70f6db79a36276506e31bdde))
+* **web-search:** charge markdown per delivered page ([#1729](https://github.com/context-dot-dev/context-ruby-sdk/issues/1729)) ([f15c906](https://github.com/context-dot-dev/context-ruby-sdk/commit/f15c9068f0d9a62780129444ceeb3c149006b12c))
+
+
+### Documentation
+
+* demonstrate scraping formats throughout README ([e04afa4](https://github.com/context-dot-dev/context-ruby-sdk/commit/e04afa48893c24235a6c70d0e07af1eeda9224c4))
+* lead README with Context.dev capabilities ([e74b1f9](https://github.com/context-dot-dev/context-ruby-sdk/commit/e74b1f9c98402dd743b70928fbcc4629fa0f4966))
+* reconcile custom scraping README with generated examples ([43368c8](https://github.com/context-dot-dev/context-ruby-sdk/commit/43368c8f6d8dc2d3acac5879440645d2b2b3245f))
+* remove Stainless README attribution ([c9d5c4f](https://github.com/context-dot-dev/context-ruby-sdk/commit/c9d5c4ff4523343ffa7a2c29ab7789f6d3cb81fe))
+
 ## [2.24.0](https://github.com/context-dot-dev/context-ruby-sdk/compare/v2.23.0...v2.24.0) (2026-10-07)
 
 
