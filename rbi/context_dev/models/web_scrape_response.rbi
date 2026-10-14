@@ -95,8 +95,9 @@ module ContextDev
       end
       attr_writer :metadata
 
-      # Fields from `parseParams.rules`, after content filters. Unmatched fields are
-      # `null` (`[]` for lists).
+      # Custom rules return fields after content filters; unmatched fields are null ([]
+      # for lists). The google-maps parser returns business records in data.results and
+      # reads Maps data directly, independently of DOM filters and other outputs.
       sig { returns(ContextDev::Models::WebScrapeResponse::Parsed) }
       attr_reader :parsed
 
@@ -226,8 +227,9 @@ module ContextDev
         markdown:,
         # Page metadata. Fields are omitted when not found.
         metadata:,
-        # Fields from `parseParams.rules`, after content filters. Unmatched fields are
-        # `null` (`[]` for lists).
+        # Custom rules return fields after content filters; unmatched fields are null ([]
+        # for lists). The google-maps parser returns business records in data.results and
+        # reads Maps data directly, independently of DOM filters and other outputs.
         parsed:,
         # Product details found on the page.
         product:,
@@ -1590,6 +1592,15 @@ module ContextDev
         sig { returns(T.nilable(T::Boolean)) }
         attr_accessor :success
 
+        # The selected prebuilt parser name, or custom when type is omitted, custom rules
+        # are used, or parsing is not requested.
+        sig do
+          returns(
+            ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+          )
+        end
+        attr_accessor :type
+
         # Why the output failed. Present only when `success` is `false`.
         sig { returns(T.nilable(String)) }
         attr_reader :error_code
@@ -1604,13 +1615,15 @@ module ContextDev
         sig { params(message: String).void }
         attr_writer :message
 
-        # Fields from `parseParams.rules`, after content filters. Unmatched fields are
-        # `null` (`[]` for lists).
+        # Custom rules return fields after content filters; unmatched fields are null ([]
+        # for lists). The google-maps parser returns business records in data.results and
+        # reads Maps data directly, independently of DOM filters and other outputs.
         sig do
           params(
             data: T.nilable(T::Hash[Symbol, T.anything]),
             requested: T::Boolean,
             success: T.nilable(T::Boolean),
+            type: ContextDev::Models::WebScrapeResponse::Parsed::Type::OrSymbol,
             error_code: String,
             message: String
           ).returns(T.attached_class)
@@ -1620,6 +1633,9 @@ module ContextDev
           requested:,
           # `true` if returned, `false` if it failed, `null` if not requested.
           success:,
+          # The selected prebuilt parser name, or custom when type is omitted, custom rules
+          # are used, or parsing is not requested.
+          type:,
           # Why the output failed. Present only when `success` is `false`.
           error_code: nil,
           # Explanation of the failure and possible next steps.
@@ -1633,12 +1649,47 @@ module ContextDev
               data: T.nilable(T::Hash[Symbol, T.anything]),
               requested: T::Boolean,
               success: T.nilable(T::Boolean),
+              type:
+                ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol,
               error_code: String,
               message: String
             }
           )
         end
         def to_hash
+        end
+
+        # The selected prebuilt parser name, or custom when type is omitted, custom rules
+        # are used, or parsing is not requested.
+        module Type
+          extend ContextDev::Internal::Type::Enum
+
+          TaggedSymbol =
+            T.type_alias do
+              T.all(Symbol, ContextDev::Models::WebScrapeResponse::Parsed::Type)
+            end
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          CUSTOM =
+            T.let(
+              :custom,
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          GOOGLE_MAPS =
+            T.let(
+              :"google-maps",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+
+          sig do
+            override.returns(
+              T::Array[
+                ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+              ]
+            )
+          end
+          def self.values
+          end
         end
       end
 

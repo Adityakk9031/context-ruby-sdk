@@ -163,7 +163,11 @@ module ContextDev
           json_params: ContextDev::WebScrapeParams::JsonParams::OrHash,
           markdown_params: ContextDev::WebScrapeParams::MarkdownParams::OrHash,
           max_age_ms: Integer,
-          parse_params: ContextDev::WebScrapeParams::ParseParams::OrHash,
+          parse_params:
+            T.any(
+              ContextDev::WebScrapeParams::ParseParams::CustomParser::OrHash,
+              ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::OrHash
+            ),
           product_params: ContextDev::WebScrapeParams::ProductParams::OrHash,
           screenshot_params:
             ContextDev::WebScrapeParams::ScreenshotParams::OrHash,

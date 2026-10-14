@@ -190,7 +190,7 @@ module ContextDev
       #
       # @param max_age_ms [Integer] Maximum age of a cached output, in milliseconds. `0` fetches fresh. Defaults to
       #
-      # @param parse_params [ContextDev::Models::WebScrapeParams::ParseParams] Requires `formats.parse: true`; required when it is set.
+      # @param parse_params [ContextDev::Models::WebScrapeParams::ParseParams::CustomParser, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser] Requires `formats.parse: true`; required when it is set.
       #
       # @param product_params [ContextDev::Models::WebScrapeParams::ProductParams] Product options. Requires formats.product: true.
       #

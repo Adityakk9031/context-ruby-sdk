@@ -76,12 +76,25 @@ module ContextDev
       attr_writer :max_age_ms
 
       # Requires `formats.parse: true`; required when it is set.
-      sig { returns(T.nilable(ContextDev::WebScrapeParams::ParseParams)) }
+      sig do
+        returns(
+          T.nilable(
+            T.any(
+              ContextDev::WebScrapeParams::ParseParams::CustomParser,
+              ContextDev::WebScrapeParams::ParseParams::PrebuiltParser
+            )
+          )
+        )
+      end
       attr_reader :parse_params
 
       sig do
         params(
-          parse_params: ContextDev::WebScrapeParams::ParseParams::OrHash
+          parse_params:
+            T.any(
+              ContextDev::WebScrapeParams::ParseParams::CustomParser::OrHash,
+              ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::OrHash
+            )
         ).void
       end
       attr_writer :parse_params
@@ -156,7 +169,11 @@ module ContextDev
           json_params: ContextDev::WebScrapeParams::JsonParams::OrHash,
           markdown_params: ContextDev::WebScrapeParams::MarkdownParams::OrHash,
           max_age_ms: Integer,
-          parse_params: ContextDev::WebScrapeParams::ParseParams::OrHash,
+          parse_params:
+            T.any(
+              ContextDev::WebScrapeParams::ParseParams::CustomParser::OrHash,
+              ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::OrHash
+            ),
           product_params: ContextDev::WebScrapeParams::ProductParams::OrHash,
           screenshot_params:
             ContextDev::WebScrapeParams::ScreenshotParams::OrHash,
@@ -212,7 +229,11 @@ module ContextDev
             json_params: ContextDev::WebScrapeParams::JsonParams,
             markdown_params: ContextDev::WebScrapeParams::MarkdownParams,
             max_age_ms: Integer,
-            parse_params: ContextDev::WebScrapeParams::ParseParams,
+            parse_params:
+              T.any(
+                ContextDev::WebScrapeParams::ParseParams::CustomParser,
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser
+              ),
             product_params: ContextDev::WebScrapeParams::ProductParams,
             screenshot_params: ContextDev::WebScrapeParams::ScreenshotParams,
             shared_params: ContextDev::WebScrapeParams::SharedParams,
@@ -277,7 +298,7 @@ module ContextDev
         sig { params(markdown: T::Boolean).void }
         attr_writer :markdown
 
-        # Fields extracted with `parseParams.rules`, returned as `parsed`.
+        # Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
         sig { returns(T.nilable(T::Boolean)) }
         attr_reader :parse
 
@@ -325,7 +346,7 @@ module ContextDev
           json: nil,
           # Page content as Markdown.
           markdown: nil,
-          # Fields extracted with `parseParams.rules`, returned as `parsed`.
+          # Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
           parse: nil,
           # Product details such as name, price, and availability.
           product: nil,
@@ -700,266 +721,427 @@ module ContextDev
         end
       end
 
-      class ParseParams < ContextDev::Internal::Type::BaseModel
-        OrHash =
+      # Requires `formats.parse: true`; required when it is set.
+      module ParseParams
+        extend ContextDev::Internal::Type::Union
+
+        Variants =
           T.type_alias do
             T.any(
-              ContextDev::WebScrapeParams::ParseParams,
-              ContextDev::Internal::AnyHash
+              ContextDev::WebScrapeParams::ParseParams::CustomParser,
+              ContextDev::WebScrapeParams::ParseParams::PrebuiltParser
             )
           end
 
-        # Field names mapped to CSS selectors (`h1`, `a@href`) or rule objects. Max 100
-        # fields, 5 levels.
-        sig do
-          returns(
-            T::Hash[
-              Symbol,
+        class CustomParser < ContextDev::Internal::Type::BaseModel
+          OrHash =
+            T.type_alias do
               T.any(
-                String,
-                ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1
+                ContextDev::WebScrapeParams::ParseParams::CustomParser,
+                ContextDev::Internal::AnyHash
               )
-            ]
-          )
-        end
-        attr_accessor :rules
+            end
 
-        # Requires `formats.parse: true`; required when it is set.
-        sig do
-          params(
-            rules:
+          # Field names mapped to CSS selectors (`h1`, `a@href`) or rule objects. Max 100
+          # fields, 5 levels.
+          sig do
+            returns(
               T::Hash[
                 Symbol,
                 T.any(
                   String,
-                  ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::OrHash
+                  ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1
                 )
               ]
-          ).returns(T.attached_class)
-        end
-        def self.new(
-          # Field names mapped to CSS selectors (`h1`, `a@href`) or rule objects. Max 100
-          # fields, 5 levels.
-          rules:
-        )
-        end
+            )
+          end
+          attr_accessor :rules
 
-        sig do
-          override.returns(
-            {
+          # Extract fields using custom CSS rules. This is the default when type is omitted.
+          sig do
+            returns(
+              T.nilable(
+                ContextDev::WebScrapeParams::ParseParams::CustomParser::Type::OrSymbol
+              )
+            )
+          end
+          attr_reader :type
+
+          sig do
+            params(
+              type:
+                ContextDev::WebScrapeParams::ParseParams::CustomParser::Type::OrSymbol
+            ).void
+          end
+          attr_writer :type
+
+          sig do
+            params(
               rules:
                 T::Hash[
                   Symbol,
                   T.any(
                     String,
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1
+                    ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::OrHash
                   )
-                ]
-            }
+                ],
+              type:
+                ContextDev::WebScrapeParams::ParseParams::CustomParser::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def self.new(
+            # Field names mapped to CSS selectors (`h1`, `a@href`) or rule objects. Max 100
+            # fields, 5 levels.
+            rules:,
+            # Extract fields using custom CSS rules. This is the default when type is omitted.
+            type: nil
           )
-        end
-        def to_hash
-        end
-
-        module Rule
-          extend ContextDev::Internal::Type::Union
-
-          Variants =
-            T.type_alias do
-              T.any(
-                String,
-                ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1
-              )
-            end
-
-          class UnionMember1 < ContextDev::Internal::Type::BaseModel
-            OrHash =
-              T.type_alias do
-                T.any(
-                  ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1,
-                  ContextDev::Internal::AnyHash
-                )
-              end
-
-            # CSS selector to match within the current page or parent rule.
-            sig { returns(String) }
-            attr_accessor :selector
-
-            # Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
-            # to text.
-            sig do
-              returns(
-                T.nilable(
-                  T.any(
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::OrSymbol,
-                    String,
-                    T.anything
-                  )
-                )
-              )
-            end
-            attr_reader :output
-
-            sig do
-              params(
-                output:
-                  T.any(
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::OrSymbol,
-                    String,
-                    T.anything
-                  )
-              ).void
-            end
-            attr_writer :output
-
-            # Return the first match with `item` or all matches with `list`.
-            sig do
-              returns(
-                T.nilable(
-                  ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Type::OrSymbol
-                )
-              )
-            end
-            attr_reader :type
-
-            sig do
-              params(
-                type:
-                  ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Type::OrSymbol
-              ).void
-            end
-            attr_writer :type
-
-            sig do
-              params(
-                selector: String,
-                output:
-                  T.any(
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::OrSymbol,
-                    String,
-                    T.anything
-                  ),
-                type:
-                  ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Type::OrSymbol
-              ).returns(T.attached_class)
-            end
-            def self.new(
-              # CSS selector to match within the current page or parent rule.
-              selector:,
-              # Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
-              # to text.
-              output: nil,
-              # Return the first match with `item` or all matches with `list`.
-              type: nil
-            )
-            end
-
-            sig do
-              override.returns(
-                {
-                  selector: String,
-                  output:
-                    T.any(
-                      ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::OrSymbol,
-                      String,
-                      T.anything
-                    ),
-                  type:
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Type::OrSymbol
-                }
-              )
-            end
-            def to_hash
-            end
-
-            # Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
-            # to text.
-            module Output
-              extend ContextDev::Internal::Type::Union
-
-              Variants =
-                T.type_alias do
-                  T.any(
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::TaggedSymbol,
-                    String,
-                    T.anything
-                  )
-                end
-
-              sig do
-                override.returns(
-                  T::Array[
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::Variants
-                  ]
-                )
-              end
-              def self.variants
-              end
-
-              TaggedSymbol =
-                T.type_alias do
-                  T.all(
-                    Symbol,
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output
-                  )
-                end
-              OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-              TEXT =
-                T.let(
-                  :text,
-                  ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::TaggedSymbol
-                )
-              HTML =
-                T.let(
-                  :html,
-                  ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::TaggedSymbol
-                )
-            end
-
-            # Return the first match with `item` or all matches with `list`.
-            module Type
-              extend ContextDev::Internal::Type::Enum
-
-              TaggedSymbol =
-                T.type_alias do
-                  T.all(
-                    Symbol,
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Type
-                  )
-                end
-              OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-              ITEM =
-                T.let(
-                  :item,
-                  ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Type::TaggedSymbol
-                )
-              LIST =
-                T.let(
-                  :list,
-                  ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Type::TaggedSymbol
-                )
-
-              sig do
-                override.returns(
-                  T::Array[
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Type::TaggedSymbol
-                  ]
-                )
-              end
-              def self.values
-              end
-            end
           end
 
           sig do
             override.returns(
-              T::Array[ContextDev::WebScrapeParams::ParseParams::Rule::Variants]
+              {
+                rules:
+                  T::Hash[
+                    Symbol,
+                    T.any(
+                      String,
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1
+                    )
+                  ],
+                type:
+                  ContextDev::WebScrapeParams::ParseParams::CustomParser::Type::OrSymbol
+              }
             )
           end
-          def self.variants
+          def to_hash
           end
+
+          module Rule
+            extend ContextDev::Internal::Type::Union
+
+            Variants =
+              T.type_alias do
+                T.any(
+                  String,
+                  ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1
+                )
+              end
+
+            class UnionMember1 < ContextDev::Internal::Type::BaseModel
+              OrHash =
+                T.type_alias do
+                  T.any(
+                    ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1,
+                    ContextDev::Internal::AnyHash
+                  )
+                end
+
+              # CSS selector to match within the current page or parent rule.
+              sig { returns(String) }
+              attr_accessor :selector
+
+              # Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
+              # to text.
+              sig do
+                returns(
+                  T.nilable(
+                    T.any(
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::OrSymbol,
+                      String,
+                      T.anything
+                    )
+                  )
+                )
+              end
+              attr_reader :output
+
+              sig do
+                params(
+                  output:
+                    T.any(
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::OrSymbol,
+                      String,
+                      T.anything
+                    )
+                ).void
+              end
+              attr_writer :output
+
+              # Return the first match with `item` or all matches with `list`.
+              sig do
+                returns(
+                  T.nilable(
+                    ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type::OrSymbol
+                  )
+                )
+              end
+              attr_reader :type
+
+              sig do
+                params(
+                  type:
+                    ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type::OrSymbol
+                ).void
+              end
+              attr_writer :type
+
+              sig do
+                params(
+                  selector: String,
+                  output:
+                    T.any(
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::OrSymbol,
+                      String,
+                      T.anything
+                    ),
+                  type:
+                    ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type::OrSymbol
+                ).returns(T.attached_class)
+              end
+              def self.new(
+                # CSS selector to match within the current page or parent rule.
+                selector:,
+                # Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
+                # to text.
+                output: nil,
+                # Return the first match with `item` or all matches with `list`.
+                type: nil
+              )
+              end
+
+              sig do
+                override.returns(
+                  {
+                    selector: String,
+                    output:
+                      T.any(
+                        ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::OrSymbol,
+                        String,
+                        T.anything
+                      ),
+                    type:
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type::OrSymbol
+                  }
+                )
+              end
+              def to_hash
+              end
+
+              # Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
+              # to text.
+              module Output
+                extend ContextDev::Internal::Type::Union
+
+                Variants =
+                  T.type_alias do
+                    T.any(
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::TaggedSymbol,
+                      String,
+                      T.anything
+                    )
+                  end
+
+                sig do
+                  override.returns(
+                    T::Array[
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::Variants
+                    ]
+                  )
+                end
+                def self.variants
+                end
+
+                TaggedSymbol =
+                  T.type_alias do
+                    T.all(
+                      Symbol,
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output
+                    )
+                  end
+                OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+                TEXT =
+                  T.let(
+                    :text,
+                    ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::TaggedSymbol
+                  )
+                HTML =
+                  T.let(
+                    :html,
+                    ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::TaggedSymbol
+                  )
+              end
+
+              # Return the first match with `item` or all matches with `list`.
+              module Type
+                extend ContextDev::Internal::Type::Enum
+
+                TaggedSymbol =
+                  T.type_alias do
+                    T.all(
+                      Symbol,
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type
+                    )
+                  end
+                OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+                ITEM =
+                  T.let(
+                    :item,
+                    ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type::TaggedSymbol
+                  )
+                LIST =
+                  T.let(
+                    :list,
+                    ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type::TaggedSymbol
+                  )
+
+                sig do
+                  override.returns(
+                    T::Array[
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type::TaggedSymbol
+                    ]
+                  )
+                end
+                def self.values
+                end
+              end
+            end
+
+            sig do
+              override.returns(
+                T::Array[
+                  ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::Variants
+                ]
+              )
+            end
+            def self.variants
+            end
+          end
+
+          # Extract fields using custom CSS rules. This is the default when type is omitted.
+          module Type
+            extend ContextDev::Internal::Type::Enum
+
+            TaggedSymbol =
+              T.type_alias do
+                T.all(
+                  Symbol,
+                  ContextDev::WebScrapeParams::ParseParams::CustomParser::Type
+                )
+              end
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            CUSTOM =
+              T.let(
+                :custom,
+                ContextDev::WebScrapeParams::ParseParams::CustomParser::Type::TaggedSymbol
+              )
+
+            sig do
+              override.returns(
+                T::Array[
+                  ContextDev::WebScrapeParams::ParseParams::CustomParser::Type::TaggedSymbol
+                ]
+              )
+            end
+            def self.values
+            end
+          end
+        end
+
+        class PrebuiltParser < ContextDev::Internal::Type::BaseModel
+          OrHash =
+            T.type_alias do
+              T.any(
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser,
+                ContextDev::Internal::AnyHash
+              )
+            end
+
+          # Parse Google Maps business data into data.results. Accepts Maps place, search,
+          # and internal data URLs. Uses a US exit and English labels regardless of hl or
+          # Accept-Language, and reads Maps data independently of DOM filters.
+          sig do
+            returns(
+              ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser::OrSymbol
+            )
+          end
+          attr_accessor :parser
+
+          # Use a prebuilt parser instead of custom rules.
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig do
+            params(
+              parser:
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser::OrSymbol,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def self.new(
+            # Parse Google Maps business data into data.results. Accepts Maps place, search,
+            # and internal data URLs. Uses a US exit and English labels regardless of hl or
+            # Accept-Language, and reads Maps data independently of DOM filters.
+            parser:,
+            # Use a prebuilt parser instead of custom rules.
+            type: :prebuilt
+          )
+          end
+
+          sig do
+            override.returns(
+              {
+                parser:
+                  ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser::OrSymbol,
+                type: Symbol
+              }
+            )
+          end
+          def to_hash
+          end
+
+          # Parse Google Maps business data into data.results. Accepts Maps place, search,
+          # and internal data URLs. Uses a US exit and English labels regardless of hl or
+          # Accept-Language, and reads Maps data independently of DOM filters.
+          module Parser
+            extend ContextDev::Internal::Type::Enum
+
+            TaggedSymbol =
+              T.type_alias do
+                T.all(
+                  Symbol,
+                  ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser
+                )
+              end
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            GOOGLE_MAPS =
+              T.let(
+                :"google-maps",
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+              )
+
+            sig do
+              override.returns(
+                T::Array[
+                  ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                ]
+              )
+            end
+            def self.values
+            end
+          end
+        end
+
+        sig do
+          override.returns(
+            T::Array[ContextDev::WebScrapeParams::ParseParams::Variants]
+          )
+        end
+        def self.variants
         end
       end
 
@@ -1379,7 +1561,7 @@ module ContextDev
 
         # Create or reuse an authenticated browser profile. Requires a paid plan and an
         # HTTPS target. Profiles persist session state, bypass shared caches, and cannot
-        # be combined with ZDR, custom headers, or raw bytes.
+        # be combined with ZDR, custom headers, raw bytes, or prebuilt parsers.
         sig do
           returns(
             T.nilable(
@@ -1523,7 +1705,7 @@ module ContextDev
           parsers: nil,
           # Create or reuse an authenticated browser profile. Requires a paid plan and an
           # HTTPS target. Profiles persist session state, bypass shared caches, and cannot
-          # be combined with ZDR, custom headers, or raw bytes.
+          # be combined with ZDR, custom headers, raw bytes, or prebuilt parsers.
           profile: nil,
           # Wait for CSS animations to finish before capture. Defaults to `true` when
           # `screenshot` is requested.
@@ -2064,7 +2246,7 @@ module ContextDev
 
         # Create or reuse an authenticated browser profile. Requires a paid plan and an
         # HTTPS target. Profiles persist session state, bypass shared caches, and cannot
-        # be combined with ZDR, custom headers, or raw bytes.
+        # be combined with ZDR, custom headers, raw bytes, or prebuilt parsers.
         module Profile
           extend ContextDev::Internal::Type::Union
 

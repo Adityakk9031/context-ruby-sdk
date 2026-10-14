@@ -55,8 +55,8 @@ module ContextDev
       # @!attribute parse_params
       #   Requires `formats.parse: true`; required when it is set.
       #
-      #   @return [ContextDev::Models::WebScrapeParams::ParseParams, nil]
-      optional :parse_params, -> { ContextDev::WebScrapeParams::ParseParams }, api_name: :parseParams
+      #   @return [ContextDev::Models::WebScrapeParams::ParseParams::CustomParser, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser, nil]
+      optional :parse_params, union: -> { ContextDev::WebScrapeParams::ParseParams }, api_name: :parseParams
 
       # @!attribute product_params
       #   Product options. Requires formats.product: true.
@@ -115,7 +115,7 @@ module ContextDev
       #
       #   @param max_age_ms [Integer] Maximum age of a cached output, in milliseconds. `0` fetches fresh. Defaults to
       #
-      #   @param parse_params [ContextDev::Models::WebScrapeParams::ParseParams] Requires `formats.parse: true`; required when it is set.
+      #   @param parse_params [ContextDev::Models::WebScrapeParams::ParseParams::CustomParser, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser] Requires `formats.parse: true`; required when it is set.
       #
       #   @param product_params [ContextDev::Models::WebScrapeParams::ProductParams] Product options. Requires formats.product: true.
       #
@@ -169,7 +169,7 @@ module ContextDev
         optional :markdown, ContextDev::Internal::Type::Boolean
 
         # @!attribute parse
-        #   Fields extracted with `parseParams.rules`, returned as `parsed`.
+        #   Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
         #
         #   @return [Boolean, nil]
         optional :parse, ContextDev::Internal::Type::Boolean
@@ -201,7 +201,7 @@ module ContextDev
         #
         #   @param markdown [Boolean] Page content as Markdown.
         #
-        #   @param parse [Boolean] Fields extracted with `parseParams.rules`, returned as `parsed`.
+        #   @param parse [Boolean] Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
         #
         #   @param product [Boolean] Product details such as name, price, and availability.
         #
@@ -349,114 +349,186 @@ module ContextDev
         end
       end
 
-      class ParseParams < ContextDev::Internal::Type::BaseModel
-        # @!attribute rules
-        #   Field names mapped to CSS selectors (`h1`, `a@href`) or rule objects. Max 100
-        #   fields, 5 levels.
-        #
-        #   @return [Hash{Symbol=>String, ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1}]
-        required :rules,
-                 -> { ContextDev::Internal::Type::HashOf[union: ContextDev::WebScrapeParams::ParseParams::Rule] }
+      # Requires `formats.parse: true`; required when it is set.
+      module ParseParams
+        extend ContextDev::Internal::Type::Union
 
-        # @!method initialize(rules:)
-        #   Some parameter documentations has been truncated, see
-        #   {ContextDev::Models::WebScrapeParams::ParseParams} for more details.
-        #
-        #   Requires `formats.parse: true`; required when it is set.
-        #
-        #   @param rules [Hash{Symbol=>String, ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1}] Field names mapped to CSS selectors (`h1`, `a@href`) or rule objects. Max 100 fi
+        variant -> { ContextDev::WebScrapeParams::ParseParams::CustomParser }
 
-        module Rule
-          extend ContextDev::Internal::Type::Union
+        variant -> { ContextDev::WebScrapeParams::ParseParams::PrebuiltParser }
 
-          variant String
+        class CustomParser < ContextDev::Internal::Type::BaseModel
+          # @!attribute rules
+          #   Field names mapped to CSS selectors (`h1`, `a@href`) or rule objects. Max 100
+          #   fields, 5 levels.
+          #
+          #   @return [Hash{Symbol=>String, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1}]
+          required :rules,
+                   -> { ContextDev::Internal::Type::HashOf[union: ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule] }
 
-          variant -> { ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1 }
+          # @!attribute type
+          #   Extract fields using custom CSS rules. This is the default when type is omitted.
+          #
+          #   @return [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Type, nil]
+          optional :type, enum: -> { ContextDev::WebScrapeParams::ParseParams::CustomParser::Type }
 
-          class UnionMember1 < ContextDev::Internal::Type::BaseModel
-            # @!attribute selector
-            #   CSS selector to match within the current page or parent rule.
-            #
-            #   @return [String]
-            required :selector, String
+          # @!method initialize(rules:, type: nil)
+          #   Some parameter documentations has been truncated, see
+          #   {ContextDev::Models::WebScrapeParams::ParseParams::CustomParser} for more
+          #   details.
+          #
+          #   @param rules [Hash{Symbol=>String, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1}] Field names mapped to CSS selectors (`h1`, `a@href`) or rule objects. Max 100 fi
+          #
+          #   @param type [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Type] Extract fields using custom CSS rules. This is the default when type is omitted.
 
-            # @!attribute output
-            #   Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
-            #   to text.
-            #
-            #   @return [Symbol, String, Object, ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::Output, nil]
-            optional :output, union: -> { ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output }
+          module Rule
+            extend ContextDev::Internal::Type::Union
 
-            # @!attribute type
-            #   Return the first match with `item` or all matches with `list`.
-            #
-            #   @return [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::Type, nil]
-            optional :type, enum: -> { ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Type }
+            variant String
 
-            # @!method initialize(selector:, output: nil, type: nil)
-            #   Some parameter documentations has been truncated, see
-            #   {ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1} for more
-            #   details.
-            #
-            #   @param selector [String] CSS selector to match within the current page or parent rule.
-            #
-            #   @param output [Symbol, String, Object, ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::Output] Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
-            #
-            #   @param type [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::Type] Return the first match with `item` or all matches with `list`.
+            variant -> { ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1 }
 
-            # Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
-            # to text.
-            #
-            # @see ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1#output
-            module Output
-              extend ContextDev::Internal::Type::Union
+            class UnionMember1 < ContextDev::Internal::Type::BaseModel
+              # @!attribute selector
+              #   CSS selector to match within the current page or parent rule.
+              #
+              #   @return [String]
+              required :selector, String
 
-              variant const: -> { ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::TEXT }
+              # @!attribute output
+              #   Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
+              #   to text.
+              #
+              #   @return [Symbol, String, Object, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output, nil]
+              optional :output,
+                       union: -> { ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output }
 
-              variant const: -> { ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::HTML }
+              # @!attribute type
+              #   Return the first match with `item` or all matches with `list`.
+              #
+              #   @return [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type, nil]
+              optional :type,
+                       enum: -> { ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type }
 
-              variant String
+              # @!method initialize(selector:, output: nil, type: nil)
+              #   Some parameter documentations has been truncated, see
+              #   {ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1}
+              #   for more details.
+              #
+              #   @param selector [String] CSS selector to match within the current page or parent rule.
+              #
+              #   @param output [Symbol, String, Object, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output] Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
+              #
+              #   @param type [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Type] Return the first match with `item` or all matches with `list`.
 
-              variant ContextDev::Internal::Type::Unknown
+              # Return text, HTML, an attribute such as `@href`, or nested field rules. Defaults
+              # to text.
+              #
+              # @see ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1#output
+              module Output
+                extend ContextDev::Internal::Type::Union
 
-              # @!method self.variants
-              #   @return [Array(Symbol, String, Object)]
+                variant const: -> { ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::TEXT }
 
-              define_sorbet_constant!(:Variants) do
-                T.type_alias do
-                  T.any(
-                    ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1::Output::TaggedSymbol,
-                    String,
-                    T.anything
-                  )
+                variant const: -> { ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::HTML }
+
+                variant String
+
+                variant ContextDev::Internal::Type::Unknown
+
+                # @!method self.variants
+                #   @return [Array(Symbol, String, Object)]
+
+                define_sorbet_constant!(:Variants) do
+                  T.type_alias do
+                    T.any(
+                      ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::Output::TaggedSymbol,
+                      String,
+                      T.anything
+                    )
+                  end
                 end
+
+                # @!group
+
+                TEXT = :text
+                HTML = :html
+
+                # @!endgroup
               end
 
-              # @!group
+              # Return the first match with `item` or all matches with `list`.
+              #
+              # @see ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1#type
+              module Type
+                extend ContextDev::Internal::Type::Enum
 
-              TEXT = :text
-              HTML = :html
+                ITEM = :item
+                LIST = :list
 
-              # @!endgroup
+                # @!method self.values
+                #   @return [Array<Symbol>]
+              end
             end
 
-            # Return the first match with `item` or all matches with `list`.
-            #
-            # @see ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1#type
-            module Type
-              extend ContextDev::Internal::Type::Enum
-
-              ITEM = :item
-              LIST = :list
-
-              # @!method self.values
-              #   @return [Array<Symbol>]
-            end
+            # @!method self.variants
+            #   @return [Array(String, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1)]
           end
 
-          # @!method self.variants
-          #   @return [Array(String, ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1)]
+          # Extract fields using custom CSS rules. This is the default when type is omitted.
+          #
+          # @see ContextDev::Models::WebScrapeParams::ParseParams::CustomParser#type
+          module Type
+            extend ContextDev::Internal::Type::Enum
+
+            CUSTOM = :custom
+
+            # @!method self.values
+            #   @return [Array<Symbol>]
+          end
         end
+
+        class PrebuiltParser < ContextDev::Internal::Type::BaseModel
+          # @!attribute parser
+          #   Parse Google Maps business data into data.results. Accepts Maps place, search,
+          #   and internal data URLs. Uses a US exit and English labels regardless of hl or
+          #   Accept-Language, and reads Maps data independently of DOM filters.
+          #
+          #   @return [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::Parser]
+          required :parser, enum: -> { ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser }
+
+          # @!attribute type
+          #   Use a prebuilt parser instead of custom rules.
+          #
+          #   @return [Symbol, :prebuilt]
+          required :type, const: :prebuilt
+
+          # @!method initialize(parser:, type: :prebuilt)
+          #   Some parameter documentations has been truncated, see
+          #   {ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser} for more
+          #   details.
+          #
+          #   @param parser [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::Parser] Parse Google Maps business data into data.results. Accepts Maps place, search, a
+          #
+          #   @param type [Symbol, :prebuilt] Use a prebuilt parser instead of custom rules.
+
+          # Parse Google Maps business data into data.results. Accepts Maps place, search,
+          # and internal data URLs. Uses a US exit and English labels regardless of hl or
+          # Accept-Language, and reads Maps data independently of DOM filters.
+          #
+          # @see ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser#parser
+          module Parser
+            extend ContextDev::Internal::Type::Enum
+
+            GOOGLE_MAPS = :"google-maps"
+
+            # @!method self.values
+            #   @return [Array<Symbol>]
+          end
+        end
+
+        # @!method self.variants
+        #   @return [Array(ContextDev::Models::WebScrapeParams::ParseParams::CustomParser, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser)]
       end
 
       class ProductParams < ContextDev::Internal::Type::BaseModel
@@ -658,7 +730,7 @@ module ContextDev
         # @!attribute profile
         #   Create or reuse an authenticated browser profile. Requires a paid plan and an
         #   HTTPS target. Profiles persist session state, bypass shared caches, and cannot
-        #   be combined with ZDR, custom headers, or raw bytes.
+        #   be combined with ZDR, custom headers, raw bytes, or prebuilt parsers.
         #
         #   @return [ContextDev::Models::WebScrapeParams::SharedParams::Profile::Existing, ContextDev::Models::WebScrapeParams::SharedParams::Profile::New, nil]
         optional :profile, union: -> { ContextDev::WebScrapeParams::SharedParams::Profile }
@@ -948,7 +1020,7 @@ module ContextDev
 
         # Create or reuse an authenticated browser profile. Requires a paid plan and an
         # HTTPS target. Profiles persist session state, bypass shared caches, and cannot
-        # be combined with ZDR, custom headers, or raw bytes.
+        # be combined with ZDR, custom headers, raw bytes, or prebuilt parsers.
         #
         # @see ContextDev::Models::WebScrapeParams::SharedParams#profile
         module Profile

@@ -9,7 +9,7 @@ module ContextDev
         json_params: ContextDev::WebScrapeParams::JsonParams,
         markdown_params: ContextDev::WebScrapeParams::MarkdownParams,
         max_age_ms: Integer,
-        parse_params: ContextDev::WebScrapeParams::ParseParams,
+        parse_params: ContextDev::Models::WebScrapeParams::parse_params,
         product_params: ContextDev::WebScrapeParams::ProductParams,
         screenshot_params: ContextDev::WebScrapeParams::ScreenshotParams,
         shared_params: ContextDev::WebScrapeParams::SharedParams,
@@ -55,11 +55,11 @@ module ContextDev
 
       def max_age_ms=: (Integer) -> Integer
 
-      attr_reader parse_params: ContextDev::WebScrapeParams::ParseParams?
+      attr_reader parse_params: ContextDev::Models::WebScrapeParams::parse_params?
 
       def parse_params=: (
-        ContextDev::WebScrapeParams::ParseParams
-      ) -> ContextDev::WebScrapeParams::ParseParams
+        ContextDev::Models::WebScrapeParams::parse_params
+      ) -> ContextDev::Models::WebScrapeParams::parse_params
 
       attr_reader product_params: ContextDev::WebScrapeParams::ProductParams?
 
@@ -103,7 +103,7 @@ module ContextDev
         ?json_params: ContextDev::WebScrapeParams::JsonParams,
         ?markdown_params: ContextDev::WebScrapeParams::MarkdownParams,
         ?max_age_ms: Integer,
-        ?parse_params: ContextDev::WebScrapeParams::ParseParams,
+        ?parse_params: ContextDev::Models::WebScrapeParams::parse_params,
         ?product_params: ContextDev::WebScrapeParams::ProductParams,
         ?screenshot_params: ContextDev::WebScrapeParams::ScreenshotParams,
         ?shared_params: ContextDev::WebScrapeParams::SharedParams,
@@ -121,7 +121,7 @@ module ContextDev
         json_params: ContextDev::WebScrapeParams::JsonParams,
         markdown_params: ContextDev::WebScrapeParams::MarkdownParams,
         max_age_ms: Integer,
-        parse_params: ContextDev::WebScrapeParams::ParseParams,
+        parse_params: ContextDev::Models::WebScrapeParams::parse_params,
         product_params: ContextDev::WebScrapeParams::ProductParams,
         screenshot_params: ContextDev::WebScrapeParams::ScreenshotParams,
         shared_params: ContextDev::WebScrapeParams::SharedParams,
@@ -337,86 +337,148 @@ module ContextDev
       end
 
       type parse_params =
-        {
-          rules: ::Hash[Symbol, ContextDev::Models::WebScrapeParams::ParseParams::rule]
-        }
+        ContextDev::WebScrapeParams::ParseParams::CustomParser
+        | ContextDev::WebScrapeParams::ParseParams::PrebuiltParser
 
-      class ParseParams < ContextDev::Internal::Type::BaseModel
-        attr_accessor rules: ::Hash[Symbol, ContextDev::Models::WebScrapeParams::ParseParams::rule]
+      module ParseParams
+        extend ContextDev::Internal::Type::Union
 
-        def initialize: (
-          rules: ::Hash[Symbol, ContextDev::Models::WebScrapeParams::ParseParams::rule]
-        ) -> void
+        type custom_parser =
+          {
+            rules: ::Hash[Symbol, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::rule],
+            type: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::type_
+          }
 
-        def to_hash: -> {
-          rules: ::Hash[Symbol, ContextDev::Models::WebScrapeParams::ParseParams::rule]
-        }
+        class CustomParser < ContextDev::Internal::Type::BaseModel
+          attr_accessor rules: ::Hash[Symbol, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::rule]
 
-        type rule =
-          String | ContextDev::WebScrapeParams::ParseParams::Rule::UnionMember1
+          attr_reader type: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::type_?
 
-        module Rule
-          extend ContextDev::Internal::Type::Union
+          def type=: (
+            ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::type_
+          ) -> ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::type_
 
-          type union_member1 =
-            {
-              selector: String,
-              output: ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::output,
-              type: ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::type_
-            }
+          def initialize: (
+            rules: ::Hash[Symbol, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::rule],
+            ?type: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::type_
+          ) -> void
 
-          class UnionMember1 < ContextDev::Internal::Type::BaseModel
-            attr_accessor selector: String
+          def to_hash: -> {
+            rules: ::Hash[Symbol, ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::rule],
+            type: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::type_
+          }
 
-            attr_reader output: ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::output?
+          type rule =
+            String
+            | ContextDev::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1
 
-            def output=: (
-              ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::output
-            ) -> ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::output
+          module Rule
+            extend ContextDev::Internal::Type::Union
 
-            attr_reader type: ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::type_?
+            type union_member1 =
+              {
+                selector: String,
+                output: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::output,
+                type: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::type_
+              }
 
-            def type=: (
-              ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::type_
-            ) -> ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::type_
+            class UnionMember1 < ContextDev::Internal::Type::BaseModel
+              attr_accessor selector: String
 
-            def initialize: (
-              selector: String,
-              ?output: ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::output,
-              ?type: ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::type_
-            ) -> void
+              attr_reader output: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::output?
 
-            def to_hash: -> {
-              selector: String,
-              output: ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::output,
-              type: ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::type_
-            }
+              def output=: (
+                ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::output
+              ) -> ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::output
 
-            type output = :text | :html | String | top
+              attr_reader type: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::type_?
 
-            module Output
-              extend ContextDev::Internal::Type::Union
+              def type=: (
+                ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::type_
+              ) -> ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::type_
 
-              def self?.variants: -> ::Array[ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::output]
+              def initialize: (
+                selector: String,
+                ?output: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::output,
+                ?type: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::type_
+              ) -> void
 
-              TEXT: :text
-              HTML: :html
+              def to_hash: -> {
+                selector: String,
+                output: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::output,
+                type: ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::type_
+              }
+
+              type output = :text | :html | String | top
+
+              module Output
+                extend ContextDev::Internal::Type::Union
+
+                def self?.variants: -> ::Array[ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::output]
+
+                TEXT: :text
+                HTML: :html
+              end
+
+              type type_ = :item | :list
+
+              module Type
+                extend ContextDev::Internal::Type::Enum
+
+                ITEM: :item
+                LIST: :list
+
+                def self?.values: -> ::Array[ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::Rule::UnionMember1::type_]
+              end
             end
 
-            type type_ = :item | :list
-
-            module Type
-              extend ContextDev::Internal::Type::Enum
-
-              ITEM: :item
-              LIST: :list
-
-              def self?.values: -> ::Array[ContextDev::Models::WebScrapeParams::ParseParams::Rule::UnionMember1::type_]
-            end
+            def self?.variants: -> ::Array[ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::rule]
           end
 
-          def self?.variants: -> ::Array[ContextDev::Models::WebScrapeParams::ParseParams::rule]
+          type type_ = :custom
+
+          module Type
+            extend ContextDev::Internal::Type::Enum
+
+            CUSTOM: :custom
+
+            def self?.values: -> ::Array[ContextDev::Models::WebScrapeParams::ParseParams::CustomParser::type_]
+          end
         end
+
+        type prebuilt_parser =
+          {
+            parser: ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::parser,
+            type: :prebuilt
+          }
+
+        class PrebuiltParser < ContextDev::Internal::Type::BaseModel
+          attr_accessor parser: ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::parser
+
+          attr_accessor type: :prebuilt
+
+          def initialize: (
+            parser: ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::parser,
+            ?type: :prebuilt
+          ) -> void
+
+          def to_hash: -> {
+            parser: ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::parser,
+            type: :prebuilt
+          }
+
+          type parser = :"google-maps"
+
+          module Parser
+            extend ContextDev::Internal::Type::Enum
+
+            GOOGLE_MAPS: :"google-maps"
+
+            def self?.values: -> ::Array[ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::parser]
+          end
+        end
+
+        def self?.variants: -> ::Array[ContextDev::Models::WebScrapeParams::parse_params]
       end
 
       type product_params = { dedupe_images: bool }

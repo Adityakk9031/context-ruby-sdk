@@ -717,6 +717,7 @@ module ContextDev
           data: ::Hash[Symbol, top]?,
           requested: bool,
           success: bool?,
+          type: ContextDev::Models::WebScrapeResponse::Parsed::type_,
           error_code: String,
           message: String
         }
@@ -727,6 +728,8 @@ module ContextDev
         attr_accessor requested: bool
 
         attr_accessor success: bool?
+
+        attr_accessor type: ContextDev::Models::WebScrapeResponse::Parsed::type_
 
         attr_reader error_code: String?
 
@@ -740,6 +743,7 @@ module ContextDev
           data: ::Hash[Symbol, top]?,
           requested: bool,
           success: bool?,
+          type: ContextDev::Models::WebScrapeResponse::Parsed::type_,
           ?error_code: String,
           ?message: String
         ) -> void
@@ -748,9 +752,21 @@ module ContextDev
           data: ::Hash[Symbol, top]?,
           requested: bool,
           success: bool?,
+          type: ContextDev::Models::WebScrapeResponse::Parsed::type_,
           error_code: String,
           message: String
         }
+
+        type type_ = :custom | :"google-maps"
+
+        module Type
+          extend ContextDev::Internal::Type::Enum
+
+          CUSTOM: :custom
+          GOOGLE_MAPS: :"google-maps"
+
+          def self?.values: -> ::Array[ContextDev::Models::WebScrapeResponse::Parsed::type_]
+        end
       end
 
       type product =

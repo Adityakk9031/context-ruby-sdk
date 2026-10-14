@@ -54,8 +54,9 @@ module ContextDev
       required :metadata, -> { ContextDev::Models::WebScrapeResponse::Metadata }
 
       # @!attribute parsed
-      #   Fields from `parseParams.rules`, after content filters. Unmatched fields are
-      #   `null` (`[]` for lists).
+      #   Custom rules return fields after content filters; unmatched fields are null ([]
+      #   for lists). The google-maps parser returns business records in data.results and
+      #   reads Maps data directly, independently of DOM filters and other outputs.
       #
       #   @return [ContextDev::Models::WebScrapeResponse::Parsed]
       required :parsed, -> { ContextDev::Models::WebScrapeResponse::Parsed }
@@ -125,7 +126,7 @@ module ContextDev
       #
       #   @param metadata [ContextDev::Models::WebScrapeResponse::Metadata] Page metadata. Fields are omitted when not found.
       #
-      #   @param parsed [ContextDev::Models::WebScrapeResponse::Parsed] Fields from `parseParams.rules`, after content filters. Unmatched fields are `nu
+      #   @param parsed [ContextDev::Models::WebScrapeResponse::Parsed] Custom rules return fields after content filters; unmatched fields are null ([]
       #
       #   @param product [ContextDev::Models::WebScrapeResponse::Product] Product details found on the page.
       #
@@ -837,6 +838,13 @@ module ContextDev
         #   @return [Boolean, nil]
         required :success, ContextDev::Internal::Type::Boolean, nil?: true
 
+        # @!attribute type
+        #   The selected prebuilt parser name, or custom when type is omitted, custom rules
+        #   are used, or parsing is not requested.
+        #
+        #   @return [Symbol, ContextDev::Models::WebScrapeResponse::Parsed::Type]
+        required :type, enum: -> { ContextDev::Models::WebScrapeResponse::Parsed::Type }
+
         # @!attribute error_code
         #   Why the output failed. Present only when `success` is `false`.
         #
@@ -849,9 +857,13 @@ module ContextDev
         #   @return [String, nil]
         optional :message, String
 
-        # @!method initialize(data:, requested:, success:, error_code: nil, message: nil)
-        #   Fields from `parseParams.rules`, after content filters. Unmatched fields are
-        #   `null` (`[]` for lists).
+        # @!method initialize(data:, requested:, success:, type:, error_code: nil, message: nil)
+        #   Some parameter documentations has been truncated, see
+        #   {ContextDev::Models::WebScrapeResponse::Parsed} for more details.
+        #
+        #   Custom rules return fields after content filters; unmatched fields are null ([]
+        #   for lists). The google-maps parser returns business records in data.results and
+        #   reads Maps data directly, independently of DOM filters and other outputs.
         #
         #   @param data [Hash{Symbol=>Object}, nil]
         #
@@ -859,9 +871,25 @@ module ContextDev
         #
         #   @param success [Boolean, nil] `true` if returned, `false` if it failed, `null` if not requested.
         #
+        #   @param type [Symbol, ContextDev::Models::WebScrapeResponse::Parsed::Type] The selected prebuilt parser name, or custom when type is omitted, custom rules
+        #
         #   @param error_code [String] Why the output failed. Present only when `success` is `false`.
         #
         #   @param message [String] Explanation of the failure and possible next steps.
+
+        # The selected prebuilt parser name, or custom when type is omitted, custom rules
+        # are used, or parsing is not requested.
+        #
+        # @see ContextDev::Models::WebScrapeResponse::Parsed#type
+        module Type
+          extend ContextDev::Internal::Type::Enum
+
+          CUSTOM = :custom
+          GOOGLE_MAPS = :"google-maps"
+
+          # @!method self.values
+          #   @return [Array<Symbol>]
+        end
       end
 
       # @see ContextDev::Models::WebScrapeResponse#product
