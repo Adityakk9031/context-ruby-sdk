@@ -82,7 +82,7 @@ module ContextDev
       end
       attr_writer :markdown_options
 
-      # Number of results to request and return (10–100). Defaults to 10.
+      # Number of results to request and return (1–100). Defaults to 10.
       sig { returns(T.nilable(Integer)) }
       attr_reader :num_results
 
@@ -164,7 +164,7 @@ module ContextDev
         include_domains: nil,
         # Inline Markdown scraping for each result. Set `enabled: true` to activate.
         markdown_options: nil,
-        # Number of results to request and return (10–100). Defaults to 10.
+        # Number of results to request and return (1–100). Defaults to 10.
         num_results: nil,
         # Currently has no effect.
         query_fanout: nil,

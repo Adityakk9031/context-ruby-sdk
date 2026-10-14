@@ -67,7 +67,7 @@ module ContextDev
                nil?: true
 
       # @!attribute num_results
-      #   Number of results to request and return (10–100). Defaults to 10.
+      #   Number of results to request and return (1–100). Defaults to 10.
       #
       #   @return [Integer, nil]
       optional :num_results, Integer, api_name: :numResults
@@ -117,7 +117,7 @@ module ContextDev
       #
       #   @param markdown_options [ContextDev::Models::WebSearchParams::MarkdownOptions, nil] Inline Markdown scraping for each result. Set `enabled: true` to activate.
       #
-      #   @param num_results [Integer] Number of results to request and return (10–100). Defaults to 10.
+      #   @param num_results [Integer] Number of results to request and return (1–100). Defaults to 10.
       #
       #   @param query_fanout [Boolean] Currently has no effect.
       #
