@@ -26,6 +26,7 @@ module ContextDev
           limit: Integer,
           q: String,
           search_type: ContextDev::BatchListParams::SearchType::OrSymbol,
+          should_include_unified: T::Boolean,
           status: ContextDev::BatchListParams::Status::OrSymbol,
           tags: ContextDev::BatchListParams::Tags::Variants,
           request_options: ContextDev::RequestOptions::OrHash
@@ -42,6 +43,8 @@ module ContextDev
         # `prefix` for as-you-type prefix matching (default), `exact` for full-token
         # matching.
         search_type: nil,
+        # Include batches submitted with Scrape Anything formats. Defaults to false.
+        should_include_unified: nil,
         # Filter by status.
         status: nil,
         # Tags to filter by (matches batches having any of them). Pass repeated `tags`
@@ -81,8 +84,9 @@ module ContextDev
       )
       end
 
-      # Page through a finished batch’s results as JSON. Results remain available for
-      # 180 days.
+      # Page through a finished batch’s results as JSON. Each record contains result
+      # with the same outputs and per-format errors as POST /web/scrape. Results remain
+      # available for 180 days.
       sig do
         params(
           batch_id: String,
@@ -103,8 +107,10 @@ module ContextDev
       )
       end
 
-      # Scrape up to 25,000 URLs, or crawl a site, asynchronously. Poll the batch ID or
-      # receive a webhook when it finishes.
+      # Scrape up to 100,000 URLs, or crawl a site, asynchronously using the same
+      # formats and scrape parameters as POST /web/scrape. Choose Markdown, HTML,
+      # screenshots, images, bytes, parsed fields, products, highlights, and JSON. Poll
+      # the batch ID or receive a webhook when it finishes.
       sig do
         params(
           input:

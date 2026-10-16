@@ -5,7 +5,7 @@ module ContextDev
         id: String,
         crawl: ContextDev::CrawlControls?,
         credits: ContextDev::Models::BatchCancelResponse::Credits,
-        format_: ContextDev::Models::BatchCancelResponse::format_,
+        formats: ContextDev::Models::BatchCancelResponse::Formats,
         input: ContextDev::Intake,
         mode: ContextDev::Models::BatchCancelResponse::mode,
         page_errors: ::Array[ContextDev::PageErrorCount],
@@ -24,7 +24,7 @@ module ContextDev
 
       attr_accessor credits: ContextDev::Models::BatchCancelResponse::Credits
 
-      attr_accessor format_: ContextDev::Models::BatchCancelResponse::format_
+      attr_accessor formats: ContextDev::Models::BatchCancelResponse::Formats
 
       attr_accessor input: ContextDev::Intake
 
@@ -52,7 +52,7 @@ module ContextDev
         id: String,
         crawl: ContextDev::CrawlControls?,
         credits: ContextDev::Models::BatchCancelResponse::Credits,
-        format_: ContextDev::Models::BatchCancelResponse::format_,
+        formats: ContextDev::Models::BatchCancelResponse::Formats,
         input: ContextDev::Intake,
         mode: ContextDev::Models::BatchCancelResponse::mode,
         page_errors: ::Array[ContextDev::PageErrorCount],
@@ -68,7 +68,7 @@ module ContextDev
         id: String,
         crawl: ContextDev::CrawlControls?,
         credits: ContextDev::Models::BatchCancelResponse::Credits,
-        format_: ContextDev::Models::BatchCancelResponse::format_,
+        formats: ContextDev::Models::BatchCancelResponse::Formats,
         input: ContextDev::Intake,
         mode: ContextDev::Models::BatchCancelResponse::mode,
         page_errors: ::Array[ContextDev::PageErrorCount],
@@ -90,15 +90,79 @@ module ContextDev
         def to_hash: -> { reserved: Integer }
       end
 
-      type format_ = :markdown | :html
+      type formats =
+        {
+          bytes: bool,
+          highlights: bool,
+          html: bool,
+          images: bool,
+          json: bool,
+          markdown: bool,
+          parse: bool,
+          product: bool,
+          screenshot: bool
+        }
 
-      module Format
-        extend ContextDev::Internal::Type::Enum
+      class Formats < ContextDev::Internal::Type::BaseModel
+        attr_reader bytes: bool?
 
-        MARKDOWN: :markdown
-        HTML: :html
+        def bytes=: (bool) -> bool
 
-        def self?.values: -> ::Array[ContextDev::Models::BatchCancelResponse::format_]
+        attr_reader highlights: bool?
+
+        def highlights=: (bool) -> bool
+
+        attr_reader html: bool?
+
+        def html=: (bool) -> bool
+
+        attr_reader images: bool?
+
+        def images=: (bool) -> bool
+
+        attr_reader json: bool?
+
+        def json=: (bool) -> bool
+
+        attr_reader markdown: bool?
+
+        def markdown=: (bool) -> bool
+
+        attr_reader parse: bool?
+
+        def parse=: (bool) -> bool
+
+        attr_reader product: bool?
+
+        def product=: (bool) -> bool
+
+        attr_reader screenshot: bool?
+
+        def screenshot=: (bool) -> bool
+
+        def initialize: (
+          ?bytes: bool,
+          ?highlights: bool,
+          ?html: bool,
+          ?images: bool,
+          ?json: bool,
+          ?markdown: bool,
+          ?parse: bool,
+          ?product: bool,
+          ?screenshot: bool
+        ) -> void
+
+        def to_hash: -> {
+          bytes: bool,
+          highlights: bool,
+          html: bool,
+          images: bool,
+          json: bool,
+          markdown: bool,
+          parse: bool,
+          product: bool,
+          screenshot: bool
+        }
       end
 
       type mode = :scrape | :crawl

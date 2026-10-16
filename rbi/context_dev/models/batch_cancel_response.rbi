@@ -33,11 +33,16 @@ module ContextDev
       end
       attr_writer :credits
 
-      # What each page is returned as.
+      # Outputs requested for each page. Matches input.data.formats on submission.
+      sig { returns(ContextDev::Models::BatchCancelResponse::Formats) }
+      attr_reader :formats
+
       sig do
-        returns(ContextDev::Models::BatchCancelResponse::Format::TaggedSymbol)
+        params(
+          formats: ContextDev::Models::BatchCancelResponse::Formats::OrHash
+        ).void
       end
-      attr_accessor :format_
+      attr_writer :formats
 
       # What the submission accepted.
       sig { returns(ContextDev::Intake) }
@@ -113,7 +118,7 @@ module ContextDev
           id: String,
           crawl: T.nilable(ContextDev::CrawlControls::OrHash),
           credits: ContextDev::Models::BatchCancelResponse::Credits::OrHash,
-          format_: ContextDev::Models::BatchCancelResponse::Format::OrSymbol,
+          formats: ContextDev::Models::BatchCancelResponse::Formats::OrHash,
           input: ContextDev::Intake::OrHash,
           mode: ContextDev::Models::BatchCancelResponse::Mode::OrSymbol,
           page_errors: T::Array[ContextDev::PageErrorCount::OrHash],
@@ -133,8 +138,8 @@ module ContextDev
         crawl:,
         # What this batch cost so far.
         credits:,
-        # What each page is returned as.
-        format_:,
+        # Outputs requested for each page. Matches input.data.formats on submission.
+        formats:,
         # What the submission accepted.
         input:,
         # How pages were selected.
@@ -164,8 +169,7 @@ module ContextDev
             id: String,
             crawl: T.nilable(ContextDev::CrawlControls),
             credits: ContextDev::Models::BatchCancelResponse::Credits,
-            format_:
-              ContextDev::Models::BatchCancelResponse::Format::TaggedSymbol,
+            formats: ContextDev::Models::BatchCancelResponse::Formats,
             input: ContextDev::Intake,
             mode: ContextDev::Models::BatchCancelResponse::Mode::TaggedSymbol,
             page_errors: T::Array[ContextDev::PageErrorCount],
@@ -208,35 +212,130 @@ module ContextDev
         end
       end
 
-      # What each page is returned as.
-      module Format
-        extend ContextDev::Internal::Type::Enum
-
-        TaggedSymbol =
+      class Formats < ContextDev::Internal::Type::BaseModel
+        OrHash =
           T.type_alias do
-            T.all(Symbol, ContextDev::Models::BatchCancelResponse::Format)
+            T.any(
+              ContextDev::Models::BatchCancelResponse::Formats,
+              ContextDev::Internal::AnyHash
+            )
           end
-        OrSymbol = T.type_alias { T.any(Symbol, String) }
 
-        MARKDOWN =
-          T.let(
-            :markdown,
-            ContextDev::Models::BatchCancelResponse::Format::TaggedSymbol
-          )
-        HTML =
-          T.let(
-            :html,
-            ContextDev::Models::BatchCancelResponse::Format::TaggedSymbol
-          )
+        # The original HTTP response body.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :bytes
+
+        sig { params(bytes: T::Boolean).void }
+        attr_writer :bytes
+
+        # Markdown excerpts relevant to `highlightsParams.query`.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :highlights
+
+        sig { params(highlights: T::Boolean).void }
+        attr_writer :highlights
+
+        # Rendered HTML.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :html
+
+        sig { params(html: T::Boolean).void }
+        attr_writer :html
+
+        # Images found on the page.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :images
+
+        sig { params(images: T::Boolean).void }
+        attr_writer :images
+
+        # An object matching `jsonParams.schema`, extracted from the page.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :json
+
+        sig { params(json: T::Boolean).void }
+        attr_writer :json
+
+        # Page content as Markdown.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :markdown
+
+        sig { params(markdown: T::Boolean).void }
+        attr_writer :markdown
+
+        # Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :parse
+
+        sig { params(parse: T::Boolean).void }
+        attr_writer :parse
+
+        # Product details such as name, price, and availability.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :product
+
+        sig { params(product: T::Boolean).void }
+        attr_writer :product
+
+        # A screenshot of the page.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :screenshot
+
+        sig { params(screenshot: T::Boolean).void }
+        attr_writer :screenshot
+
+        # Outputs requested for each page. Matches input.data.formats on submission.
+        sig do
+          params(
+            bytes: T::Boolean,
+            highlights: T::Boolean,
+            html: T::Boolean,
+            images: T::Boolean,
+            json: T::Boolean,
+            markdown: T::Boolean,
+            parse: T::Boolean,
+            product: T::Boolean,
+            screenshot: T::Boolean
+          ).returns(T.attached_class)
+        end
+        def self.new(
+          # The original HTTP response body.
+          bytes: nil,
+          # Markdown excerpts relevant to `highlightsParams.query`.
+          highlights: nil,
+          # Rendered HTML.
+          html: nil,
+          # Images found on the page.
+          images: nil,
+          # An object matching `jsonParams.schema`, extracted from the page.
+          json: nil,
+          # Page content as Markdown.
+          markdown: nil,
+          # Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
+          parse: nil,
+          # Product details such as name, price, and availability.
+          product: nil,
+          # A screenshot of the page.
+          screenshot: nil
+        )
+        end
 
         sig do
           override.returns(
-            T::Array[
-              ContextDev::Models::BatchCancelResponse::Format::TaggedSymbol
-            ]
+            {
+              bytes: T::Boolean,
+              highlights: T::Boolean,
+              html: T::Boolean,
+              images: T::Boolean,
+              json: T::Boolean,
+              markdown: T::Boolean,
+              parse: T::Boolean,
+              product: T::Boolean,
+              screenshot: T::Boolean
+            }
           )
         end
-        def self.values
+        def to_hash
         end
       end
 

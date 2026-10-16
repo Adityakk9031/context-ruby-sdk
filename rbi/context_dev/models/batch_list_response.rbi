@@ -135,14 +135,17 @@ module ContextDev
         sig { params(failure: T.nilable(ContextDev::Failure::OrHash)).void }
         attr_writer :failure
 
-        # What each page is returned as. Matches `input.data.format` on the submit
-        # request.
+        # Outputs requested for each page. Matches input.data.formats on submission.
+        sig { returns(ContextDev::Models::BatchListResponse::Data::Formats) }
+        attr_reader :formats
+
         sig do
-          returns(
-            ContextDev::Models::BatchListResponse::Data::Format::TaggedSymbol
-          )
+          params(
+            formats:
+              ContextDev::Models::BatchListResponse::Data::Formats::OrHash
+          ).void
         end
-        attr_accessor :format_
+        attr_writer :formats
 
         # What the submission accepted.
         sig { returns(ContextDev::Intake) }
@@ -225,8 +228,8 @@ module ContextDev
             credits:
               ContextDev::Models::BatchListResponse::Data::Credits::OrHash,
             failure: T.nilable(ContextDev::Failure::OrHash),
-            format_:
-              ContextDev::Models::BatchListResponse::Data::Format::OrSymbol,
+            formats:
+              ContextDev::Models::BatchListResponse::Data::Formats::OrHash,
             input: ContextDev::Intake::OrHash,
             mode: ContextDev::Models::BatchListResponse::Data::Mode::OrSymbol,
             page_errors: T::Array[ContextDev::PageErrorCount::OrHash],
@@ -252,9 +255,8 @@ module ContextDev
           # A failure of the batch as a whole, distinct from the per-page failures in
           # `page_errors`.
           failure:,
-          # What each page is returned as. Matches `input.data.format` on the submit
-          # request.
-          format_:,
+          # Outputs requested for each page. Matches input.data.formats on submission.
+          formats:,
           # What the submission accepted.
           input:,
           # `scrape` (URL list) or `crawl`.
@@ -282,8 +284,7 @@ module ContextDev
               crawl: T.nilable(ContextDev::CrawlControls),
               credits: ContextDev::Models::BatchListResponse::Data::Credits,
               failure: T.nilable(ContextDev::Failure),
-              format_:
-                ContextDev::Models::BatchListResponse::Data::Format::TaggedSymbol,
+              formats: ContextDev::Models::BatchListResponse::Data::Formats,
               input: ContextDev::Intake,
               mode:
                 ContextDev::Models::BatchListResponse::Data::Mode::TaggedSymbol,
@@ -361,36 +362,130 @@ module ContextDev
           end
         end
 
-        # What each page is returned as. Matches `input.data.format` on the submit
-        # request.
-        module Format
-          extend ContextDev::Internal::Type::Enum
-
-          TaggedSymbol =
+        class Formats < ContextDev::Internal::Type::BaseModel
+          OrHash =
             T.type_alias do
-              T.all(Symbol, ContextDev::Models::BatchListResponse::Data::Format)
+              T.any(
+                ContextDev::Models::BatchListResponse::Data::Formats,
+                ContextDev::Internal::AnyHash
+              )
             end
-          OrSymbol = T.type_alias { T.any(Symbol, String) }
 
-          MARKDOWN =
-            T.let(
-              :markdown,
-              ContextDev::Models::BatchListResponse::Data::Format::TaggedSymbol
-            )
-          HTML =
-            T.let(
-              :html,
-              ContextDev::Models::BatchListResponse::Data::Format::TaggedSymbol
-            )
+          # The original HTTP response body.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :bytes
+
+          sig { params(bytes: T::Boolean).void }
+          attr_writer :bytes
+
+          # Markdown excerpts relevant to `highlightsParams.query`.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :highlights
+
+          sig { params(highlights: T::Boolean).void }
+          attr_writer :highlights
+
+          # Rendered HTML.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :html
+
+          sig { params(html: T::Boolean).void }
+          attr_writer :html
+
+          # Images found on the page.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :images
+
+          sig { params(images: T::Boolean).void }
+          attr_writer :images
+
+          # An object matching `jsonParams.schema`, extracted from the page.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :json
+
+          sig { params(json: T::Boolean).void }
+          attr_writer :json
+
+          # Page content as Markdown.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :markdown
+
+          sig { params(markdown: T::Boolean).void }
+          attr_writer :markdown
+
+          # Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :parse
+
+          sig { params(parse: T::Boolean).void }
+          attr_writer :parse
+
+          # Product details such as name, price, and availability.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :product
+
+          sig { params(product: T::Boolean).void }
+          attr_writer :product
+
+          # A screenshot of the page.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :screenshot
+
+          sig { params(screenshot: T::Boolean).void }
+          attr_writer :screenshot
+
+          # Outputs requested for each page. Matches input.data.formats on submission.
+          sig do
+            params(
+              bytes: T::Boolean,
+              highlights: T::Boolean,
+              html: T::Boolean,
+              images: T::Boolean,
+              json: T::Boolean,
+              markdown: T::Boolean,
+              parse: T::Boolean,
+              product: T::Boolean,
+              screenshot: T::Boolean
+            ).returns(T.attached_class)
+          end
+          def self.new(
+            # The original HTTP response body.
+            bytes: nil,
+            # Markdown excerpts relevant to `highlightsParams.query`.
+            highlights: nil,
+            # Rendered HTML.
+            html: nil,
+            # Images found on the page.
+            images: nil,
+            # An object matching `jsonParams.schema`, extracted from the page.
+            json: nil,
+            # Page content as Markdown.
+            markdown: nil,
+            # Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
+            parse: nil,
+            # Product details such as name, price, and availability.
+            product: nil,
+            # A screenshot of the page.
+            screenshot: nil
+          )
+          end
 
           sig do
             override.returns(
-              T::Array[
-                ContextDev::Models::BatchListResponse::Data::Format::TaggedSymbol
-              ]
+              {
+                bytes: T::Boolean,
+                highlights: T::Boolean,
+                html: T::Boolean,
+                images: T::Boolean,
+                json: T::Boolean,
+                markdown: T::Boolean,
+                parse: T::Boolean,
+                product: T::Boolean,
+                screenshot: T::Boolean
+              }
             )
           end
-          def self.values
+          def to_hash
           end
         end
 

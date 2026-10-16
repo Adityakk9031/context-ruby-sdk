@@ -75,12 +75,11 @@ module ContextDev
         #   @return [ContextDev::Models::Failure, nil]
         required :failure, -> { ContextDev::Failure }, nil?: true
 
-        # @!attribute format_
-        #   What each page is returned as. Matches `input.data.format` on the submit
-        #   request.
+        # @!attribute formats
+        #   Outputs requested for each page. Matches input.data.formats on submission.
         #
-        #   @return [Symbol, ContextDev::Models::BatchListResponse::Data::Format]
-        required :format_, enum: -> { ContextDev::Models::BatchListResponse::Data::Format }, api_name: :format
+        #   @return [ContextDev::Models::BatchListResponse::Data::Formats]
+        required :formats, -> { ContextDev::Models::BatchListResponse::Data::Formats }
 
         # @!attribute input
         #   What the submission accepted.
@@ -131,7 +130,7 @@ module ContextDev
         #   @return [ContextDev::Models::BatchListResponse::Data::Timing]
         required :timing, -> { ContextDev::Models::BatchListResponse::Data::Timing }
 
-        # @!method initialize(id:, crawl:, credits:, failure:, format_:, input:, mode:, page_errors:, progress:, results:, status:, tags:, timing:)
+        # @!method initialize(id:, crawl:, credits:, failure:, formats:, input:, mode:, page_errors:, progress:, results:, status:, tags:, timing:)
         #   Some parameter documentations has been truncated, see
         #   {ContextDev::Models::BatchListResponse::Data} for more details.
         #
@@ -146,7 +145,7 @@ module ContextDev
         #   @param failure [ContextDev::Models::Failure, nil] A failure of the batch as a whole, distinct from the per-page failures in
         #   `page\_
         #
-        #   @param format_ [Symbol, ContextDev::Models::BatchListResponse::Data::Format] What each page is returned as. Matches `input.data.format` on the submit request
+        #   @param formats [ContextDev::Models::BatchListResponse::Data::Formats] Outputs requested for each page. Matches input.data.formats on submission.
         #
         #   @param input [ContextDev::Models::Intake] What the submission accepted.
         #
@@ -202,18 +201,82 @@ module ContextDev
           #   @param reserved [Integer] Credits held when the batch was accepted.
         end
 
-        # What each page is returned as. Matches `input.data.format` on the submit
-        # request.
-        #
-        # @see ContextDev::Models::BatchListResponse::Data#format_
-        module Format
-          extend ContextDev::Internal::Type::Enum
+        # @see ContextDev::Models::BatchListResponse::Data#formats
+        class Formats < ContextDev::Internal::Type::BaseModel
+          # @!attribute bytes
+          #   The original HTTP response body.
+          #
+          #   @return [Boolean, nil]
+          optional :bytes, ContextDev::Internal::Type::Boolean
 
-          MARKDOWN = :markdown
-          HTML = :html
+          # @!attribute highlights
+          #   Markdown excerpts relevant to `highlightsParams.query`.
+          #
+          #   @return [Boolean, nil]
+          optional :highlights, ContextDev::Internal::Type::Boolean
 
-          # @!method self.values
-          #   @return [Array<Symbol>]
+          # @!attribute html
+          #   Rendered HTML.
+          #
+          #   @return [Boolean, nil]
+          optional :html, ContextDev::Internal::Type::Boolean
+
+          # @!attribute images
+          #   Images found on the page.
+          #
+          #   @return [Boolean, nil]
+          optional :images, ContextDev::Internal::Type::Boolean
+
+          # @!attribute json
+          #   An object matching `jsonParams.schema`, extracted from the page.
+          #
+          #   @return [Boolean, nil]
+          optional :json, ContextDev::Internal::Type::Boolean
+
+          # @!attribute markdown
+          #   Page content as Markdown.
+          #
+          #   @return [Boolean, nil]
+          optional :markdown, ContextDev::Internal::Type::Boolean
+
+          # @!attribute parse
+          #   Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
+          #
+          #   @return [Boolean, nil]
+          optional :parse, ContextDev::Internal::Type::Boolean
+
+          # @!attribute product
+          #   Product details such as name, price, and availability.
+          #
+          #   @return [Boolean, nil]
+          optional :product, ContextDev::Internal::Type::Boolean
+
+          # @!attribute screenshot
+          #   A screenshot of the page.
+          #
+          #   @return [Boolean, nil]
+          optional :screenshot, ContextDev::Internal::Type::Boolean
+
+          # @!method initialize(bytes: nil, highlights: nil, html: nil, images: nil, json: nil, markdown: nil, parse: nil, product: nil, screenshot: nil)
+          #   Outputs requested for each page. Matches input.data.formats on submission.
+          #
+          #   @param bytes [Boolean] The original HTTP response body.
+          #
+          #   @param highlights [Boolean] Markdown excerpts relevant to `highlightsParams.query`.
+          #
+          #   @param html [Boolean] Rendered HTML.
+          #
+          #   @param images [Boolean] Images found on the page.
+          #
+          #   @param json [Boolean] An object matching `jsonParams.schema`, extracted from the page.
+          #
+          #   @param markdown [Boolean] Page content as Markdown.
+          #
+          #   @param parse [Boolean] Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
+          #
+          #   @param product [Boolean] Product details such as name, price, and availability.
+          #
+          #   @param screenshot [Boolean] A screenshot of the page.
         end
 
         # `scrape` (URL list) or `crawl`.

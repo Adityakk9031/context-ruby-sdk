@@ -30,7 +30,7 @@ module ContextDev
       #
       # List your batches, newest first, with optional filters.
       #
-      # @overload list(cursor: nil, limit: nil, q: nil, search_type: nil, status: nil, tags: nil, request_options: {})
+      # @overload list(cursor: nil, limit: nil, q: nil, search_type: nil, should_include_unified: nil, status: nil, tags: nil, request_options: {})
       #
       # @param cursor [String] Cursor from the previous page.
       #
@@ -39,6 +39,8 @@ module ContextDev
       # @param q [String] Free-text search term, matched against the batch id, crawl source (start URL or
       #
       # @param search_type [Symbol, ContextDev::Models::BatchListParams::SearchType] `prefix` for as-you-type prefix matching (default), `exact` for full-token match
+      #
+      # @param should_include_unified [Boolean] Include batches submitted with Scrape Anything formats. Defaults to false.
       #
       # @param status [Symbol, ContextDev::Models::BatchListParams::Status] Filter by status.
       #
@@ -55,7 +57,7 @@ module ContextDev
         @client.request(
           method: :get,
           path: "batch/list",
-          query: query,
+          query: query.transform_keys(should_include_unified: "shouldIncludeUnified"),
           model: ContextDev::Models::BatchListResponse,
           options: options
         )
@@ -106,8 +108,9 @@ module ContextDev
       # Some parameter documentations has been truncated, see
       # {ContextDev::Models::BatchGetResultsParams} for more details.
       #
-      # Page through a finished batch’s results as JSON. Results remain available for
-      # 180 days.
+      # Page through a finished batch’s results as JSON. Each record contains result
+      # with the same outputs and per-format errors as POST /web/scrape. Results remain
+      # available for 180 days.
       #
       # @overload get_results(batch_id, cursor: nil, limit: nil, request_options: {})
       #
@@ -137,8 +140,10 @@ module ContextDev
       # Some parameter documentations has been truncated, see
       # {ContextDev::Models::BatchSubmitParams} for more details.
       #
-      # Scrape up to 25,000 URLs, or crawl a site, asynchronously. Poll the batch ID or
-      # receive a webhook when it finishes.
+      # Scrape up to 100,000 URLs, or crawl a site, asynchronously using the same
+      # formats and scrape parameters as POST /web/scrape. Choose Markdown, HTML,
+      # screenshots, images, bytes, parsed fields, products, highlights, and JSON. Poll
+      # the batch ID or receive a webhook when it finishes.
       #
       # @overload submit(input:, tags: nil, webhook: nil, webhook_url: nil, idempotency_key: nil, request_options: {})
       #

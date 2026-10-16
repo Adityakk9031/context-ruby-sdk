@@ -22,11 +22,11 @@ module ContextDev
       #   @return [ContextDev::Models::BatchCancelResponse::Credits]
       required :credits, -> { ContextDev::Models::BatchCancelResponse::Credits }
 
-      # @!attribute format_
-      #   What each page is returned as.
+      # @!attribute formats
+      #   Outputs requested for each page. Matches input.data.formats on submission.
       #
-      #   @return [Symbol, ContextDev::Models::BatchCancelResponse::Format]
-      required :format_, enum: -> { ContextDev::Models::BatchCancelResponse::Format }, api_name: :format
+      #   @return [ContextDev::Models::BatchCancelResponse::Formats]
+      required :formats, -> { ContextDev::Models::BatchCancelResponse::Formats }
 
       # @!attribute input
       #   What the submission accepted.
@@ -84,7 +84,7 @@ module ContextDev
       #   @return [ContextDev::Models::BatchCancelResponse::KeyMetadata, nil]
       optional :key_metadata, -> { ContextDev::Models::BatchCancelResponse::KeyMetadata }
 
-      # @!method initialize(id:, crawl:, credits:, format_:, input:, mode:, page_errors:, progress:, request_id:, status:, tags:, timing:, key_metadata: nil)
+      # @!method initialize(id:, crawl:, credits:, formats:, input:, mode:, page_errors:, progress:, request_id:, status:, tags:, timing:, key_metadata: nil)
       #   Some parameter documentations has been truncated, see
       #   {ContextDev::Models::BatchCancelResponse} for more details.
       #
@@ -94,7 +94,7 @@ module ContextDev
       #
       #   @param credits [ContextDev::Models::BatchCancelResponse::Credits] What this batch cost so far.
       #
-      #   @param format_ [Symbol, ContextDev::Models::BatchCancelResponse::Format] What each page is returned as.
+      #   @param formats [ContextDev::Models::BatchCancelResponse::Formats] Outputs requested for each page. Matches input.data.formats on submission.
       #
       #   @param input [ContextDev::Models::Intake] What the submission accepted.
       #
@@ -128,17 +128,82 @@ module ContextDev
         #   @param reserved [Integer] Credits held at submission; unused credits are refunded when the batch settles.
       end
 
-      # What each page is returned as.
-      #
-      # @see ContextDev::Models::BatchCancelResponse#format_
-      module Format
-        extend ContextDev::Internal::Type::Enum
+      # @see ContextDev::Models::BatchCancelResponse#formats
+      class Formats < ContextDev::Internal::Type::BaseModel
+        # @!attribute bytes
+        #   The original HTTP response body.
+        #
+        #   @return [Boolean, nil]
+        optional :bytes, ContextDev::Internal::Type::Boolean
 
-        MARKDOWN = :markdown
-        HTML = :html
+        # @!attribute highlights
+        #   Markdown excerpts relevant to `highlightsParams.query`.
+        #
+        #   @return [Boolean, nil]
+        optional :highlights, ContextDev::Internal::Type::Boolean
 
-        # @!method self.values
-        #   @return [Array<Symbol>]
+        # @!attribute html
+        #   Rendered HTML.
+        #
+        #   @return [Boolean, nil]
+        optional :html, ContextDev::Internal::Type::Boolean
+
+        # @!attribute images
+        #   Images found on the page.
+        #
+        #   @return [Boolean, nil]
+        optional :images, ContextDev::Internal::Type::Boolean
+
+        # @!attribute json
+        #   An object matching `jsonParams.schema`, extracted from the page.
+        #
+        #   @return [Boolean, nil]
+        optional :json, ContextDev::Internal::Type::Boolean
+
+        # @!attribute markdown
+        #   Page content as Markdown.
+        #
+        #   @return [Boolean, nil]
+        optional :markdown, ContextDev::Internal::Type::Boolean
+
+        # @!attribute parse
+        #   Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
+        #
+        #   @return [Boolean, nil]
+        optional :parse, ContextDev::Internal::Type::Boolean
+
+        # @!attribute product
+        #   Product details such as name, price, and availability.
+        #
+        #   @return [Boolean, nil]
+        optional :product, ContextDev::Internal::Type::Boolean
+
+        # @!attribute screenshot
+        #   A screenshot of the page.
+        #
+        #   @return [Boolean, nil]
+        optional :screenshot, ContextDev::Internal::Type::Boolean
+
+        # @!method initialize(bytes: nil, highlights: nil, html: nil, images: nil, json: nil, markdown: nil, parse: nil, product: nil, screenshot: nil)
+        #   Outputs requested for each page. Matches input.data.formats on submission.
+        #
+        #   @param bytes [Boolean] The original HTTP response body.
+        #
+        #   @param highlights [Boolean] Markdown excerpts relevant to `highlightsParams.query`.
+        #
+        #   @param html [Boolean] Rendered HTML.
+        #
+        #   @param images [Boolean] Images found on the page.
+        #
+        #   @param json [Boolean] An object matching `jsonParams.schema`, extracted from the page.
+        #
+        #   @param markdown [Boolean] Page content as Markdown.
+        #
+        #   @param parse [Boolean] Fields extracted with custom rules or a prebuilt parser, returned as `parsed`.
+        #
+        #   @param product [Boolean] Product details such as name, price, and availability.
+        #
+        #   @param screenshot [Boolean] A screenshot of the page.
       end
 
       # How pages were selected.

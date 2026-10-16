@@ -55,43 +55,27 @@ module ContextDev
 
         type ok =
           {
-            cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::CacheMetadata,
-            final_url: String,
-            http_status: Integer?,
-            metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata,
+            credits_used: Integer,
+            result: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result,
             status: :ok,
             url: String,
-            html: String,
             item_id: String,
-            markdown: String,
             meta: ::Hash[Symbol, top],
             ocr_pages: Integer
           }
 
         class Ok < ContextDev::Internal::Type::BaseModel
-          attr_accessor cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::CacheMetadata
+          attr_accessor credits_used: Integer
 
-          attr_accessor final_url: String
-
-          attr_accessor http_status: Integer?
-
-          attr_accessor metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata
+          attr_accessor result: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result
 
           attr_accessor status: :ok
 
           attr_accessor url: String
 
-          attr_reader html: String?
-
-          def html=: (String) -> String
-
           attr_reader item_id: String?
 
           def item_id=: (String) -> String
-
-          attr_reader markdown: String?
-
-          def markdown=: (String) -> String
 
           attr_reader meta: ::Hash[Symbol, top]?
 
@@ -102,299 +86,1098 @@ module ContextDev
           def ocr_pages=: (Integer) -> Integer
 
           def initialize: (
-            cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::CacheMetadata,
-            final_url: String,
-            http_status: Integer?,
-            metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata,
+            credits_used: Integer,
+            result: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result,
             url: String,
-            ?html: String,
             ?item_id: String,
-            ?markdown: String,
             ?meta: ::Hash[Symbol, top],
             ?ocr_pages: Integer,
             ?status: :ok
           ) -> void
 
           def to_hash: -> {
-            cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::CacheMetadata,
-            final_url: String,
-            http_status: Integer?,
-            metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata,
+            credits_used: Integer,
+            result: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result,
             status: :ok,
             url: String,
-            html: String,
             item_id: String,
-            markdown: String,
             meta: ::Hash[Symbol, top],
             ocr_pages: Integer
           }
 
-          type cache_metadata =
+          type result =
             {
-              age_ms: Integer,
-              status: ContextDev::Models::BatchGetResultsResponse::Data::Ok::CacheMetadata::status
+              bytes: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Bytes,
+              cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::CacheMetadata,
+              highlights: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Highlights,
+              html: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::HTML,
+              images: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images,
+              json: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json,
+              markdown: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Markdown,
+              metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata,
+              parsed: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed,
+              product: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product,
+              profile: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Profile?,
+              request_id: String,
+              screenshot: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Screenshot,
+              url: String,
+              is_partial: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::is_partial,
+              key_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::KeyMetadata
             }
 
-          class CacheMetadata < ContextDev::Internal::Type::BaseModel
-            attr_accessor age_ms: Integer
+          class Result < ContextDev::Internal::Type::BaseModel
+            attr_accessor bytes: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Bytes
 
-            attr_accessor status: ContextDev::Models::BatchGetResultsResponse::Data::Ok::CacheMetadata::status
+            attr_accessor cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::CacheMetadata
+
+            attr_accessor highlights: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Highlights
+
+            attr_accessor html: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::HTML
+
+            attr_accessor images: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images
+
+            attr_accessor json: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json
+
+            attr_accessor markdown: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Markdown
+
+            attr_accessor metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata
+
+            attr_accessor parsed: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed
+
+            attr_accessor product: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product
+
+            attr_accessor profile: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Profile?
+
+            attr_accessor request_id: String
+
+            attr_accessor screenshot: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Screenshot
+
+            attr_accessor url: String
+
+            attr_reader is_partial: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::is_partial?
+
+            def is_partial=: (
+              ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::is_partial
+            ) -> ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::is_partial
+
+            attr_reader key_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::KeyMetadata?
+
+            def key_metadata=: (
+              ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::KeyMetadata
+            ) -> ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::KeyMetadata
 
             def initialize: (
-              age_ms: Integer,
-              status: ContextDev::Models::BatchGetResultsResponse::Data::Ok::CacheMetadata::status
+              bytes: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Bytes,
+              cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::CacheMetadata,
+              highlights: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Highlights,
+              html: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::HTML,
+              images: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images,
+              json: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json,
+              markdown: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Markdown,
+              metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata,
+              parsed: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed,
+              product: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product,
+              profile: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Profile?,
+              request_id: String,
+              screenshot: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Screenshot,
+              url: String,
+              ?is_partial: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::is_partial,
+              ?key_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::KeyMetadata
             ) -> void
 
             def to_hash: -> {
-              age_ms: Integer,
-              status: ContextDev::Models::BatchGetResultsResponse::Data::Ok::CacheMetadata::status
+              bytes: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Bytes,
+              cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::CacheMetadata,
+              highlights: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Highlights,
+              html: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::HTML,
+              images: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images,
+              json: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json,
+              markdown: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Markdown,
+              metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata,
+              parsed: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed,
+              product: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product,
+              profile: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Profile?,
+              request_id: String,
+              screenshot: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Screenshot,
+              url: String,
+              is_partial: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::is_partial,
+              key_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::KeyMetadata
             }
 
-            type status = :hit | :miss | :zdr
+            type bytes =
+              {
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Bytes::Data?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
 
-            module Status
-              extend ContextDev::Internal::Type::Enum
+            class Bytes < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Bytes::Data?
 
-              HIT: :hit
-              MISS: :miss
-              ZDR: :zdr
+              attr_accessor requested: bool
 
-              def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::CacheMetadata::status]
-            end
-          end
+              attr_accessor success: bool?
 
-          type metadata =
-            {
-              final_url: String,
-              source_url: String,
-              additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::additional_meta],
-              alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Alternate],
-              author: String,
-              canonical_url: String,
-              description: String,
-              favicon: String,
-              headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Heading],
-              image: String,
-              json_ld: ::Array[::Hash[Symbol, top]],
-              keywords: ::Array[String],
-              language: String,
-              modified_time: String,
-              open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::open_graph],
-              published_time: String,
-              robots: String,
-              site_name: String,
-              title: String,
-              twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::twitter]
-            }
+              attr_reader error_code: String?
 
-          class Metadata < ContextDev::Internal::Type::BaseModel
-            attr_accessor final_url: String
+              def error_code=: (String) -> String
 
-            attr_accessor source_url: String
+              attr_reader message: String?
 
-            attr_reader additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::additional_meta]?
+              def message=: (String) -> String
 
-            def additional_meta=: (
-              ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::additional_meta]
-            ) -> ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::additional_meta]
+              def initialize: (
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Bytes::Data?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
 
-            attr_reader alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Alternate]?
+              def to_hash: -> {
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Bytes::Data?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
 
-            def alternates=: (
-              ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Alternate]
-            ) -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Alternate]
+              type data = { :base64 => String, content_type: String }
 
-            attr_reader author: String?
+              class Data < ContextDev::Internal::Type::BaseModel
+                attr_accessor base64: String
 
-            def author=: (String) -> String
+                attr_accessor content_type: String
 
-            attr_reader canonical_url: String?
+                def initialize: (base64: String, content_type: String) -> void
 
-            def canonical_url=: (String) -> String
-
-            attr_reader description: String?
-
-            def description=: (String) -> String
-
-            attr_reader favicon: String?
-
-            def favicon=: (String) -> String
-
-            attr_reader headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Heading]?
-
-            def headings=: (
-              ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Heading]
-            ) -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Heading]
-
-            attr_reader image: String?
-
-            def image=: (String) -> String
-
-            attr_reader json_ld: ::Array[::Hash[Symbol, top]]?
-
-            def json_ld=: (
-              ::Array[::Hash[Symbol, top]]
-            ) -> ::Array[::Hash[Symbol, top]]
-
-            attr_reader keywords: ::Array[String]?
-
-            def keywords=: (::Array[String]) -> ::Array[String]
-
-            attr_reader language: String?
-
-            def language=: (String) -> String
-
-            attr_reader modified_time: String?
-
-            def modified_time=: (String) -> String
-
-            attr_reader open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::open_graph]?
-
-            def open_graph=: (
-              ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::open_graph]
-            ) -> ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::open_graph]
-
-            attr_reader published_time: String?
-
-            def published_time=: (String) -> String
-
-            attr_reader robots: String?
-
-            def robots=: (String) -> String
-
-            attr_reader site_name: String?
-
-            def site_name=: (String) -> String
-
-            attr_reader title: String?
-
-            def title=: (String) -> String
-
-            attr_reader twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::twitter]?
-
-            def twitter=: (
-              ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::twitter]
-            ) -> ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::twitter]
-
-            def initialize: (
-              final_url: String,
-              source_url: String,
-              ?additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::additional_meta],
-              ?alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Alternate],
-              ?author: String,
-              ?canonical_url: String,
-              ?description: String,
-              ?favicon: String,
-              ?headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Heading],
-              ?image: String,
-              ?json_ld: ::Array[::Hash[Symbol, top]],
-              ?keywords: ::Array[String],
-              ?language: String,
-              ?modified_time: String,
-              ?open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::open_graph],
-              ?published_time: String,
-              ?robots: String,
-              ?site_name: String,
-              ?title: String,
-              ?twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::twitter]
-            ) -> void
-
-            def to_hash: -> {
-              final_url: String,
-              source_url: String,
-              additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::additional_meta],
-              alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Alternate],
-              author: String,
-              canonical_url: String,
-              description: String,
-              favicon: String,
-              headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::Heading],
-              image: String,
-              json_ld: ::Array[::Hash[Symbol, top]],
-              keywords: ::Array[String],
-              language: String,
-              modified_time: String,
-              open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::open_graph],
-              published_time: String,
-              robots: String,
-              site_name: String,
-              title: String,
-              twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::twitter]
-            }
-
-            type additional_meta = String | ::Array[String]
-
-            module AdditionalMeta
-              extend ContextDev::Internal::Type::Union
-
-              def self?.variants: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::additional_meta]
-
-              StringArray: ContextDev::Internal::Type::Converter
+                def to_hash: -> { :base64 => String, content_type: String }
+              end
             end
 
-            type alternate =
-              { href: String, hreflang: String, title: String, type: String }
+            type cache_metadata =
+              {
+                age_ms: Integer,
+                status: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::CacheMetadata::status
+              }
 
-            class Alternate < ContextDev::Internal::Type::BaseModel
-              attr_accessor href: String
+            class CacheMetadata < ContextDev::Internal::Type::BaseModel
+              attr_accessor age_ms: Integer
 
-              attr_reader hreflang: String?
+              attr_accessor status: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::CacheMetadata::status
 
-              def hreflang=: (String) -> String
+              def initialize: (
+                age_ms: Integer,
+                status: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::CacheMetadata::status
+              ) -> void
+
+              def to_hash: -> {
+                age_ms: Integer,
+                status: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::CacheMetadata::status
+              }
+
+              type status = :hit | :miss | :zdr
+
+              module Status
+                extend ContextDev::Internal::Type::Enum
+
+                HIT: :hit
+                MISS: :miss
+                ZDR: :zdr
+
+                def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::CacheMetadata::status]
+              end
+            end
+
+            type highlights =
+              {
+                data: ::Array[String]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Highlights < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ::Array[String]?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ::Array[String]?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ::Array[String]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+            end
+
+            type html =
+              {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class HTML < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: String?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: String?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+            end
+
+            type images =
+              {
+                data: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Images < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data]?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data]?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+              type data =
+                {
+                  alt: String?,
+                  url: String,
+                  classification: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data::classification,
+                  file_url: String,
+                  height: Integer,
+                  width: Integer
+                }
+
+              class Data < ContextDev::Internal::Type::BaseModel
+                attr_accessor alt: String?
+
+                attr_accessor url: String
+
+                attr_reader classification: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data::classification?
+
+                def classification=: (
+                  ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data::classification
+                ) -> ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data::classification
+
+                attr_reader file_url: String?
+
+                def file_url=: (String) -> String
+
+                attr_reader height: Integer?
+
+                def height=: (Integer) -> Integer
+
+                attr_reader width: Integer?
+
+                def width=: (Integer) -> Integer
+
+                def initialize: (
+                  alt: String?,
+                  url: String,
+                  ?classification: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data::classification,
+                  ?file_url: String,
+                  ?height: Integer,
+                  ?width: Integer
+                ) -> void
+
+                def to_hash: -> {
+                  alt: String?,
+                  url: String,
+                  classification: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data::classification,
+                  file_url: String,
+                  height: Integer,
+                  width: Integer
+                }
+
+                type classification =
+                  :photography
+                  | :illustration
+                  | :logo
+                  | :wordmark
+                  | :icon
+                  | :pattern
+                  | :graphic
+                  | :other
+
+                module Classification
+                  extend ContextDev::Internal::Type::Enum
+
+                  PHOTOGRAPHY: :photography
+                  ILLUSTRATION: :illustration
+                  LOGO: :logo
+                  WORDMARK: :wordmark
+                  ICON: :icon
+                  PATTERN: :pattern
+                  GRAPHIC: :graphic
+                  OTHER: :other
+
+                  def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Images::Data::classification]
+                end
+              end
+            end
+
+            type json =
+              {
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                is_truncated: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json::is_truncated,
+                message: String
+              }
+
+            class Json < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ::Hash[Symbol, top]?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader is_truncated: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json::is_truncated?
+
+              def is_truncated=: (
+                ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json::is_truncated
+              ) -> ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json::is_truncated
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?is_truncated: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json::is_truncated,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                is_truncated: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json::is_truncated,
+                message: String
+              }
+
+              type is_truncated = true
+
+              module IsTruncated
+                extend ContextDev::Internal::Type::Enum
+
+                TRUE: true
+
+                def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Json::is_truncated]
+              end
+            end
+
+            type markdown =
+              {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Markdown < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: String?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: String?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+            end
+
+            type metadata =
+              {
+                additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::additional_meta],
+                alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Alternate],
+                author: String,
+                canonical_url: String,
+                description: String,
+                favicon: String,
+                headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Heading],
+                image: String,
+                json_ld: ::Array[::Hash[Symbol, top]],
+                keywords: ::Array[String],
+                language: String,
+                modified_time: String,
+                open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::open_graph],
+                published_time: String,
+                robots: String,
+                site_name: String,
+                title: String,
+                twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::twitter]
+              }
+
+            class Metadata < ContextDev::Internal::Type::BaseModel
+              attr_reader additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::additional_meta]?
+
+              def additional_meta=: (
+                ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::additional_meta]
+              ) -> ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::additional_meta]
+
+              attr_reader alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Alternate]?
+
+              def alternates=: (
+                ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Alternate]
+              ) -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Alternate]
+
+              attr_reader author: String?
+
+              def author=: (String) -> String
+
+              attr_reader canonical_url: String?
+
+              def canonical_url=: (String) -> String
+
+              attr_reader description: String?
+
+              def description=: (String) -> String
+
+              attr_reader favicon: String?
+
+              def favicon=: (String) -> String
+
+              attr_reader headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Heading]?
+
+              def headings=: (
+                ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Heading]
+              ) -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Heading]
+
+              attr_reader image: String?
+
+              def image=: (String) -> String
+
+              attr_reader json_ld: ::Array[::Hash[Symbol, top]]?
+
+              def json_ld=: (
+                ::Array[::Hash[Symbol, top]]
+              ) -> ::Array[::Hash[Symbol, top]]
+
+              attr_reader keywords: ::Array[String]?
+
+              def keywords=: (::Array[String]) -> ::Array[String]
+
+              attr_reader language: String?
+
+              def language=: (String) -> String
+
+              attr_reader modified_time: String?
+
+              def modified_time=: (String) -> String
+
+              attr_reader open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::open_graph]?
+
+              def open_graph=: (
+                ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::open_graph]
+              ) -> ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::open_graph]
+
+              attr_reader published_time: String?
+
+              def published_time=: (String) -> String
+
+              attr_reader robots: String?
+
+              def robots=: (String) -> String
+
+              attr_reader site_name: String?
+
+              def site_name=: (String) -> String
 
               attr_reader title: String?
 
               def title=: (String) -> String
 
-              attr_reader type: String?
+              attr_reader twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::twitter]?
 
-              def type=: (String) -> String
+              def twitter=: (
+                ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::twitter]
+              ) -> ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::twitter]
 
               def initialize: (
-                href: String,
-                ?hreflang: String,
+                ?additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::additional_meta],
+                ?alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Alternate],
+                ?author: String,
+                ?canonical_url: String,
+                ?description: String,
+                ?favicon: String,
+                ?headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Heading],
+                ?image: String,
+                ?json_ld: ::Array[::Hash[Symbol, top]],
+                ?keywords: ::Array[String],
+                ?language: String,
+                ?modified_time: String,
+                ?open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::open_graph],
+                ?published_time: String,
+                ?robots: String,
+                ?site_name: String,
                 ?title: String,
-                ?type: String
+                ?twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::twitter]
               ) -> void
 
               def to_hash: -> {
-                href: String,
-                hreflang: String,
+                additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::additional_meta],
+                alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Alternate],
+                author: String,
+                canonical_url: String,
+                description: String,
+                favicon: String,
+                headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::Heading],
+                image: String,
+                json_ld: ::Array[::Hash[Symbol, top]],
+                keywords: ::Array[String],
+                language: String,
+                modified_time: String,
+                open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::open_graph],
+                published_time: String,
+                robots: String,
+                site_name: String,
                 title: String,
-                type: String
+                twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::twitter]
+              }
+
+              type additional_meta = String | ::Array[String]
+
+              module AdditionalMeta
+                extend ContextDev::Internal::Type::Union
+
+                def self?.variants: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::additional_meta]
+
+                StringArray: ContextDev::Internal::Type::Converter
+              end
+
+              type alternate =
+                { href: String, hreflang: String, title: String, type: String }
+
+              class Alternate < ContextDev::Internal::Type::BaseModel
+                attr_accessor href: String
+
+                attr_reader hreflang: String?
+
+                def hreflang=: (String) -> String
+
+                attr_reader title: String?
+
+                def title=: (String) -> String
+
+                attr_reader type: String?
+
+                def type=: (String) -> String
+
+                def initialize: (
+                  href: String,
+                  ?hreflang: String,
+                  ?title: String,
+                  ?type: String
+                ) -> void
+
+                def to_hash: -> {
+                  href: String,
+                  hreflang: String,
+                  title: String,
+                  type: String
+                }
+              end
+
+              type heading = { level: Integer, text: String }
+
+              class Heading < ContextDev::Internal::Type::BaseModel
+                attr_accessor level: Integer
+
+                attr_accessor text: String
+
+                def initialize: (level: Integer, text: String) -> void
+
+                def to_hash: -> { level: Integer, text: String }
+              end
+
+              type open_graph = String | ::Array[String]
+
+              module OpenGraph
+                extend ContextDev::Internal::Type::Union
+
+                def self?.variants: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::open_graph]
+
+                StringArray: ContextDev::Internal::Type::Converter
+              end
+
+              type twitter = String | ::Array[String]
+
+              module Twitter
+                extend ContextDev::Internal::Type::Union
+
+                def self?.variants: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Metadata::twitter]
+
+                StringArray: ContextDev::Internal::Type::Converter
+              end
+            end
+
+            type parsed =
+              {
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                type: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::type_,
+                error_code: String,
+                message: String
+              }
+
+            class Parsed < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ::Hash[Symbol, top]?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_accessor type: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::type_
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                type: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::type_,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                type: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::type_,
+                error_code: String,
+                message: String
+              }
+
+              type type_ =
+                :custom
+                | :"google-maps"
+                | :"google-play"
+                | :"google-play-reviews"
+                | :"app-store"
+                | :"app-store-reviews"
+                | :emails
+                | :"phone-numbers"
+                | :links
+
+              module Type
+                extend ContextDev::Internal::Type::Enum
+
+                CUSTOM: :custom
+                GOOGLE_MAPS: :"google-maps"
+                GOOGLE_PLAY: :"google-play"
+                GOOGLE_PLAY_REVIEWS: :"google-play-reviews"
+                APP_STORE: :"app-store"
+                APP_STORE_REVIEWS: :"app-store-reviews"
+                EMAILS: :emails
+                PHONE_NUMBERS: :"phone-numbers"
+                LINKS: :links
+
+                def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::type_]
+              end
+            end
+
+            type product =
+              {
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Product < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+              type data =
+                {
+                  is_product_page: bool,
+                  product: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product?
+                }
+
+              class Data < ContextDev::Internal::Type::BaseModel
+                attr_accessor is_product_page: bool
+
+                attr_accessor product: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product?
+
+                def initialize: (
+                  is_product_page: bool,
+                  product: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product?
+                ) -> void
+
+                def to_hash: -> {
+                  is_product_page: bool,
+                  product: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product?
+                }
+
+                type product =
+                  {
+                    availability: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product::availability?,
+                    brand: String?,
+                    category: String?,
+                    currency: String?,
+                    description: String?,
+                    dimensions: ::Array[String],
+                    features: ::Array[String],
+                    images: ::Array[String],
+                    image_url: String?,
+                    name: String,
+                    price: Float?,
+                    regular_price: Float?,
+                    sku: String?,
+                    tags: ::Array[String],
+                    target_audience: ::Array[String],
+                    variants: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product::Variant]
+                  }
+
+                class Product < ContextDev::Internal::Type::BaseModel
+                  attr_accessor availability: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product::availability?
+
+                  attr_accessor brand: String?
+
+                  attr_accessor category: String?
+
+                  attr_accessor currency: String?
+
+                  attr_accessor description: String?
+
+                  attr_accessor dimensions: ::Array[String]
+
+                  attr_accessor features: ::Array[String]
+
+                  attr_accessor images: ::Array[String]
+
+                  attr_accessor image_url: String?
+
+                  attr_accessor name: String
+
+                  attr_accessor price: Float?
+
+                  attr_accessor regular_price: Float?
+
+                  attr_accessor sku: String?
+
+                  attr_accessor tags: ::Array[String]
+
+                  attr_accessor target_audience: ::Array[String]
+
+                  attr_accessor variants: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product::Variant]
+
+                  def initialize: (
+                    availability: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product::availability?,
+                    brand: String?,
+                    category: String?,
+                    currency: String?,
+                    description: String?,
+                    dimensions: ::Array[String],
+                    features: ::Array[String],
+                    images: ::Array[String],
+                    image_url: String?,
+                    name: String,
+                    price: Float?,
+                    regular_price: Float?,
+                    sku: String?,
+                    tags: ::Array[String],
+                    target_audience: ::Array[String],
+                    variants: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product::Variant]
+                  ) -> void
+
+                  def to_hash: -> {
+                    availability: ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product::availability?,
+                    brand: String?,
+                    category: String?,
+                    currency: String?,
+                    description: String?,
+                    dimensions: ::Array[String],
+                    features: ::Array[String],
+                    images: ::Array[String],
+                    image_url: String?,
+                    name: String,
+                    price: Float?,
+                    regular_price: Float?,
+                    sku: String?,
+                    tags: ::Array[String],
+                    target_audience: ::Array[String],
+                    variants: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product::Variant]
+                  }
+
+                  type availability =
+                    :in_stock
+                    | :out_of_stock
+                    | :limited_availability
+                    | :preorder
+                    | :backorder
+                    | :made_to_order
+                    | :discontinued
+
+                  module Availability
+                    extend ContextDev::Internal::Type::Enum
+
+                    IN_STOCK: :in_stock
+                    OUT_OF_STOCK: :out_of_stock
+                    LIMITED_AVAILABILITY: :limited_availability
+                    PREORDER: :preorder
+                    BACKORDER: :backorder
+                    MADE_TO_ORDER: :made_to_order
+                    DISCONTINUED: :discontinued
+
+                    def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Product::Data::Product::availability]
+                  end
+
+                  type variant =
+                    {
+                      attributes: ::Hash[Symbol, String],
+                      images: ::Array[String],
+                      sku: String?,
+                      url: String?
+                    }
+
+                  class Variant < ContextDev::Internal::Type::BaseModel
+                    attr_accessor attributes: ::Hash[Symbol, String]
+
+                    attr_accessor images: ::Array[String]
+
+                    attr_accessor sku: String?
+
+                    attr_accessor url: String?
+
+                    def initialize: (
+                      attributes: ::Hash[Symbol, String],
+                      images: ::Array[String],
+                      sku: String?,
+                      url: String?
+                    ) -> void
+
+                    def to_hash: -> {
+                      attributes: ::Hash[Symbol, String],
+                      images: ::Array[String],
+                      sku: String?,
+                      url: String?
+                    }
+                  end
+                end
+              end
+            end
+
+            type profile = { id: String }
+
+            class Profile < ContextDev::Internal::Type::BaseModel
+              attr_accessor id: String
+
+              def initialize: (id: String) -> void
+
+              def to_hash: -> { id: String }
+            end
+
+            type screenshot =
+              {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Screenshot < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: String?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: String?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
               }
             end
 
-            type heading = { level: Integer, text: String }
+            type is_partial = true
 
-            class Heading < ContextDev::Internal::Type::BaseModel
-              attr_accessor level: Integer
+            module IsPartial
+              extend ContextDev::Internal::Type::Enum
 
-              attr_accessor text: String
+              TRUE: true
 
-              def initialize: (level: Integer, text: String) -> void
-
-              def to_hash: -> { level: Integer, text: String }
+              def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::is_partial]
             end
 
-            type open_graph = String | ::Array[String]
+            type key_metadata =
+              { credits_consumed: Integer, credits_remaining: Integer }
 
-            module OpenGraph
-              extend ContextDev::Internal::Type::Union
+            class KeyMetadata < ContextDev::Internal::Type::BaseModel
+              attr_accessor credits_consumed: Integer
 
-              def self?.variants: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::open_graph]
+              attr_accessor credits_remaining: Integer
 
-              StringArray: ContextDev::Internal::Type::Converter
-            end
+              def initialize: (
+                credits_consumed: Integer,
+                credits_remaining: Integer
+              ) -> void
 
-            type twitter = String | ::Array[String]
-
-            module Twitter
-              extend ContextDev::Internal::Type::Union
-
-              def self?.variants: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Ok::Metadata::twitter]
-
-              StringArray: ContextDev::Internal::Type::Converter
+              def to_hash: -> {
+                credits_consumed: Integer,
+                credits_remaining: Integer
+              }
             end
           end
         end
@@ -405,8 +1188,11 @@ module ContextDev
             message: String,
             status: :error,
             url: String,
+            credits_used: Integer,
             item_id: String,
-            meta: ::Hash[Symbol, top]
+            meta: ::Hash[Symbol, top],
+            ocr_pages: Integer,
+            result: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result
           }
 
         class Error < ContextDev::Internal::Type::BaseModel
@@ -418,6 +1204,10 @@ module ContextDev
 
           attr_accessor url: String
 
+          attr_reader credits_used: Integer?
+
+          def credits_used=: (Integer) -> Integer
+
           attr_reader item_id: String?
 
           def item_id=: (String) -> String
@@ -426,12 +1216,25 @@ module ContextDev
 
           def meta=: (::Hash[Symbol, top]) -> ::Hash[Symbol, top]
 
+          attr_reader ocr_pages: Integer?
+
+          def ocr_pages=: (Integer) -> Integer
+
+          attr_reader result: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result?
+
+          def result=: (
+            ContextDev::Models::BatchGetResultsResponse::Data::Error::Result
+          ) -> ContextDev::Models::BatchGetResultsResponse::Data::Error::Result
+
           def initialize: (
             error_code: String,
             message: String,
             url: String,
+            ?credits_used: Integer,
             ?item_id: String,
             ?meta: ::Hash[Symbol, top],
+            ?ocr_pages: Integer,
+            ?result: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result,
             ?status: :error
           ) -> void
 
@@ -440,9 +1243,1088 @@ module ContextDev
             message: String,
             status: :error,
             url: String,
+            credits_used: Integer,
             item_id: String,
-            meta: ::Hash[Symbol, top]
+            meta: ::Hash[Symbol, top],
+            ocr_pages: Integer,
+            result: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result
           }
+
+          type result =
+            {
+              bytes: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Bytes,
+              cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::CacheMetadata,
+              highlights: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Highlights,
+              html: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::HTML,
+              images: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images,
+              json: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json,
+              markdown: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Markdown,
+              metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata,
+              parsed: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed,
+              product: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product,
+              profile: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Profile?,
+              request_id: String,
+              screenshot: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Screenshot,
+              url: String,
+              is_partial: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::is_partial,
+              key_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::KeyMetadata
+            }
+
+          class Result < ContextDev::Internal::Type::BaseModel
+            attr_accessor bytes: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Bytes
+
+            attr_accessor cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::CacheMetadata
+
+            attr_accessor highlights: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Highlights
+
+            attr_accessor html: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::HTML
+
+            attr_accessor images: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images
+
+            attr_accessor json: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json
+
+            attr_accessor markdown: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Markdown
+
+            attr_accessor metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata
+
+            attr_accessor parsed: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed
+
+            attr_accessor product: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product
+
+            attr_accessor profile: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Profile?
+
+            attr_accessor request_id: String
+
+            attr_accessor screenshot: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Screenshot
+
+            attr_accessor url: String
+
+            attr_reader is_partial: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::is_partial?
+
+            def is_partial=: (
+              ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::is_partial
+            ) -> ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::is_partial
+
+            attr_reader key_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::KeyMetadata?
+
+            def key_metadata=: (
+              ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::KeyMetadata
+            ) -> ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::KeyMetadata
+
+            def initialize: (
+              bytes: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Bytes,
+              cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::CacheMetadata,
+              highlights: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Highlights,
+              html: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::HTML,
+              images: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images,
+              json: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json,
+              markdown: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Markdown,
+              metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata,
+              parsed: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed,
+              product: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product,
+              profile: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Profile?,
+              request_id: String,
+              screenshot: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Screenshot,
+              url: String,
+              ?is_partial: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::is_partial,
+              ?key_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::KeyMetadata
+            ) -> void
+
+            def to_hash: -> {
+              bytes: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Bytes,
+              cache_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::CacheMetadata,
+              highlights: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Highlights,
+              html: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::HTML,
+              images: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images,
+              json: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json,
+              markdown: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Markdown,
+              metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata,
+              parsed: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed,
+              product: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product,
+              profile: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Profile?,
+              request_id: String,
+              screenshot: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Screenshot,
+              url: String,
+              is_partial: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::is_partial,
+              key_metadata: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::KeyMetadata
+            }
+
+            type bytes =
+              {
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Bytes::Data?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Bytes < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Bytes::Data?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Bytes::Data?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Bytes::Data?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+              type data = { :base64 => String, content_type: String }
+
+              class Data < ContextDev::Internal::Type::BaseModel
+                attr_accessor base64: String
+
+                attr_accessor content_type: String
+
+                def initialize: (base64: String, content_type: String) -> void
+
+                def to_hash: -> { :base64 => String, content_type: String }
+              end
+            end
+
+            type cache_metadata =
+              {
+                age_ms: Integer,
+                status: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::CacheMetadata::status
+              }
+
+            class CacheMetadata < ContextDev::Internal::Type::BaseModel
+              attr_accessor age_ms: Integer
+
+              attr_accessor status: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::CacheMetadata::status
+
+              def initialize: (
+                age_ms: Integer,
+                status: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::CacheMetadata::status
+              ) -> void
+
+              def to_hash: -> {
+                age_ms: Integer,
+                status: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::CacheMetadata::status
+              }
+
+              type status = :hit | :miss | :zdr
+
+              module Status
+                extend ContextDev::Internal::Type::Enum
+
+                HIT: :hit
+                MISS: :miss
+                ZDR: :zdr
+
+                def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::CacheMetadata::status]
+              end
+            end
+
+            type highlights =
+              {
+                data: ::Array[String]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Highlights < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ::Array[String]?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ::Array[String]?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ::Array[String]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+            end
+
+            type html =
+              {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class HTML < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: String?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: String?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+            end
+
+            type images =
+              {
+                data: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Images < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data]?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data]?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+              type data =
+                {
+                  alt: String?,
+                  url: String,
+                  classification: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data::classification,
+                  file_url: String,
+                  height: Integer,
+                  width: Integer
+                }
+
+              class Data < ContextDev::Internal::Type::BaseModel
+                attr_accessor alt: String?
+
+                attr_accessor url: String
+
+                attr_reader classification: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data::classification?
+
+                def classification=: (
+                  ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data::classification
+                ) -> ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data::classification
+
+                attr_reader file_url: String?
+
+                def file_url=: (String) -> String
+
+                attr_reader height: Integer?
+
+                def height=: (Integer) -> Integer
+
+                attr_reader width: Integer?
+
+                def width=: (Integer) -> Integer
+
+                def initialize: (
+                  alt: String?,
+                  url: String,
+                  ?classification: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data::classification,
+                  ?file_url: String,
+                  ?height: Integer,
+                  ?width: Integer
+                ) -> void
+
+                def to_hash: -> {
+                  alt: String?,
+                  url: String,
+                  classification: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data::classification,
+                  file_url: String,
+                  height: Integer,
+                  width: Integer
+                }
+
+                type classification =
+                  :photography
+                  | :illustration
+                  | :logo
+                  | :wordmark
+                  | :icon
+                  | :pattern
+                  | :graphic
+                  | :other
+
+                module Classification
+                  extend ContextDev::Internal::Type::Enum
+
+                  PHOTOGRAPHY: :photography
+                  ILLUSTRATION: :illustration
+                  LOGO: :logo
+                  WORDMARK: :wordmark
+                  ICON: :icon
+                  PATTERN: :pattern
+                  GRAPHIC: :graphic
+                  OTHER: :other
+
+                  def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Images::Data::classification]
+                end
+              end
+            end
+
+            type json =
+              {
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                is_truncated: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json::is_truncated,
+                message: String
+              }
+
+            class Json < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ::Hash[Symbol, top]?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader is_truncated: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json::is_truncated?
+
+              def is_truncated=: (
+                ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json::is_truncated
+              ) -> ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json::is_truncated
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?is_truncated: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json::is_truncated,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                is_truncated: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json::is_truncated,
+                message: String
+              }
+
+              type is_truncated = true
+
+              module IsTruncated
+                extend ContextDev::Internal::Type::Enum
+
+                TRUE: true
+
+                def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Json::is_truncated]
+              end
+            end
+
+            type markdown =
+              {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Markdown < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: String?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: String?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+            end
+
+            type metadata =
+              {
+                additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::additional_meta],
+                alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Alternate],
+                author: String,
+                canonical_url: String,
+                description: String,
+                favicon: String,
+                headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Heading],
+                image: String,
+                json_ld: ::Array[::Hash[Symbol, top]],
+                keywords: ::Array[String],
+                language: String,
+                modified_time: String,
+                open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::open_graph],
+                published_time: String,
+                robots: String,
+                site_name: String,
+                title: String,
+                twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::twitter]
+              }
+
+            class Metadata < ContextDev::Internal::Type::BaseModel
+              attr_reader additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::additional_meta]?
+
+              def additional_meta=: (
+                ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::additional_meta]
+              ) -> ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::additional_meta]
+
+              attr_reader alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Alternate]?
+
+              def alternates=: (
+                ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Alternate]
+              ) -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Alternate]
+
+              attr_reader author: String?
+
+              def author=: (String) -> String
+
+              attr_reader canonical_url: String?
+
+              def canonical_url=: (String) -> String
+
+              attr_reader description: String?
+
+              def description=: (String) -> String
+
+              attr_reader favicon: String?
+
+              def favicon=: (String) -> String
+
+              attr_reader headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Heading]?
+
+              def headings=: (
+                ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Heading]
+              ) -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Heading]
+
+              attr_reader image: String?
+
+              def image=: (String) -> String
+
+              attr_reader json_ld: ::Array[::Hash[Symbol, top]]?
+
+              def json_ld=: (
+                ::Array[::Hash[Symbol, top]]
+              ) -> ::Array[::Hash[Symbol, top]]
+
+              attr_reader keywords: ::Array[String]?
+
+              def keywords=: (::Array[String]) -> ::Array[String]
+
+              attr_reader language: String?
+
+              def language=: (String) -> String
+
+              attr_reader modified_time: String?
+
+              def modified_time=: (String) -> String
+
+              attr_reader open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::open_graph]?
+
+              def open_graph=: (
+                ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::open_graph]
+              ) -> ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::open_graph]
+
+              attr_reader published_time: String?
+
+              def published_time=: (String) -> String
+
+              attr_reader robots: String?
+
+              def robots=: (String) -> String
+
+              attr_reader site_name: String?
+
+              def site_name=: (String) -> String
+
+              attr_reader title: String?
+
+              def title=: (String) -> String
+
+              attr_reader twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::twitter]?
+
+              def twitter=: (
+                ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::twitter]
+              ) -> ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::twitter]
+
+              def initialize: (
+                ?additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::additional_meta],
+                ?alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Alternate],
+                ?author: String,
+                ?canonical_url: String,
+                ?description: String,
+                ?favicon: String,
+                ?headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Heading],
+                ?image: String,
+                ?json_ld: ::Array[::Hash[Symbol, top]],
+                ?keywords: ::Array[String],
+                ?language: String,
+                ?modified_time: String,
+                ?open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::open_graph],
+                ?published_time: String,
+                ?robots: String,
+                ?site_name: String,
+                ?title: String,
+                ?twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::twitter]
+              ) -> void
+
+              def to_hash: -> {
+                additional_meta: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::additional_meta],
+                alternates: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Alternate],
+                author: String,
+                canonical_url: String,
+                description: String,
+                favicon: String,
+                headings: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::Heading],
+                image: String,
+                json_ld: ::Array[::Hash[Symbol, top]],
+                keywords: ::Array[String],
+                language: String,
+                modified_time: String,
+                open_graph: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::open_graph],
+                published_time: String,
+                robots: String,
+                site_name: String,
+                title: String,
+                twitter: ::Hash[Symbol, ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::twitter]
+              }
+
+              type additional_meta = String | ::Array[String]
+
+              module AdditionalMeta
+                extend ContextDev::Internal::Type::Union
+
+                def self?.variants: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::additional_meta]
+
+                StringArray: ContextDev::Internal::Type::Converter
+              end
+
+              type alternate =
+                { href: String, hreflang: String, title: String, type: String }
+
+              class Alternate < ContextDev::Internal::Type::BaseModel
+                attr_accessor href: String
+
+                attr_reader hreflang: String?
+
+                def hreflang=: (String) -> String
+
+                attr_reader title: String?
+
+                def title=: (String) -> String
+
+                attr_reader type: String?
+
+                def type=: (String) -> String
+
+                def initialize: (
+                  href: String,
+                  ?hreflang: String,
+                  ?title: String,
+                  ?type: String
+                ) -> void
+
+                def to_hash: -> {
+                  href: String,
+                  hreflang: String,
+                  title: String,
+                  type: String
+                }
+              end
+
+              type heading = { level: Integer, text: String }
+
+              class Heading < ContextDev::Internal::Type::BaseModel
+                attr_accessor level: Integer
+
+                attr_accessor text: String
+
+                def initialize: (level: Integer, text: String) -> void
+
+                def to_hash: -> { level: Integer, text: String }
+              end
+
+              type open_graph = String | ::Array[String]
+
+              module OpenGraph
+                extend ContextDev::Internal::Type::Union
+
+                def self?.variants: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::open_graph]
+
+                StringArray: ContextDev::Internal::Type::Converter
+              end
+
+              type twitter = String | ::Array[String]
+
+              module Twitter
+                extend ContextDev::Internal::Type::Union
+
+                def self?.variants: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Metadata::twitter]
+
+                StringArray: ContextDev::Internal::Type::Converter
+              end
+            end
+
+            type parsed =
+              {
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                type: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::type_,
+                error_code: String,
+                message: String
+              }
+
+            class Parsed < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ::Hash[Symbol, top]?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_accessor type: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::type_
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                type: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::type_,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ::Hash[Symbol, top]?,
+                requested: bool,
+                success: bool?,
+                type: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::type_,
+                error_code: String,
+                message: String
+              }
+
+              type type_ =
+                :custom
+                | :"google-maps"
+                | :"google-play"
+                | :"google-play-reviews"
+                | :"app-store"
+                | :"app-store-reviews"
+                | :emails
+                | :"phone-numbers"
+                | :links
+
+              module Type
+                extend ContextDev::Internal::Type::Enum
+
+                CUSTOM: :custom
+                GOOGLE_MAPS: :"google-maps"
+                GOOGLE_PLAY: :"google-play"
+                GOOGLE_PLAY_REVIEWS: :"google-play-reviews"
+                APP_STORE: :"app-store"
+                APP_STORE_REVIEWS: :"app-store-reviews"
+                EMAILS: :emails
+                PHONE_NUMBERS: :"phone-numbers"
+                LINKS: :links
+
+                def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::type_]
+              end
+            end
+
+            type product =
+              {
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Product < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+              type data =
+                {
+                  is_product_page: bool,
+                  product: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product?
+                }
+
+              class Data < ContextDev::Internal::Type::BaseModel
+                attr_accessor is_product_page: bool
+
+                attr_accessor product: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product?
+
+                def initialize: (
+                  is_product_page: bool,
+                  product: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product?
+                ) -> void
+
+                def to_hash: -> {
+                  is_product_page: bool,
+                  product: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product?
+                }
+
+                type product =
+                  {
+                    availability: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product::availability?,
+                    brand: String?,
+                    category: String?,
+                    currency: String?,
+                    description: String?,
+                    dimensions: ::Array[String],
+                    features: ::Array[String],
+                    images: ::Array[String],
+                    image_url: String?,
+                    name: String,
+                    price: Float?,
+                    regular_price: Float?,
+                    sku: String?,
+                    tags: ::Array[String],
+                    target_audience: ::Array[String],
+                    variants: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product::Variant]
+                  }
+
+                class Product < ContextDev::Internal::Type::BaseModel
+                  attr_accessor availability: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product::availability?
+
+                  attr_accessor brand: String?
+
+                  attr_accessor category: String?
+
+                  attr_accessor currency: String?
+
+                  attr_accessor description: String?
+
+                  attr_accessor dimensions: ::Array[String]
+
+                  attr_accessor features: ::Array[String]
+
+                  attr_accessor images: ::Array[String]
+
+                  attr_accessor image_url: String?
+
+                  attr_accessor name: String
+
+                  attr_accessor price: Float?
+
+                  attr_accessor regular_price: Float?
+
+                  attr_accessor sku: String?
+
+                  attr_accessor tags: ::Array[String]
+
+                  attr_accessor target_audience: ::Array[String]
+
+                  attr_accessor variants: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product::Variant]
+
+                  def initialize: (
+                    availability: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product::availability?,
+                    brand: String?,
+                    category: String?,
+                    currency: String?,
+                    description: String?,
+                    dimensions: ::Array[String],
+                    features: ::Array[String],
+                    images: ::Array[String],
+                    image_url: String?,
+                    name: String,
+                    price: Float?,
+                    regular_price: Float?,
+                    sku: String?,
+                    tags: ::Array[String],
+                    target_audience: ::Array[String],
+                    variants: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product::Variant]
+                  ) -> void
+
+                  def to_hash: -> {
+                    availability: ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product::availability?,
+                    brand: String?,
+                    category: String?,
+                    currency: String?,
+                    description: String?,
+                    dimensions: ::Array[String],
+                    features: ::Array[String],
+                    images: ::Array[String],
+                    image_url: String?,
+                    name: String,
+                    price: Float?,
+                    regular_price: Float?,
+                    sku: String?,
+                    tags: ::Array[String],
+                    target_audience: ::Array[String],
+                    variants: ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product::Variant]
+                  }
+
+                  type availability =
+                    :in_stock
+                    | :out_of_stock
+                    | :limited_availability
+                    | :preorder
+                    | :backorder
+                    | :made_to_order
+                    | :discontinued
+
+                  module Availability
+                    extend ContextDev::Internal::Type::Enum
+
+                    IN_STOCK: :in_stock
+                    OUT_OF_STOCK: :out_of_stock
+                    LIMITED_AVAILABILITY: :limited_availability
+                    PREORDER: :preorder
+                    BACKORDER: :backorder
+                    MADE_TO_ORDER: :made_to_order
+                    DISCONTINUED: :discontinued
+
+                    def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Product::Data::Product::availability]
+                  end
+
+                  type variant =
+                    {
+                      attributes: ::Hash[Symbol, String],
+                      images: ::Array[String],
+                      sku: String?,
+                      url: String?
+                    }
+
+                  class Variant < ContextDev::Internal::Type::BaseModel
+                    attr_accessor attributes: ::Hash[Symbol, String]
+
+                    attr_accessor images: ::Array[String]
+
+                    attr_accessor sku: String?
+
+                    attr_accessor url: String?
+
+                    def initialize: (
+                      attributes: ::Hash[Symbol, String],
+                      images: ::Array[String],
+                      sku: String?,
+                      url: String?
+                    ) -> void
+
+                    def to_hash: -> {
+                      attributes: ::Hash[Symbol, String],
+                      images: ::Array[String],
+                      sku: String?,
+                      url: String?
+                    }
+                  end
+                end
+              end
+            end
+
+            type profile = { id: String }
+
+            class Profile < ContextDev::Internal::Type::BaseModel
+              attr_accessor id: String
+
+              def initialize: (id: String) -> void
+
+              def to_hash: -> { id: String }
+            end
+
+            type screenshot =
+              {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+
+            class Screenshot < ContextDev::Internal::Type::BaseModel
+              attr_accessor data: String?
+
+              attr_accessor requested: bool
+
+              attr_accessor success: bool?
+
+              attr_reader error_code: String?
+
+              def error_code=: (String) -> String
+
+              attr_reader message: String?
+
+              def message=: (String) -> String
+
+              def initialize: (
+                data: String?,
+                requested: bool,
+                success: bool?,
+                ?error_code: String,
+                ?message: String
+              ) -> void
+
+              def to_hash: -> {
+                data: String?,
+                requested: bool,
+                success: bool?,
+                error_code: String,
+                message: String
+              }
+            end
+
+            type is_partial = true
+
+            module IsPartial
+              extend ContextDev::Internal::Type::Enum
+
+              TRUE: true
+
+              def self?.values: -> ::Array[ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::is_partial]
+            end
+
+            type key_metadata =
+              { credits_consumed: Integer, credits_remaining: Integer }
+
+            class KeyMetadata < ContextDev::Internal::Type::BaseModel
+              attr_accessor credits_consumed: Integer
+
+              attr_accessor credits_remaining: Integer
+
+              def initialize: (
+                credits_consumed: Integer,
+                credits_remaining: Integer
+              ) -> void
+
+              def to_hash: -> {
+                credits_consumed: Integer,
+                credits_remaining: Integer
+              }
+            end
+          end
         end
 
         def self?.variants: -> ::Array[ContextDev::Models::BatchGetResultsResponse::data]

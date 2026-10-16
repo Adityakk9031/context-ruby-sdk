@@ -18,7 +18,7 @@ class ContextDev::Test::Resources::BatchTest < ContextDev::Test::ResourceTest
         crawl: ContextDev::CrawlControls | nil,
         credits: ContextDev::Models::BatchRetrieveResponse::Credits,
         failure: ContextDev::Failure | nil,
-        format_: ContextDev::Models::BatchRetrieveResponse::Format,
+        formats: ContextDev::Models::BatchRetrieveResponse::Formats,
         input: ContextDev::Intake,
         invalid_urls: ^(ContextDev::Internal::Type::ArrayOf[ContextDev::Models::BatchRetrieveResponse::InvalidURL]),
         mode: ContextDev::Models::BatchRetrieveResponse::Mode,
@@ -88,7 +88,7 @@ class ContextDev::Test::Resources::BatchTest < ContextDev::Test::ResourceTest
         id: String,
         crawl: ContextDev::CrawlControls | nil,
         credits: ContextDev::Models::BatchCancelResponse::Credits,
-        format_: ContextDev::Models::BatchCancelResponse::Format,
+        formats: ContextDev::Models::BatchCancelResponse::Formats,
         input: ContextDev::Intake,
         mode: ContextDev::Models::BatchCancelResponse::Mode,
         page_errors: ^(ContextDev::Internal::Type::ArrayOf[ContextDev::PageErrorCount]),
@@ -129,7 +129,7 @@ class ContextDev::Test::Resources::BatchTest < ContextDev::Test::ResourceTest
       @context_dev.batch.submit(
         input: {
           data: {
-            format: :markdown,
+            formats: {},
             urls: [{url: "https://example.com/products/anvil"}, {url: "https://example.com/products/hammer"}]
           },
           mode: :scrape
@@ -147,7 +147,7 @@ class ContextDev::Test::Resources::BatchTest < ContextDev::Test::ResourceTest
         crawl: ContextDev::CrawlControls | nil,
         created_at: String,
         credits: ContextDev::Models::BatchSubmitResponse::Credits,
-        format_: ContextDev::Models::BatchSubmitResponse::Format,
+        formats: ContextDev::Models::BatchSubmitResponse::Formats,
         input: ContextDev::Intake,
         invalid_urls: ^(ContextDev::Internal::Type::ArrayOf[ContextDev::Models::BatchSubmitResponse::InvalidURL]),
         mode: ContextDev::Models::BatchSubmitResponse::Mode,

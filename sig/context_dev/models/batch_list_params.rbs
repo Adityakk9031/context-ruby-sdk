@@ -6,6 +6,7 @@ module ContextDev
         limit: Integer,
         q: String,
         search_type: ContextDev::Models::BatchListParams::search_type,
+        should_include_unified: bool,
         status: ContextDev::Models::BatchListParams::status,
         tags: ContextDev::Models::BatchListParams::tags
       }
@@ -33,6 +34,10 @@ module ContextDev
         ContextDev::Models::BatchListParams::search_type
       ) -> ContextDev::Models::BatchListParams::search_type
 
+      attr_reader should_include_unified: bool?
+
+      def should_include_unified=: (bool) -> bool
+
       attr_reader status: ContextDev::Models::BatchListParams::status?
 
       def status=: (
@@ -50,6 +55,7 @@ module ContextDev
         ?limit: Integer,
         ?q: String,
         ?search_type: ContextDev::Models::BatchListParams::search_type,
+        ?should_include_unified: bool,
         ?status: ContextDev::Models::BatchListParams::status,
         ?tags: ContextDev::Models::BatchListParams::tags,
         ?request_options: ContextDev::request_opts
@@ -60,6 +66,7 @@ module ContextDev
         limit: Integer,
         q: String,
         search_type: ContextDev::Models::BatchListParams::search_type,
+        should_include_unified: bool,
         status: ContextDev::Models::BatchListParams::status,
         tags: ContextDev::Models::BatchListParams::tags,
         request_options: ContextDev::RequestOptions
