@@ -1109,6 +1109,12 @@ module ContextDev
             #   @return [Symbol, :new]
             required :type, const: :new
 
+            # @!attribute description
+            #   Optional label shown when listing profiles with `GET /org/browser/profiles`.
+            #
+            #   @return [String, nil]
+            optional :description, String
+
             request_only do
               # @!attribute password
               #   Password used to sign in. It is never stored in the profile.
@@ -1117,10 +1123,12 @@ module ContextDev
               required :password, String
             end
 
-            # @!method initialize(identifier:, password:, type: :new)
+            # @!method initialize(identifier:, password:, description: nil, type: :new)
             #   @param identifier [String] Username or email for the target website.
             #
             #   @param password [String] Password used to sign in. It is never stored in the profile.
+            #
+            #   @param description [String] Optional label shown when listing profiles with `GET /org/browser/profiles`.
             #
             #   @param type [Symbol, :new] Sign in and create a browser profile.
           end

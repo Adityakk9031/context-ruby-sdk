@@ -50,6 +50,9 @@ module ContextDev
     sig { returns(ContextDev::Resources::Logs) }
     attr_reader :logs
 
+    sig { returns(ContextDev::Resources::Browser) }
+    attr_reader :browser
+
     # Report API issues and documentation mismatches.
     sig { returns(ContextDev::Resources::Feedback) }
     attr_reader :feedback

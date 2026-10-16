@@ -1,0 +1,34 @@
+module ContextDev
+  module Models
+    module Browser
+      type profile_list_params =
+        { cursor: String, limit: Integer }
+        & ContextDev::Internal::Type::request_parameters
+
+      class ProfileListParams < ContextDev::Internal::Type::BaseModel
+        extend ContextDev::Internal::Type::RequestParameters::Converter
+        include ContextDev::Internal::Type::RequestParameters
+
+        attr_reader cursor: String?
+
+        def cursor=: (String) -> String
+
+        attr_reader limit: Integer?
+
+        def limit=: (Integer) -> Integer
+
+        def initialize: (
+          ?cursor: String,
+          ?limit: Integer,
+          ?request_options: ContextDev::request_opts
+        ) -> void
+
+        def to_hash: -> {
+          cursor: String,
+          limit: Integer,
+          request_options: ContextDev::RequestOptions
+        }
+      end
+    end
+  end
+end

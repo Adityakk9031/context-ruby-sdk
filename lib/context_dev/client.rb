@@ -55,6 +55,9 @@ module ContextDev
     # @return [ContextDev::Resources::Logs]
     attr_reader :logs
 
+    # @return [ContextDev::Resources::Browser]
+    attr_reader :browser
+
     # Report API issues and documentation mismatches.
     # @return [ContextDev::Resources::Feedback]
     attr_reader :feedback
@@ -131,6 +134,7 @@ module ContextDev
       @people = ContextDev::Resources::People.new(client: self)
       @news = ContextDev::Resources::News.new(client: self)
       @logs = ContextDev::Resources::Logs.new(client: self)
+      @browser = ContextDev::Resources::Browser.new(client: self)
       @feedback = ContextDev::Resources::Feedback.new(client: self)
     end
   end

@@ -1,0 +1,15 @@
+module ContextDev
+  module Resources
+    class Browser
+      class Profiles
+        def list: (
+          ?cursor: String,
+          ?limit: Integer,
+          ?request_options: ContextDev::request_opts
+        ) -> ContextDev::Models::Browser::ProfileListResponse
+
+        def initialize: (client: ContextDev::Client) -> void
+      end
+    end
+  end
+end

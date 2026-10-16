@@ -1,0 +1,9 @@
+module ContextDev
+  module Resources
+    class Browser
+      attr_reader profiles: ContextDev::Resources::Browser::Profiles
+
+      def initialize: (client: ContextDev::Client) -> void
+    end
+  end
+end

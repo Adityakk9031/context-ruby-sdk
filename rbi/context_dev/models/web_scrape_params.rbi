@@ -2400,6 +2400,13 @@ module ContextDev
             sig { returns(Symbol) }
             attr_accessor :type
 
+            # Optional label shown when listing profiles with `GET /org/browser/profiles`.
+            sig { returns(T.nilable(String)) }
+            attr_reader :description
+
+            sig { params(description: String).void }
+            attr_writer :description
+
             # Password used to sign in. It is never stored in the profile.
             sig { returns(String) }
             attr_accessor :password
@@ -2408,6 +2415,7 @@ module ContextDev
               params(
                 identifier: String,
                 password: String,
+                description: String,
                 type: Symbol
               ).returns(T.attached_class)
             end
@@ -2416,6 +2424,8 @@ module ContextDev
               identifier:,
               # Password used to sign in. It is never stored in the profile.
               password:,
+              # Optional label shown when listing profiles with `GET /org/browser/profiles`.
+              description: nil,
               # Sign in and create a browser profile.
               type: :new
             )
@@ -2423,7 +2433,12 @@ module ContextDev
 
             sig do
               override.returns(
-                { identifier: String, password: String, type: Symbol }
+                {
+                  identifier: String,
+                  password: String,
+                  type: Symbol,
+                  description: String
+                }
               )
             end
             def to_hash

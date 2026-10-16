@@ -1,0 +1,83 @@
+module ContextDev
+  module Models
+    module Browser
+      type profile_list_response =
+        {
+          data: ::Array[ContextDev::Models::Browser::ProfileListResponse::Data],
+          has_more: bool,
+          next_cursor: String?,
+          request_id: String,
+          key_metadata: ContextDev::Models::Browser::ProfileListResponse::KeyMetadata
+        }
+
+      class ProfileListResponse < ContextDev::Internal::Type::BaseModel
+        attr_accessor data: ::Array[ContextDev::Models::Browser::ProfileListResponse::Data]
+
+        attr_accessor has_more: bool
+
+        attr_accessor next_cursor: String?
+
+        attr_accessor request_id: String
+
+        attr_reader key_metadata: ContextDev::Models::Browser::ProfileListResponse::KeyMetadata?
+
+        def key_metadata=: (
+          ContextDev::Models::Browser::ProfileListResponse::KeyMetadata
+        ) -> ContextDev::Models::Browser::ProfileListResponse::KeyMetadata
+
+        def initialize: (
+          data: ::Array[ContextDev::Models::Browser::ProfileListResponse::Data],
+          has_more: bool,
+          next_cursor: String?,
+          request_id: String,
+          ?key_metadata: ContextDev::Models::Browser::ProfileListResponse::KeyMetadata
+        ) -> void
+
+        def to_hash: -> {
+          data: ::Array[ContextDev::Models::Browser::ProfileListResponse::Data],
+          has_more: bool,
+          next_cursor: String?,
+          request_id: String,
+          key_metadata: ContextDev::Models::Browser::ProfileListResponse::KeyMetadata
+        }
+
+        type data = { id: String, created_at: Time, description: String? }
+
+        class Data < ContextDev::Internal::Type::BaseModel
+          attr_accessor id: String
+
+          attr_accessor created_at: Time
+
+          attr_accessor description: String?
+
+          def initialize: (
+            id: String,
+            created_at: Time,
+            description: String?
+          ) -> void
+
+          def to_hash: -> { id: String, created_at: Time, description: String? }
+        end
+
+        type key_metadata =
+          { credits_consumed: Integer, credits_remaining: Integer }
+
+        class KeyMetadata < ContextDev::Internal::Type::BaseModel
+          attr_accessor credits_consumed: Integer
+
+          attr_accessor credits_remaining: Integer
+
+          def initialize: (
+            credits_consumed: Integer,
+            credits_remaining: Integer
+          ) -> void
+
+          def to_hash: -> {
+            credits_consumed: Integer,
+            credits_remaining: Integer
+          }
+        end
+      end
+    end
+  end
+end

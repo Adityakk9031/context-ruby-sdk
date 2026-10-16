@@ -55,6 +55,8 @@ module ContextDev
 
   BrandSearchParams = ContextDev::Models::BrandSearchParams
 
+  Browser = ContextDev::Models::Browser
+
   CrawlControls = ContextDev::Models::CrawlControls
 
   Failure = ContextDev::Models::Failure

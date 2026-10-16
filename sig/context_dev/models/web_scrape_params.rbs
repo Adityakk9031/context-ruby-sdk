@@ -942,22 +942,38 @@ module ContextDev
             def to_hash: -> { profile_id: String, type: :existing }
           end
 
-          type new_ = { identifier: String, password: String, type: :new }
+          type new_ =
+            {
+              identifier: String,
+              password: String,
+              type: :new,
+              description: String
+            }
 
           class New < ContextDev::Internal::Type::BaseModel
             attr_accessor identifier: String
 
             attr_accessor type: :new
 
+            attr_reader description: String?
+
+            def description=: (String) -> String
+
             attr_accessor password: String
 
             def initialize: (
               identifier: String,
               password: String,
+              ?description: String,
               ?type: :new
             ) -> void
 
-            def to_hash: -> { identifier: String, password: String, type: :new }
+            def to_hash: -> {
+              identifier: String,
+              password: String,
+              type: :new,
+              description: String
+            }
           end
 
           def self?.variants: -> ::Array[ContextDev::Models::WebScrapeParams::SharedParams::profile]
