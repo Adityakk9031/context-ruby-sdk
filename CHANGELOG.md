@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.26.0](https://github.com/context-dot-dev/context-ruby-sdk/compare/v2.25.0...v2.26.0) (2026-10-16)
+
+
+### Features
+
+* **batch:** support Scrape Anything batches up to 100k URLs ([#1883](https://github.com/context-dot-dev/context-ruby-sdk/issues/1883)) ([62b6243](https://github.com/context-dot-dev/context-ruby-sdk/commit/62b6243416f358c3e8c03f21137b7dc98feb5891))
+* **scrape:** add App Store app and reviews prebuilt parsers ([#1859](https://github.com/context-dot-dev/context-ruby-sdk/issues/1859)) ([05ba8de](https://github.com/context-dot-dev/context-ruby-sdk/commit/05ba8deca58f3565031391ac223f935f75c51036))
+* **scrape:** add emails prebuilt parser ([#1862](https://github.com/context-dot-dev/context-ruby-sdk/issues/1862)) ([05ba8de](https://github.com/context-dot-dev/context-ruby-sdk/commit/05ba8deca58f3565031391ac223f935f75c51036))
+* **scrape:** add Google Play app and reviews prebuilt parsers ([#1857](https://github.com/context-dot-dev/context-ruby-sdk/issues/1857)) ([05ba8de](https://github.com/context-dot-dev/context-ruby-sdk/commit/05ba8deca58f3565031391ac223f935f75c51036))
+* **scrape:** add links prebuilt parser ([#1865](https://github.com/context-dot-dev/context-ruby-sdk/issues/1865)) ([05ba8de](https://github.com/context-dot-dev/context-ruby-sdk/commit/05ba8deca58f3565031391ac223f935f75c51036))
+* **scrape:** add phone-numbers prebuilt parser ([#1863](https://github.com/context-dot-dev/context-ruby-sdk/issues/1863)) ([05ba8de](https://github.com/context-dot-dev/context-ruby-sdk/commit/05ba8deca58f3565031391ac223f935f75c51036))
+* **scrape:** list browser profiles and label them with descriptions ([#1914](https://github.com/context-dot-dev/context-ruby-sdk/issues/1914)) ([8527500](https://github.com/context-dot-dev/context-ruby-sdk/commit/8527500d29ab22f0cdaf673b1483bf21a1c14046))
+* **search:** allow requesting a single result ([#1880](https://github.com/context-dot-dev/context-ruby-sdk/issues/1880)) ([3b9e0b1](https://github.com/context-dot-dev/context-ruby-sdk/commit/3b9e0b1c3276ae39d2c79fe387b2a92b45832d44))
+
 ## [2.25.0](https://github.com/context-dot-dev/context-ruby-sdk/compare/v2.24.0...v2.25.0) (2026-10-14)
 
 
