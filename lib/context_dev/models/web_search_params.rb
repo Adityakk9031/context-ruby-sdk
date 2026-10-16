@@ -57,6 +57,13 @@ module ContextDev
       #   @return [Array<String>, nil]
       optional :include_domains, ContextDev::Internal::Type::ArrayOf[String], api_name: :includeDomains
 
+      # @!attribute languages
+      #   Languages to return results in, as BCP 47 language codes such as `en` or `de`,
+      #   or "all" for any language. Defaults to "all". Example: ["en", "de"].
+      #
+      #   @return [Symbol, Array<Symbol, ContextDev::Models::WebSearchParams::Languages::UnionMember1>, ContextDev::Models::WebSearchParams::Languages, nil]
+      optional :languages, union: -> { ContextDev::WebSearchParams::Languages }
+
       # @!attribute markdown_options
       #   Inline Markdown scraping for each result. Set `enabled: true` to activate.
       #
@@ -97,7 +104,7 @@ module ContextDev
       #   @return [Symbol, ContextDev::Models::WebSearchParams::Zdr, nil]
       optional :zdr, enum: -> { ContextDev::WebSearchParams::Zdr }
 
-      # @!method initialize(query:, country: nil, description_max_characters: nil, exclude_domains: nil, freshness: nil, highlights_options: nil, include_domains: nil, markdown_options: nil, num_results: nil, query_fanout: nil, tags: nil, timeout_opts: nil, zdr: nil, request_options: {})
+      # @!method initialize(query:, country: nil, description_max_characters: nil, exclude_domains: nil, freshness: nil, highlights_options: nil, include_domains: nil, languages: nil, markdown_options: nil, num_results: nil, query_fanout: nil, tags: nil, timeout_opts: nil, zdr: nil, request_options: {})
       #   Some parameter documentations has been truncated, see
       #   {ContextDev::Models::WebSearchParams} for more details.
       #
@@ -114,6 +121,8 @@ module ContextDev
       #   @param highlights_options [ContextDev::Models::WebSearchParams::HighlightsOptions, nil] Passages from each result page that are relevant to the query. Pages are read wi
       #
       #   @param include_domains [Array<String>] Allowlist — only return results from these domains. Up to 100 domains. Example:
+      #
+      #   @param languages [Symbol, Array<Symbol, ContextDev::Models::WebSearchParams::Languages::UnionMember1>, ContextDev::Models::WebSearchParams::Languages] Languages to return results in, as BCP 47 language codes such as `en` or `de`, o
       #
       #   @param markdown_options [ContextDev::Models::WebSearchParams::MarkdownOptions, nil] Inline Markdown scraping for each result. Set `enabled: true` to activate.
       #
@@ -411,6 +420,122 @@ module ContextDev
         #   @param enabled [Boolean] Return relevant passages for each result. Adds 1 credit per 10 results.
         #
         #   @param max_characters [Integer] Maximum combined length of passages per result.
+      end
+
+      # Languages to return results in, as BCP 47 language codes such as `en` or `de`,
+      # or "all" for any language. Defaults to "all". Example: ["en", "de"].
+      module Languages
+        extend ContextDev::Internal::Type::Union
+
+        variant const: -> { ContextDev::Models::WebSearchParams::Languages::ALL }
+
+        variant -> { ContextDev::Models::WebSearchParams::Languages::UnionMember1Array }
+
+        module UnionMember1
+          extend ContextDev::Internal::Type::Enum
+
+          AM = :am
+          AR = :ar
+          AZ = :az
+          BE = :be
+          BG = :bg
+          BN = :bn
+          CA = :ca
+          CEB = :ceb
+          CS = :cs
+          CY = :cy
+          DA = :da
+          DE = :de
+          EL = :el
+          EN = :en
+          ES = :es
+          ET = :et
+          EU = :eu
+          FA = :fa
+          FI = :fi
+          FR = :fr
+          GU = :gu
+          HA = :ha
+          HAW = :haw
+          HE = :he
+          HI = :hi
+          HR = :hr
+          HU = :hu
+          HY = :hy
+          ID = :id
+          IS = :is
+          IT = :it
+          JA = :ja
+          KA = :ka
+          KK = :kk
+          KN = :kn
+          KO = :ko
+          KU = :ku
+          KY = :ky
+          LO = :lo
+          LT = :lt
+          LV = :lv
+          MK = :mk
+          ML = :ml
+          MN = :mn
+          MR = :mr
+          MS = :ms
+          NE = :ne
+          NL = :nl
+          NO = :no
+          OR = :or
+          PA = :pa
+          PL = :pl
+          PS = :ps
+          PT = :pt
+          RO = :ro
+          RU = :ru
+          SK = :sk
+          SL = :sl
+          SO = :so
+          SQ = :sq
+          SR = :sr
+          SV = :sv
+          SW = :sw
+          TA = :ta
+          TE = :te
+          TH = :th
+          TL = :tl
+          TR = :tr
+          UK = :uk
+          UR = :ur
+          UZ = :uz
+          VI = :vi
+          YO = :yo
+          ZH = :zh
+
+          # @!method self.values
+          #   @return [Array<Symbol>]
+        end
+
+        # @!method self.variants
+        #   @return [Array(Symbol, Array<Symbol, ContextDev::Models::WebSearchParams::Languages::UnionMember1>)]
+
+        define_sorbet_constant!(:Variants) do
+          T.type_alias do
+            T.any(
+              ContextDev::WebSearchParams::Languages::TaggedSymbol,
+              T::Array[ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol]
+            )
+          end
+        end
+
+        # @!group
+
+        ALL = :all
+
+        # @!endgroup
+
+        # @type [ContextDev::Internal::Type::Converter]
+        UnionMember1Array =
+          ContextDev::Internal::Type::ArrayOf[enum: -> {
+            ContextDev::WebSearchParams::Languages::UnionMember1
+          }]
       end
 
       class MarkdownOptions < ContextDev::Internal::Type::BaseModel

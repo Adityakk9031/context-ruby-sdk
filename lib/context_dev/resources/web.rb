@@ -292,7 +292,7 @@ module ContextDev
       # Search the web and optionally return page content or relevant passages with each
       # result.
       #
-      # @overload search(query:, country: nil, description_max_characters: nil, exclude_domains: nil, freshness: nil, highlights_options: nil, include_domains: nil, markdown_options: nil, num_results: nil, query_fanout: nil, tags: nil, timeout_opts: nil, zdr: nil, request_options: {})
+      # @overload search(query:, country: nil, description_max_characters: nil, exclude_domains: nil, freshness: nil, highlights_options: nil, include_domains: nil, languages: nil, markdown_options: nil, num_results: nil, query_fanout: nil, tags: nil, timeout_opts: nil, zdr: nil, request_options: {})
       #
       # @param query [String] Search query. Accepts natural language as well as Google-style search operators
       #
@@ -307,6 +307,8 @@ module ContextDev
       # @param highlights_options [ContextDev::Models::WebSearchParams::HighlightsOptions, nil] Passages from each result page that are relevant to the query. Pages are read wi
       #
       # @param include_domains [Array<String>] Allowlist — only return results from these domains. Up to 100 domains. Example:
+      #
+      # @param languages [Symbol, Array<Symbol, ContextDev::Models::WebSearchParams::Languages::UnionMember1>, ContextDev::Models::WebSearchParams::Languages] Languages to return results in, as BCP 47 language codes such as `en` or `de`, o
       #
       # @param markdown_options [ContextDev::Models::WebSearchParams::MarkdownOptions, nil] Inline Markdown scraping for each result. Set `enabled: true` to activate.
       #

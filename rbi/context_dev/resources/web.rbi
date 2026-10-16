@@ -320,6 +320,13 @@ module ContextDev
           highlights_options:
             T.nilable(ContextDev::WebSearchParams::HighlightsOptions::OrHash),
           include_domains: T::Array[String],
+          languages:
+            T.any(
+              ContextDev::WebSearchParams::Languages::OrSymbol,
+              T::Array[
+                ContextDev::WebSearchParams::Languages::UnionMember1::OrSymbol
+              ]
+            ),
           markdown_options:
             T.nilable(ContextDev::WebSearchParams::MarkdownOptions::OrHash),
           num_results: Integer,
@@ -350,6 +357,9 @@ module ContextDev
         # Allowlist — only return results from these domains. Up to 100 domains. Example:
         # ["arxiv.org", "github.com"].
         include_domains: nil,
+        # Languages to return results in, as BCP 47 language codes such as `en` or `de`,
+        # or "all" for any language. Defaults to "all". Example: ["en", "de"].
+        languages: nil,
         # Inline Markdown scraping for each result. Set `enabled: true` to activate.
         markdown_options: nil,
         # Number of results to request and return (1–100). Defaults to 10.

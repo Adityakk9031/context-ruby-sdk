@@ -934,14 +934,69 @@ module ContextDev
             end
           OrSymbol = T.type_alias { T.any(Symbol, String) }
 
+          AM =
+            T.let(
+              :am,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
           AR =
             T.let(
               :ar,
               ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
             )
+          AZ =
+            T.let(
+              :az,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          BE =
+            T.let(
+              :be,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          BG =
+            T.let(
+              :bg,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          BN =
+            T.let(
+              :bn,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          CA =
+            T.let(
+              :ca,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          CEB =
+            T.let(
+              :ceb,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          CS =
+            T.let(
+              :cs,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          CY =
+            T.let(
+              :cy,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          DA =
+            T.let(
+              :da,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
           DE =
             T.let(
               :de,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          EL =
+            T.let(
+              :el,
               ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
             )
           EN =
@@ -954,14 +1009,79 @@ module ContextDev
               :es,
               ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
             )
+          ET =
+            T.let(
+              :et,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          EU =
+            T.let(
+              :eu,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          FA =
+            T.let(
+              :fa,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          FI =
+            T.let(
+              :fi,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
           FR =
             T.let(
               :fr,
               ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
             )
+          GU =
+            T.let(
+              :gu,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          HA =
+            T.let(
+              :ha,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          HAW =
+            T.let(
+              :haw,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          HE =
+            T.let(
+              :he,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
           HI =
             T.let(
               :hi,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          HR =
+            T.let(
+              :hr,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          HU =
+            T.let(
+              :hu,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          HY =
+            T.let(
+              :hy,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          ID =
+            T.let(
+              :id,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          IS =
+            T.let(
+              :is,
               ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
             )
           IT =
@@ -974,9 +1094,79 @@ module ContextDev
               :ja,
               ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
             )
+          KA =
+            T.let(
+              :ka,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          KK =
+            T.let(
+              :kk,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          KN =
+            T.let(
+              :kn,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
           KO =
             T.let(
               :ko,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          KU =
+            T.let(
+              :ku,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          KY =
+            T.let(
+              :ky,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          LO =
+            T.let(
+              :lo,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          LT =
+            T.let(
+              :lt,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          LV =
+            T.let(
+              :lv,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          MK =
+            T.let(
+              :mk,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          ML =
+            T.let(
+              :ml,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          MN =
+            T.let(
+              :mn,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          MR =
+            T.let(
+              :mr,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          MS =
+            T.let(
+              :ms,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          NE =
+            T.let(
+              :ne,
               ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
             )
           NL =
@@ -984,14 +1174,129 @@ module ContextDev
               :nl,
               ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
             )
+          NO =
+            T.let(
+              :no,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          OR =
+            T.let(
+              :or,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          PA =
+            T.let(
+              :pa,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          PL =
+            T.let(
+              :pl,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          PS =
+            T.let(
+              :ps,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
           PT =
             T.let(
               :pt,
               ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
             )
+          RO =
+            T.let(
+              :ro,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
           RU =
             T.let(
               :ru,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          SK =
+            T.let(
+              :sk,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          SL =
+            T.let(
+              :sl,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          SO =
+            T.let(
+              :so,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          SQ =
+            T.let(
+              :sq,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          SR =
+            T.let(
+              :sr,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          SV =
+            T.let(
+              :sv,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          SW =
+            T.let(
+              :sw,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          TA =
+            T.let(
+              :ta,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          TE =
+            T.let(
+              :te,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          TH =
+            T.let(
+              :th,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          TL =
+            T.let(
+              :tl,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          TR =
+            T.let(
+              :tr,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          UK =
+            T.let(
+              :uk,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          UR =
+            T.let(
+              :ur,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          UZ =
+            T.let(
+              :uz,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          VI =
+            T.let(
+              :vi,
+              ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
+            )
+          YO =
+            T.let(
+              :yo,
               ContextDev::NewsSearchParams::FilterBy::ArticleLanguage::TaggedSymbol
             )
           ZH =

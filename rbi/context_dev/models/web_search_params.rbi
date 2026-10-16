@@ -70,6 +70,35 @@ module ContextDev
       sig { params(include_domains: T::Array[String]).void }
       attr_writer :include_domains
 
+      # Languages to return results in, as BCP 47 language codes such as `en` or `de`,
+      # or "all" for any language. Defaults to "all". Example: ["en", "de"].
+      sig do
+        returns(
+          T.nilable(
+            T.any(
+              ContextDev::WebSearchParams::Languages::OrSymbol,
+              T::Array[
+                ContextDev::WebSearchParams::Languages::UnionMember1::OrSymbol
+              ]
+            )
+          )
+        )
+      end
+      attr_reader :languages
+
+      sig do
+        params(
+          languages:
+            T.any(
+              ContextDev::WebSearchParams::Languages::OrSymbol,
+              T::Array[
+                ContextDev::WebSearchParams::Languages::UnionMember1::OrSymbol
+              ]
+            )
+        ).void
+      end
+      attr_writer :languages
+
       # Inline Markdown scraping for each result. Set `enabled: true` to activate.
       sig { returns(T.nilable(ContextDev::WebSearchParams::MarkdownOptions)) }
       attr_reader :markdown_options
@@ -132,6 +161,13 @@ module ContextDev
           highlights_options:
             T.nilable(ContextDev::WebSearchParams::HighlightsOptions::OrHash),
           include_domains: T::Array[String],
+          languages:
+            T.any(
+              ContextDev::WebSearchParams::Languages::OrSymbol,
+              T::Array[
+                ContextDev::WebSearchParams::Languages::UnionMember1::OrSymbol
+              ]
+            ),
           markdown_options:
             T.nilable(ContextDev::WebSearchParams::MarkdownOptions::OrHash),
           num_results: Integer,
@@ -162,6 +198,9 @@ module ContextDev
         # Allowlist — only return results from these domains. Up to 100 domains. Example:
         # ["arxiv.org", "github.com"].
         include_domains: nil,
+        # Languages to return results in, as BCP 47 language codes such as `en` or `de`,
+        # or "all" for any language. Defaults to "all". Example: ["en", "de"].
+        languages: nil,
         # Inline Markdown scraping for each result. Set `enabled: true` to activate.
         markdown_options: nil,
         # Number of results to request and return (1–100). Defaults to 10.
@@ -190,6 +229,13 @@ module ContextDev
             highlights_options:
               T.nilable(ContextDev::WebSearchParams::HighlightsOptions),
             include_domains: T::Array[String],
+            languages:
+              T.any(
+                ContextDev::WebSearchParams::Languages::OrSymbol,
+                T::Array[
+                  ContextDev::WebSearchParams::Languages::UnionMember1::OrSymbol
+                ]
+              ),
             markdown_options:
               T.nilable(ContextDev::WebSearchParams::MarkdownOptions),
             num_results: Integer,
@@ -543,6 +589,438 @@ module ContextDev
         end
         def to_hash
         end
+      end
+
+      # Languages to return results in, as BCP 47 language codes such as `en` or `de`,
+      # or "all" for any language. Defaults to "all". Example: ["en", "de"].
+      module Languages
+        extend ContextDev::Internal::Type::Union
+
+        Variants =
+          T.type_alias do
+            T.any(
+              ContextDev::WebSearchParams::Languages::TaggedSymbol,
+              T::Array[
+                ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+              ]
+            )
+          end
+
+        module UnionMember1
+          extend ContextDev::Internal::Type::Enum
+
+          TaggedSymbol =
+            T.type_alias do
+              T.all(
+                Symbol,
+                ContextDev::WebSearchParams::Languages::UnionMember1
+              )
+            end
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          AM =
+            T.let(
+              :am,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          AR =
+            T.let(
+              :ar,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          AZ =
+            T.let(
+              :az,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          BE =
+            T.let(
+              :be,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          BG =
+            T.let(
+              :bg,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          BN =
+            T.let(
+              :bn,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          CA =
+            T.let(
+              :ca,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          CEB =
+            T.let(
+              :ceb,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          CS =
+            T.let(
+              :cs,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          CY =
+            T.let(
+              :cy,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          DA =
+            T.let(
+              :da,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          DE =
+            T.let(
+              :de,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          EL =
+            T.let(
+              :el,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          EN =
+            T.let(
+              :en,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          ES =
+            T.let(
+              :es,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          ET =
+            T.let(
+              :et,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          EU =
+            T.let(
+              :eu,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          FA =
+            T.let(
+              :fa,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          FI =
+            T.let(
+              :fi,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          FR =
+            T.let(
+              :fr,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          GU =
+            T.let(
+              :gu,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          HA =
+            T.let(
+              :ha,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          HAW =
+            T.let(
+              :haw,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          HE =
+            T.let(
+              :he,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          HI =
+            T.let(
+              :hi,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          HR =
+            T.let(
+              :hr,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          HU =
+            T.let(
+              :hu,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          HY =
+            T.let(
+              :hy,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          ID =
+            T.let(
+              :id,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          IS =
+            T.let(
+              :is,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          IT =
+            T.let(
+              :it,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          JA =
+            T.let(
+              :ja,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          KA =
+            T.let(
+              :ka,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          KK =
+            T.let(
+              :kk,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          KN =
+            T.let(
+              :kn,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          KO =
+            T.let(
+              :ko,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          KU =
+            T.let(
+              :ku,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          KY =
+            T.let(
+              :ky,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          LO =
+            T.let(
+              :lo,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          LT =
+            T.let(
+              :lt,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          LV =
+            T.let(
+              :lv,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          MK =
+            T.let(
+              :mk,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          ML =
+            T.let(
+              :ml,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          MN =
+            T.let(
+              :mn,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          MR =
+            T.let(
+              :mr,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          MS =
+            T.let(
+              :ms,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          NE =
+            T.let(
+              :ne,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          NL =
+            T.let(
+              :nl,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          NO =
+            T.let(
+              :no,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          OR =
+            T.let(
+              :or,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          PA =
+            T.let(
+              :pa,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          PL =
+            T.let(
+              :pl,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          PS =
+            T.let(
+              :ps,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          PT =
+            T.let(
+              :pt,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          RO =
+            T.let(
+              :ro,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          RU =
+            T.let(
+              :ru,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          SK =
+            T.let(
+              :sk,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          SL =
+            T.let(
+              :sl,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          SO =
+            T.let(
+              :so,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          SQ =
+            T.let(
+              :sq,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          SR =
+            T.let(
+              :sr,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          SV =
+            T.let(
+              :sv,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          SW =
+            T.let(
+              :sw,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          TA =
+            T.let(
+              :ta,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          TE =
+            T.let(
+              :te,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          TH =
+            T.let(
+              :th,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          TL =
+            T.let(
+              :tl,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          TR =
+            T.let(
+              :tr,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          UK =
+            T.let(
+              :uk,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          UR =
+            T.let(
+              :ur,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          UZ =
+            T.let(
+              :uz,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          VI =
+            T.let(
+              :vi,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          YO =
+            T.let(
+              :yo,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+          ZH =
+            T.let(
+              :zh,
+              ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+            )
+
+          sig do
+            override.returns(
+              T::Array[
+                ContextDev::WebSearchParams::Languages::UnionMember1::TaggedSymbol
+              ]
+            )
+          end
+          def self.values
+          end
+        end
+
+        sig do
+          override.returns(
+            T::Array[ContextDev::WebSearchParams::Languages::Variants]
+          )
+        end
+        def self.variants
+        end
+
+        TaggedSymbol =
+          T.type_alias { T.all(Symbol, ContextDev::WebSearchParams::Languages) }
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        ALL = T.let(:all, ContextDev::WebSearchParams::Languages::TaggedSymbol)
+
+        UnionMember1Array =
+          T.let(
+            ContextDev::Internal::Type::ArrayOf[
+              enum: ContextDev::WebSearchParams::Languages::UnionMember1
+            ],
+            ContextDev::Internal::Type::Converter
+          )
       end
 
       class MarkdownOptions < ContextDev::Internal::Type::BaseModel

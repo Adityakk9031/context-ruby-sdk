@@ -91,6 +91,7 @@ module ContextDev
         ?freshness: ContextDev::Models::WebSearchParams::freshness,
         ?highlights_options: ContextDev::WebSearchParams::HighlightsOptions?,
         ?include_domains: ::Array[String],
+        ?languages: ContextDev::Models::WebSearchParams::languages,
         ?markdown_options: ContextDev::WebSearchParams::MarkdownOptions?,
         ?num_results: Integer,
         ?query_fanout: bool,

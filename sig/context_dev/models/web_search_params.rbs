@@ -9,6 +9,7 @@ module ContextDev
         freshness: ContextDev::Models::WebSearchParams::freshness,
         highlights_options: ContextDev::WebSearchParams::HighlightsOptions?,
         include_domains: ::Array[String],
+        languages: ContextDev::Models::WebSearchParams::languages,
         markdown_options: ContextDev::WebSearchParams::MarkdownOptions?,
         num_results: Integer,
         query_fanout: bool,
@@ -48,6 +49,12 @@ module ContextDev
 
       def include_domains=: (::Array[String]) -> ::Array[String]
 
+      attr_reader languages: ContextDev::Models::WebSearchParams::languages?
+
+      def languages=: (
+        ContextDev::Models::WebSearchParams::languages
+      ) -> ContextDev::Models::WebSearchParams::languages
+
       attr_accessor markdown_options: ContextDev::WebSearchParams::MarkdownOptions?
 
       attr_reader num_results: Integer?
@@ -82,6 +89,7 @@ module ContextDev
         ?freshness: ContextDev::Models::WebSearchParams::freshness,
         ?highlights_options: ContextDev::WebSearchParams::HighlightsOptions?,
         ?include_domains: ::Array[String],
+        ?languages: ContextDev::Models::WebSearchParams::languages,
         ?markdown_options: ContextDev::WebSearchParams::MarkdownOptions?,
         ?num_results: Integer,
         ?query_fanout: bool,
@@ -99,6 +107,7 @@ module ContextDev
         freshness: ContextDev::Models::WebSearchParams::freshness,
         highlights_options: ContextDev::WebSearchParams::HighlightsOptions?,
         include_domains: ::Array[String],
+        languages: ContextDev::Models::WebSearchParams::languages,
         markdown_options: ContextDev::WebSearchParams::MarkdownOptions?,
         num_results: Integer,
         query_fanout: bool,
@@ -622,6 +631,177 @@ module ContextDev
         def initialize: (?enabled: bool, ?max_characters: Integer) -> void
 
         def to_hash: -> { enabled: bool, max_characters: Integer }
+      end
+
+      type languages =
+        :all
+        | ::Array[ContextDev::Models::WebSearchParams::Languages::union_member1]
+
+      module Languages
+        extend ContextDev::Internal::Type::Union
+
+        type union_member1 =
+          :am
+          | :ar
+          | :az
+          | :be
+          | :bg
+          | :bn
+          | :ca
+          | :ceb
+          | :cs
+          | :cy
+          | :da
+          | :de
+          | :el
+          | :en
+          | :es
+          | :et
+          | :eu
+          | :fa
+          | :fi
+          | :fr
+          | :gu
+          | :ha
+          | :haw
+          | :he
+          | :hi
+          | :hr
+          | :hu
+          | :hy
+          | :id
+          | :is
+          | :it
+          | :ja
+          | :ka
+          | :kk
+          | :kn
+          | :ko
+          | :ku
+          | :ky
+          | :lo
+          | :lt
+          | :lv
+          | :mk
+          | :ml
+          | :mn
+          | :mr
+          | :ms
+          | :ne
+          | :nl
+          | :no
+          | :or
+          | :pa
+          | :pl
+          | :ps
+          | :pt
+          | :ro
+          | :ru
+          | :sk
+          | :sl
+          | :so
+          | :sq
+          | :sr
+          | :sv
+          | :sw
+          | :ta
+          | :te
+          | :th
+          | :tl
+          | :tr
+          | :uk
+          | :ur
+          | :uz
+          | :vi
+          | :yo
+          | :zh
+
+        module UnionMember1
+          extend ContextDev::Internal::Type::Enum
+
+          AM: :am
+          AR: :ar
+          AZ: :az
+          BE: :be
+          BG: :bg
+          BN: :bn
+          CA: :ca
+          CEB: :ceb
+          CS: :cs
+          CY: :cy
+          DA: :da
+          DE: :de
+          EL: :el
+          EN: :en
+          ES: :es
+          ET: :et
+          EU: :eu
+          FA: :fa
+          FI: :fi
+          FR: :fr
+          GU: :gu
+          HA: :ha
+          HAW: :haw
+          HE: :he
+          HI: :hi
+          HR: :hr
+          HU: :hu
+          HY: :hy
+          ID: :id
+          IS: :is
+          IT: :it
+          JA: :ja
+          KA: :ka
+          KK: :kk
+          KN: :kn
+          KO: :ko
+          KU: :ku
+          KY: :ky
+          LO: :lo
+          LT: :lt
+          LV: :lv
+          MK: :mk
+          ML: :ml
+          MN: :mn
+          MR: :mr
+          MS: :ms
+          NE: :ne
+          NL: :nl
+          NO: :no
+          OR: :or
+          PA: :pa
+          PL: :pl
+          PS: :ps
+          PT: :pt
+          RO: :ro
+          RU: :ru
+          SK: :sk
+          SL: :sl
+          SO: :so
+          SQ: :sq
+          SR: :sr
+          SV: :sv
+          SW: :sw
+          TA: :ta
+          TE: :te
+          TH: :th
+          TL: :tl
+          TR: :tr
+          UK: :uk
+          UR: :ur
+          UZ: :uz
+          VI: :vi
+          YO: :yo
+          ZH: :zh
+
+          def self?.values: -> ::Array[ContextDev::Models::WebSearchParams::Languages::union_member1]
+        end
+
+        def self?.variants: -> ::Array[ContextDev::Models::WebSearchParams::languages]
+
+        ALL: :all
+
+        UnionMember1Array: ContextDev::Internal::Type::Converter
       end
 
       type markdown_options =
