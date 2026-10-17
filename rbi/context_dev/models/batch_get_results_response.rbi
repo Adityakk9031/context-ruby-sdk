@@ -382,10 +382,11 @@ module ContextDev
             # google-maps-reviews returns data.reviews, and the google-play parser returns one
             # app record as data, google-play-reviews returns data.reviews, app-store and
             # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
-            # for a G2 product, emails, phone-numbers, and links return data.emails,
-            # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
-            # G2 parsers read their data directly, independently of DOM filters and other
-            # outputs.
+            # for a G2 product, instagram-profile and instagram-post return one record as
+            # data, instagram-feed returns data.posts, emails, phone-numbers, and links return
+            # data.emails, data.phone_numbers, and data.links from the rendered page; the
+            # store, Maps, G2, and Instagram parsers read their data directly, independently
+            # of DOM filters and other outputs.
             sig do
               returns(
                 ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed
@@ -561,10 +562,11 @@ module ContextDev
               # google-maps-reviews returns data.reviews, and the google-play parser returns one
               # app record as data, google-play-reviews returns data.reviews, app-store and
               # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
-              # for a G2 product, emails, phone-numbers, and links return data.emails,
-              # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
-              # G2 parsers read their data directly, independently of DOM filters and other
-              # outputs.
+              # for a G2 product, instagram-profile and instagram-post return one record as
+              # data, instagram-feed returns data.posts, emails, phone-numbers, and links return
+              # data.emails, data.phone_numbers, and data.links from the rendered page; the
+              # store, Maps, G2, and Instagram parsers read their data directly, independently
+              # of DOM filters and other outputs.
               parsed:,
               # Product details found on the page.
               product:,
@@ -1992,10 +1994,11 @@ module ContextDev
               # google-maps-reviews returns data.reviews, and the google-play parser returns one
               # app record as data, google-play-reviews returns data.reviews, app-store and
               # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
-              # for a G2 product, emails, phone-numbers, and links return data.emails,
-              # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
-              # G2 parsers read their data directly, independently of DOM filters and other
-              # outputs.
+              # for a G2 product, instagram-profile and instagram-post return one record as
+              # data, instagram-feed returns data.posts, emails, phone-numbers, and links return
+              # data.emails, data.phone_numbers, and data.links from the rendered page; the
+              # store, Maps, G2, and Instagram parsers read their data directly, independently
+              # of DOM filters and other outputs.
               sig do
                 params(
                   data: T.nilable(T::Hash[Symbol, T.anything]),
@@ -2090,6 +2093,21 @@ module ContextDev
                 G2_REVIEWS =
                   T.let(
                     :"g2-reviews",
+                    ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::Type::TaggedSymbol
+                  )
+                INSTAGRAM_PROFILE =
+                  T.let(
+                    :"instagram-profile",
+                    ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::Type::TaggedSymbol
+                  )
+                INSTAGRAM_POST =
+                  T.let(
+                    :"instagram-post",
+                    ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::Type::TaggedSymbol
+                  )
+                INSTAGRAM_FEED =
+                  T.let(
+                    :"instagram-feed",
                     ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::Type::TaggedSymbol
                   )
                 EMAILS =
@@ -3027,10 +3045,11 @@ module ContextDev
             # google-maps-reviews returns data.reviews, and the google-play parser returns one
             # app record as data, google-play-reviews returns data.reviews, app-store and
             # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
-            # for a G2 product, emails, phone-numbers, and links return data.emails,
-            # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
-            # G2 parsers read their data directly, independently of DOM filters and other
-            # outputs.
+            # for a G2 product, instagram-profile and instagram-post return one record as
+            # data, instagram-feed returns data.posts, emails, phone-numbers, and links return
+            # data.emails, data.phone_numbers, and data.links from the rendered page; the
+            # store, Maps, G2, and Instagram parsers read their data directly, independently
+            # of DOM filters and other outputs.
             sig do
               returns(
                 ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed
@@ -3206,10 +3225,11 @@ module ContextDev
               # google-maps-reviews returns data.reviews, and the google-play parser returns one
               # app record as data, google-play-reviews returns data.reviews, app-store and
               # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
-              # for a G2 product, emails, phone-numbers, and links return data.emails,
-              # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
-              # G2 parsers read their data directly, independently of DOM filters and other
-              # outputs.
+              # for a G2 product, instagram-profile and instagram-post return one record as
+              # data, instagram-feed returns data.posts, emails, phone-numbers, and links return
+              # data.emails, data.phone_numbers, and data.links from the rendered page; the
+              # store, Maps, G2, and Instagram parsers read their data directly, independently
+              # of DOM filters and other outputs.
               parsed:,
               # Product details found on the page.
               product:,
@@ -4637,10 +4657,11 @@ module ContextDev
               # google-maps-reviews returns data.reviews, and the google-play parser returns one
               # app record as data, google-play-reviews returns data.reviews, app-store and
               # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
-              # for a G2 product, emails, phone-numbers, and links return data.emails,
-              # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
-              # G2 parsers read their data directly, independently of DOM filters and other
-              # outputs.
+              # for a G2 product, instagram-profile and instagram-post return one record as
+              # data, instagram-feed returns data.posts, emails, phone-numbers, and links return
+              # data.emails, data.phone_numbers, and data.links from the rendered page; the
+              # store, Maps, G2, and Instagram parsers read their data directly, independently
+              # of DOM filters and other outputs.
               sig do
                 params(
                   data: T.nilable(T::Hash[Symbol, T.anything]),
@@ -4735,6 +4756,21 @@ module ContextDev
                 G2_REVIEWS =
                   T.let(
                     :"g2-reviews",
+                    ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::Type::TaggedSymbol
+                  )
+                INSTAGRAM_PROFILE =
+                  T.let(
+                    :"instagram-profile",
+                    ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::Type::TaggedSymbol
+                  )
+                INSTAGRAM_POST =
+                  T.let(
+                    :"instagram-post",
+                    ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::Type::TaggedSymbol
+                  )
+                INSTAGRAM_FEED =
+                  T.let(
+                    :"instagram-feed",
                     ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::Type::TaggedSymbol
                   )
                 EMAILS =

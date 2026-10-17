@@ -1428,16 +1428,27 @@ module ContextDev
                 # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
                 # renamed products, and keeps star-rating filters from the URL
                 # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
-                # ignored. emails accepts any page and returns its email addresses as data.emails
-                # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
-                # visible text. phone-numbers accepts any page and returns its valid phone numbers
-                # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
-                # text; numbers without a country code are read for the country of the site TLD,
-                # defaulting to US. links accepts any page and returns its unique http(s) links as
-                # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
-                # or image alt and is null when a link has none. The emails parser reads the
-                # rendered page and respects content filters; the other prebuilt parsers read
-                # their data independently of DOM filters.
+                # ignored. instagram-profile parses a public profile (instagram.com/{username})
+                # into data: bio, links, follower and post counts, category, business address,
+                # similar_accounts, and latest_posts (the 12 newest). instagram-post parses a post
+                # or reel (/p/…, /reel/…) into data: caption, hashtags, mentions, like, comment,
+                # and view counts, media URLs, tagged users, collaborators, location, and the top
+                # ~14 comments in data.comments. instagram-feed returns the top posts for a
+                # hashtag or keyword (/explore/tags/…, /popular/…) or the recent posts at a
+                # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
+                # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
+                # it. All three Instagram parsers read public data without logging in, so private
+                # accounts return no posts and follower lists are unavailable. emails accepts any
+                # page and returns its email addresses as data.emails ([{ email }]), read from
+                # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
+                # accepts any page and returns its valid phone numbers in E.164 as
+                # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
+                # without a country code are read for the country of the site TLD, defaulting to
+                # US. links accepts any page and returns its unique http(s) links as data.links
+                # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
+                # alt and is null when a link has none. The emails parser reads the rendered page
+                # and respects content filters; the other prebuilt parsers read their data
+                # independently of DOM filters.
                 sig do
                   returns(
                     ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::OrSymbol
@@ -1513,16 +1524,27 @@ module ContextDev
                   # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
                   # renamed products, and keeps star-rating filters from the URL
                   # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
-                  # ignored. emails accepts any page and returns its email addresses as data.emails
-                  # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
-                  # visible text. phone-numbers accepts any page and returns its valid phone numbers
-                  # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
-                  # text; numbers without a country code are read for the country of the site TLD,
-                  # defaulting to US. links accepts any page and returns its unique http(s) links as
-                  # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
-                  # or image alt and is null when a link has none. The emails parser reads the
-                  # rendered page and respects content filters; the other prebuilt parsers read
-                  # their data independently of DOM filters.
+                  # ignored. instagram-profile parses a public profile (instagram.com/{username})
+                  # into data: bio, links, follower and post counts, category, business address,
+                  # similar_accounts, and latest_posts (the 12 newest). instagram-post parses a post
+                  # or reel (/p/…, /reel/…) into data: caption, hashtags, mentions, like, comment,
+                  # and view counts, media URLs, tagged users, collaborators, location, and the top
+                  # ~14 comments in data.comments. instagram-feed returns the top posts for a
+                  # hashtag or keyword (/explore/tags/…, /popular/…) or the recent posts at a
+                  # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
+                  # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
+                  # it. All three Instagram parsers read public data without logging in, so private
+                  # accounts return no posts and follower lists are unavailable. emails accepts any
+                  # page and returns its email addresses as data.emails ([{ email }]), read from
+                  # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
+                  # accepts any page and returns its valid phone numbers in E.164 as
+                  # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
+                  # without a country code are read for the country of the site TLD, defaulting to
+                  # US. links accepts any page and returns its unique http(s) links as data.links
+                  # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
+                  # alt and is null when a link has none. The emails parser reads the rendered page
+                  # and respects content filters; the other prebuilt parsers read their data
+                  # independently of DOM filters.
                   parser:,
                   # google-maps-reviews only. Maximum number of reviews to return. Defaults to 100;
                   # maximum 1000.
@@ -1576,16 +1598,27 @@ module ContextDev
                 # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
                 # renamed products, and keeps star-rating filters from the URL
                 # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
-                # ignored. emails accepts any page and returns its email addresses as data.emails
-                # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
-                # visible text. phone-numbers accepts any page and returns its valid phone numbers
-                # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
-                # text; numbers without a country code are read for the country of the site TLD,
-                # defaulting to US. links accepts any page and returns its unique http(s) links as
-                # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
-                # or image alt and is null when a link has none. The emails parser reads the
-                # rendered page and respects content filters; the other prebuilt parsers read
-                # their data independently of DOM filters.
+                # ignored. instagram-profile parses a public profile (instagram.com/{username})
+                # into data: bio, links, follower and post counts, category, business address,
+                # similar_accounts, and latest_posts (the 12 newest). instagram-post parses a post
+                # or reel (/p/…, /reel/…) into data: caption, hashtags, mentions, like, comment,
+                # and view counts, media URLs, tagged users, collaborators, location, and the top
+                # ~14 comments in data.comments. instagram-feed returns the top posts for a
+                # hashtag or keyword (/explore/tags/…, /popular/…) or the recent posts at a
+                # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
+                # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
+                # it. All three Instagram parsers read public data without logging in, so private
+                # accounts return no posts and follower lists are unavailable. emails accepts any
+                # page and returns its email addresses as data.emails ([{ email }]), read from
+                # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
+                # accepts any page and returns its valid phone numbers in E.164 as
+                # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
+                # without a country code are read for the country of the site TLD, defaulting to
+                # US. links accepts any page and returns its unique http(s) links as data.links
+                # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
+                # alt and is null when a link has none. The emails parser reads the rendered page
+                # and respects content filters; the other prebuilt parsers read their data
+                # independently of DOM filters.
                 module Parser
                   extend ContextDev::Internal::Type::Enum
 
@@ -1631,6 +1664,21 @@ module ContextDev
                   G2_REVIEWS =
                     T.let(
                       :"g2-reviews",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  INSTAGRAM_PROFILE =
+                    T.let(
+                      :"instagram-profile",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  INSTAGRAM_POST =
+                    T.let(
+                      :"instagram-post",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  INSTAGRAM_FEED =
+                    T.let(
+                      :"instagram-feed",
                       ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
                     )
                   EMAILS =
@@ -4737,16 +4785,27 @@ module ContextDev
                 # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
                 # renamed products, and keeps star-rating filters from the URL
                 # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
-                # ignored. emails accepts any page and returns its email addresses as data.emails
-                # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
-                # visible text. phone-numbers accepts any page and returns its valid phone numbers
-                # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
-                # text; numbers without a country code are read for the country of the site TLD,
-                # defaulting to US. links accepts any page and returns its unique http(s) links as
-                # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
-                # or image alt and is null when a link has none. The emails parser reads the
-                # rendered page and respects content filters; the other prebuilt parsers read
-                # their data independently of DOM filters.
+                # ignored. instagram-profile parses a public profile (instagram.com/{username})
+                # into data: bio, links, follower and post counts, category, business address,
+                # similar_accounts, and latest_posts (the 12 newest). instagram-post parses a post
+                # or reel (/p/…, /reel/…) into data: caption, hashtags, mentions, like, comment,
+                # and view counts, media URLs, tagged users, collaborators, location, and the top
+                # ~14 comments in data.comments. instagram-feed returns the top posts for a
+                # hashtag or keyword (/explore/tags/…, /popular/…) or the recent posts at a
+                # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
+                # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
+                # it. All three Instagram parsers read public data without logging in, so private
+                # accounts return no posts and follower lists are unavailable. emails accepts any
+                # page and returns its email addresses as data.emails ([{ email }]), read from
+                # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
+                # accepts any page and returns its valid phone numbers in E.164 as
+                # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
+                # without a country code are read for the country of the site TLD, defaulting to
+                # US. links accepts any page and returns its unique http(s) links as data.links
+                # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
+                # alt and is null when a link has none. The emails parser reads the rendered page
+                # and respects content filters; the other prebuilt parsers read their data
+                # independently of DOM filters.
                 sig do
                   returns(
                     ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::OrSymbol
@@ -4822,16 +4881,27 @@ module ContextDev
                   # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
                   # renamed products, and keeps star-rating filters from the URL
                   # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
-                  # ignored. emails accepts any page and returns its email addresses as data.emails
-                  # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
-                  # visible text. phone-numbers accepts any page and returns its valid phone numbers
-                  # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
-                  # text; numbers without a country code are read for the country of the site TLD,
-                  # defaulting to US. links accepts any page and returns its unique http(s) links as
-                  # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
-                  # or image alt and is null when a link has none. The emails parser reads the
-                  # rendered page and respects content filters; the other prebuilt parsers read
-                  # their data independently of DOM filters.
+                  # ignored. instagram-profile parses a public profile (instagram.com/{username})
+                  # into data: bio, links, follower and post counts, category, business address,
+                  # similar_accounts, and latest_posts (the 12 newest). instagram-post parses a post
+                  # or reel (/p/…, /reel/…) into data: caption, hashtags, mentions, like, comment,
+                  # and view counts, media URLs, tagged users, collaborators, location, and the top
+                  # ~14 comments in data.comments. instagram-feed returns the top posts for a
+                  # hashtag or keyword (/explore/tags/…, /popular/…) or the recent posts at a
+                  # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
+                  # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
+                  # it. All three Instagram parsers read public data without logging in, so private
+                  # accounts return no posts and follower lists are unavailable. emails accepts any
+                  # page and returns its email addresses as data.emails ([{ email }]), read from
+                  # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
+                  # accepts any page and returns its valid phone numbers in E.164 as
+                  # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
+                  # without a country code are read for the country of the site TLD, defaulting to
+                  # US. links accepts any page and returns its unique http(s) links as data.links
+                  # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
+                  # alt and is null when a link has none. The emails parser reads the rendered page
+                  # and respects content filters; the other prebuilt parsers read their data
+                  # independently of DOM filters.
                   parser:,
                   # google-maps-reviews only. Maximum number of reviews to return. Defaults to 100;
                   # maximum 1000.
@@ -4885,16 +4955,27 @@ module ContextDev
                 # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
                 # renamed products, and keeps star-rating filters from the URL
                 # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
-                # ignored. emails accepts any page and returns its email addresses as data.emails
-                # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
-                # visible text. phone-numbers accepts any page and returns its valid phone numbers
-                # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
-                # text; numbers without a country code are read for the country of the site TLD,
-                # defaulting to US. links accepts any page and returns its unique http(s) links as
-                # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
-                # or image alt and is null when a link has none. The emails parser reads the
-                # rendered page and respects content filters; the other prebuilt parsers read
-                # their data independently of DOM filters.
+                # ignored. instagram-profile parses a public profile (instagram.com/{username})
+                # into data: bio, links, follower and post counts, category, business address,
+                # similar_accounts, and latest_posts (the 12 newest). instagram-post parses a post
+                # or reel (/p/…, /reel/…) into data: caption, hashtags, mentions, like, comment,
+                # and view counts, media URLs, tagged users, collaborators, location, and the top
+                # ~14 comments in data.comments. instagram-feed returns the top posts for a
+                # hashtag or keyword (/explore/tags/…, /popular/…) or the recent posts at a
+                # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
+                # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
+                # it. All three Instagram parsers read public data without logging in, so private
+                # accounts return no posts and follower lists are unavailable. emails accepts any
+                # page and returns its email addresses as data.emails ([{ email }]), read from
+                # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
+                # accepts any page and returns its valid phone numbers in E.164 as
+                # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
+                # without a country code are read for the country of the site TLD, defaulting to
+                # US. links accepts any page and returns its unique http(s) links as data.links
+                # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
+                # alt and is null when a link has none. The emails parser reads the rendered page
+                # and respects content filters; the other prebuilt parsers read their data
+                # independently of DOM filters.
                 module Parser
                   extend ContextDev::Internal::Type::Enum
 
@@ -4940,6 +5021,21 @@ module ContextDev
                   G2_REVIEWS =
                     T.let(
                       :"g2-reviews",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  INSTAGRAM_PROFILE =
+                    T.let(
+                      :"instagram-profile",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  INSTAGRAM_POST =
+                    T.let(
+                      :"instagram-post",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  INSTAGRAM_FEED =
+                    T.let(
+                      :"instagram-feed",
                       ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
                     )
                   EMAILS =

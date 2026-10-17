@@ -766,6 +766,9 @@ module ContextDev
           | :"app-store"
           | :"app-store-reviews"
           | :"g2-reviews"
+          | :"instagram-profile"
+          | :"instagram-post"
+          | :"instagram-feed"
           | :emails
           | :"phone-numbers"
           | :links
@@ -781,6 +784,9 @@ module ContextDev
           APP_STORE: :"app-store"
           APP_STORE_REVIEWS: :"app-store-reviews"
           G2_REVIEWS: :"g2-reviews"
+          INSTAGRAM_PROFILE: :"instagram-profile"
+          INSTAGRAM_POST: :"instagram-post"
+          INSTAGRAM_FEED: :"instagram-feed"
           EMAILS: :emails
           PHONE_NUMBERS: :"phone-numbers"
           LINKS: :links
