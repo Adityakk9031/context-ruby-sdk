@@ -55,12 +55,13 @@ module ContextDev
 
       # @!attribute parsed
       #   Custom rules return fields after content filters; unmatched fields are null ([]
-      #   for lists). The google-maps parser returns business records in data.results, and
-      #   the google-play parser returns one app record as data, google-play-reviews
-      #   returns data.reviews, app-store and app-store-reviews do the same for the App
-      #   Store, emails, phone-numbers, and links return data.emails, data.phone_numbers,
-      #   and data.links from the rendered page; the store and Maps parsers read their
-      #   data directly, independently of DOM filters and other outputs.
+      #   for lists). The google-maps parser returns business records in data.results,
+      #   google-maps-reviews returns data.reviews, and the google-play parser returns one
+      #   app record as data, google-play-reviews returns data.reviews, app-store and
+      #   app-store-reviews do the same for the App Store, emails, phone-numbers, and
+      #   links return data.emails, data.phone_numbers, and data.links from the rendered
+      #   page; the store and Maps parsers read their data directly, independently of DOM
+      #   filters and other outputs.
       #
       #   @return [ContextDev::Models::WebScrapeResponse::Parsed]
       required :parsed, -> { ContextDev::Models::WebScrapeResponse::Parsed }
@@ -866,12 +867,13 @@ module ContextDev
         #   {ContextDev::Models::WebScrapeResponse::Parsed} for more details.
         #
         #   Custom rules return fields after content filters; unmatched fields are null ([]
-        #   for lists). The google-maps parser returns business records in data.results, and
-        #   the google-play parser returns one app record as data, google-play-reviews
-        #   returns data.reviews, app-store and app-store-reviews do the same for the App
-        #   Store, emails, phone-numbers, and links return data.emails, data.phone_numbers,
-        #   and data.links from the rendered page; the store and Maps parsers read their
-        #   data directly, independently of DOM filters and other outputs.
+        #   for lists). The google-maps parser returns business records in data.results,
+        #   google-maps-reviews returns data.reviews, and the google-play parser returns one
+        #   app record as data, google-play-reviews returns data.reviews, app-store and
+        #   app-store-reviews do the same for the App Store, emails, phone-numbers, and
+        #   links return data.emails, data.phone_numbers, and data.links from the rendered
+        #   page; the store and Maps parsers read their data directly, independently of DOM
+        #   filters and other outputs.
         #
         #   @param data [Hash{Symbol=>Object}, nil]
         #
@@ -894,6 +896,7 @@ module ContextDev
 
           CUSTOM = :custom
           GOOGLE_MAPS = :"google-maps"
+          GOOGLE_MAPS_REVIEWS = :"google-maps-reviews"
           GOOGLE_PLAY = :"google-play"
           GOOGLE_PLAY_REVIEWS = :"google-play-reviews"
           APP_STORE = :"app-store"

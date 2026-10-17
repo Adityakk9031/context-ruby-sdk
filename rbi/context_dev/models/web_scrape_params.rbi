@@ -1062,8 +1062,16 @@ module ContextDev
 
           # google-maps parses Google Maps business data into data.results. Accepts Maps
           # place, search, and internal data URLs. Uses a US exit and English labels
-          # regardless of hl or Accept-Language. google-play parses a Play Store app into
-          # data: details, developer contact, ratings, price, permissions, and data safety.
+          # regardless of hl or Accept-Language. google-maps-reviews returns the reviews of
+          # a place in data.reviews, in the same shape as the Serper reviews API (rating,
+          # date, isoDate, snippet, translatedSnippet, likes, user, media, response, link,
+          # id), plus language, guided ratings in details, and user.isLocalGuide; data also
+          # carries the place featureId, cid, and sort. sort and limit pick the order and
+          # count, and oldest is exact. It accepts Maps place, search, and ?cid= URLs, plus
+          # search.google.com/local/reviews URLs, so the google_maps_url and
+          # google_reviews_url fields of google-maps results work as input. An unknown place
+          # returns no reviews. google-play parses a Play Store app into data: details,
+          # developer contact, ratings, price, permissions, and data safety.
           # google-play-reviews returns the 200 newest reviews of the app, with developer
           # replies, in data.reviews. Both Play parsers accept app details URLs
           # (play.google.com/store/apps/details?id=…); hl and gl set the language and
@@ -1093,18 +1101,57 @@ module ContextDev
           sig { returns(Symbol) }
           attr_accessor :type
 
+          # google-maps-reviews only. Maximum number of reviews to return. Defaults to 100;
+          # maximum 1000.
+          sig { returns(T.nilable(Integer)) }
+          attr_reader :limit
+
+          sig { params(limit: Integer).void }
+          attr_writer :limit
+
+          # google-maps-reviews only. Order of data.reviews. newest, relevant, highest, and
+          # lowest follow Google; oldest returns the earliest reviews first, which Google
+          # itself does not offer.
+          sig do
+            returns(
+              T.nilable(
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort::OrSymbol
+              )
+            )
+          end
+          attr_reader :sort
+
+          sig do
+            params(
+              sort:
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort::OrSymbol
+            ).void
+          end
+          attr_writer :sort
+
           sig do
             params(
               parser:
                 ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser::OrSymbol,
+              limit: Integer,
+              sort:
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort::OrSymbol,
               type: Symbol
             ).returns(T.attached_class)
           end
           def self.new(
             # google-maps parses Google Maps business data into data.results. Accepts Maps
             # place, search, and internal data URLs. Uses a US exit and English labels
-            # regardless of hl or Accept-Language. google-play parses a Play Store app into
-            # data: details, developer contact, ratings, price, permissions, and data safety.
+            # regardless of hl or Accept-Language. google-maps-reviews returns the reviews of
+            # a place in data.reviews, in the same shape as the Serper reviews API (rating,
+            # date, isoDate, snippet, translatedSnippet, likes, user, media, response, link,
+            # id), plus language, guided ratings in details, and user.isLocalGuide; data also
+            # carries the place featureId, cid, and sort. sort and limit pick the order and
+            # count, and oldest is exact. It accepts Maps place, search, and ?cid= URLs, plus
+            # search.google.com/local/reviews URLs, so the google_maps_url and
+            # google_reviews_url fields of google-maps results work as input. An unknown place
+            # returns no reviews. google-play parses a Play Store app into data: details,
+            # developer contact, ratings, price, permissions, and data safety.
             # google-play-reviews returns the 200 newest reviews of the app, with developer
             # replies, in data.reviews. Both Play parsers accept app details URLs
             # (play.google.com/store/apps/details?id=…); hl and gl set the language and
@@ -1124,6 +1171,13 @@ module ContextDev
             # filters; the other prebuilt parsers read their data independently of DOM
             # filters.
             parser:,
+            # google-maps-reviews only. Maximum number of reviews to return. Defaults to 100;
+            # maximum 1000.
+            limit: nil,
+            # google-maps-reviews only. Order of data.reviews. newest, relevant, highest, and
+            # lowest follow Google; oldest returns the earliest reviews first, which Google
+            # itself does not offer.
+            sort: nil,
             # Use a prebuilt parser instead of custom rules.
             type: :prebuilt
           )
@@ -1134,7 +1188,10 @@ module ContextDev
               {
                 parser:
                   ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser::OrSymbol,
-                type: Symbol
+                type: Symbol,
+                limit: Integer,
+                sort:
+                  ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort::OrSymbol
               }
             )
           end
@@ -1143,8 +1200,16 @@ module ContextDev
 
           # google-maps parses Google Maps business data into data.results. Accepts Maps
           # place, search, and internal data URLs. Uses a US exit and English labels
-          # regardless of hl or Accept-Language. google-play parses a Play Store app into
-          # data: details, developer contact, ratings, price, permissions, and data safety.
+          # regardless of hl or Accept-Language. google-maps-reviews returns the reviews of
+          # a place in data.reviews, in the same shape as the Serper reviews API (rating,
+          # date, isoDate, snippet, translatedSnippet, likes, user, media, response, link,
+          # id), plus language, guided ratings in details, and user.isLocalGuide; data also
+          # carries the place featureId, cid, and sort. sort and limit pick the order and
+          # count, and oldest is exact. It accepts Maps place, search, and ?cid= URLs, plus
+          # search.google.com/local/reviews URLs, so the google_maps_url and
+          # google_reviews_url fields of google-maps results work as input. An unknown place
+          # returns no reviews. google-play parses a Play Store app into data: details,
+          # developer contact, ratings, price, permissions, and data safety.
           # google-play-reviews returns the 200 newest reviews of the app, with developer
           # replies, in data.reviews. Both Play parsers accept app details URLs
           # (play.google.com/store/apps/details?id=…); hl and gl set the language and
@@ -1178,6 +1243,11 @@ module ContextDev
             GOOGLE_MAPS =
               T.let(
                 :"google-maps",
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+              )
+            GOOGLE_MAPS_REVIEWS =
+              T.let(
+                :"google-maps-reviews",
                 ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser::TaggedSymbol
               )
             GOOGLE_PLAY =
@@ -1220,6 +1290,58 @@ module ContextDev
               override.returns(
                 T::Array[
                   ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                ]
+              )
+            end
+            def self.values
+            end
+          end
+
+          # google-maps-reviews only. Order of data.reviews. newest, relevant, highest, and
+          # lowest follow Google; oldest returns the earliest reviews first, which Google
+          # itself does not offer.
+          module Sort
+            extend ContextDev::Internal::Type::Enum
+
+            TaggedSymbol =
+              T.type_alias do
+                T.all(
+                  Symbol,
+                  ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort
+                )
+              end
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            NEWEST =
+              T.let(
+                :newest,
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort::TaggedSymbol
+              )
+            OLDEST =
+              T.let(
+                :oldest,
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort::TaggedSymbol
+              )
+            RELEVANT =
+              T.let(
+                :relevant,
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort::TaggedSymbol
+              )
+            HIGHEST =
+              T.let(
+                :highest,
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort::TaggedSymbol
+              )
+            LOWEST =
+              T.let(
+                :lowest,
+                ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort::TaggedSymbol
+              )
+
+            sig do
+              override.returns(
+                T::Array[
+                  ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort::TaggedSymbol
                 ]
               )
             end

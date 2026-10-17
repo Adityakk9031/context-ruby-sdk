@@ -492,8 +492,16 @@ module ContextDev
           # @!attribute parser
           #   google-maps parses Google Maps business data into data.results. Accepts Maps
           #   place, search, and internal data URLs. Uses a US exit and English labels
-          #   regardless of hl or Accept-Language. google-play parses a Play Store app into
-          #   data: details, developer contact, ratings, price, permissions, and data safety.
+          #   regardless of hl or Accept-Language. google-maps-reviews returns the reviews of
+          #   a place in data.reviews, in the same shape as the Serper reviews API (rating,
+          #   date, isoDate, snippet, translatedSnippet, likes, user, media, response, link,
+          #   id), plus language, guided ratings in details, and user.isLocalGuide; data also
+          #   carries the place featureId, cid, and sort. sort and limit pick the order and
+          #   count, and oldest is exact. It accepts Maps place, search, and ?cid= URLs, plus
+          #   search.google.com/local/reviews URLs, so the google_maps_url and
+          #   google_reviews_url fields of google-maps results work as input. An unknown place
+          #   returns no reviews. google-play parses a Play Store app into data: details,
+          #   developer contact, ratings, price, permissions, and data safety.
           #   google-play-reviews returns the 200 newest reviews of the app, with developer
           #   replies, in data.reviews. Both Play parsers accept app details URLs
           #   (play.google.com/store/apps/details?id=…); hl and gl set the language and
@@ -522,19 +530,46 @@ module ContextDev
           #   @return [Symbol, :prebuilt]
           required :type, const: :prebuilt
 
-          # @!method initialize(parser:, type: :prebuilt)
+          # @!attribute limit
+          #   google-maps-reviews only. Maximum number of reviews to return. Defaults to 100;
+          #   maximum 1000.
+          #
+          #   @return [Integer, nil]
+          optional :limit, Integer
+
+          # @!attribute sort
+          #   google-maps-reviews only. Order of data.reviews. newest, relevant, highest, and
+          #   lowest follow Google; oldest returns the earliest reviews first, which Google
+          #   itself does not offer.
+          #
+          #   @return [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::Sort, nil]
+          optional :sort, enum: -> { ContextDev::WebScrapeParams::ParseParams::PrebuiltParser::Sort }
+
+          # @!method initialize(parser:, limit: nil, sort: nil, type: :prebuilt)
           #   Some parameter documentations has been truncated, see
           #   {ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser} for more
           #   details.
           #
           #   @param parser [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::Parser] google-maps parses Google Maps business data into data.results. Accepts Maps pla
           #
+          #   @param limit [Integer] google-maps-reviews only. Maximum number of reviews to return. Defaults to 100;
+          #
+          #   @param sort [Symbol, ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser::Sort] google-maps-reviews only. Order of data.reviews. newest, relevant, highest, and
+          #
           #   @param type [Symbol, :prebuilt] Use a prebuilt parser instead of custom rules.
 
           # google-maps parses Google Maps business data into data.results. Accepts Maps
           # place, search, and internal data URLs. Uses a US exit and English labels
-          # regardless of hl or Accept-Language. google-play parses a Play Store app into
-          # data: details, developer contact, ratings, price, permissions, and data safety.
+          # regardless of hl or Accept-Language. google-maps-reviews returns the reviews of
+          # a place in data.reviews, in the same shape as the Serper reviews API (rating,
+          # date, isoDate, snippet, translatedSnippet, likes, user, media, response, link,
+          # id), plus language, guided ratings in details, and user.isLocalGuide; data also
+          # carries the place featureId, cid, and sort. sort and limit pick the order and
+          # count, and oldest is exact. It accepts Maps place, search, and ?cid= URLs, plus
+          # search.google.com/local/reviews URLs, so the google_maps_url and
+          # google_reviews_url fields of google-maps results work as input. An unknown place
+          # returns no reviews. google-play parses a Play Store app into data: details,
+          # developer contact, ratings, price, permissions, and data safety.
           # google-play-reviews returns the 200 newest reviews of the app, with developer
           # replies, in data.reviews. Both Play parsers accept app details URLs
           # (play.google.com/store/apps/details?id=…); hl and gl set the language and
@@ -559,6 +594,7 @@ module ContextDev
             extend ContextDev::Internal::Type::Enum
 
             GOOGLE_MAPS = :"google-maps"
+            GOOGLE_MAPS_REVIEWS = :"google-maps-reviews"
             GOOGLE_PLAY = :"google-play"
             GOOGLE_PLAY_REVIEWS = :"google-play-reviews"
             APP_STORE = :"app-store"
@@ -566,6 +602,24 @@ module ContextDev
             EMAILS = :emails
             PHONE_NUMBERS = :"phone-numbers"
             LINKS = :links
+
+            # @!method self.values
+            #   @return [Array<Symbol>]
+          end
+
+          # google-maps-reviews only. Order of data.reviews. newest, relevant, highest, and
+          # lowest follow Google; oldest returns the earliest reviews first, which Google
+          # itself does not offer.
+          #
+          # @see ContextDev::Models::WebScrapeParams::ParseParams::PrebuiltParser#sort
+          module Sort
+            extend ContextDev::Internal::Type::Enum
+
+            NEWEST = :newest
+            OLDEST = :oldest
+            RELEVANT = :relevant
+            HIGHEST = :highest
+            LOWEST = :lowest
 
             # @!method self.values
             #   @return [Array<Symbol>]

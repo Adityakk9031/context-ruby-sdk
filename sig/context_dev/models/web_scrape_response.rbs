@@ -760,6 +760,7 @@ module ContextDev
         type type_ =
           :custom
           | :"google-maps"
+          | :"google-maps-reviews"
           | :"google-play"
           | :"google-play-reviews"
           | :"app-store"
@@ -773,6 +774,7 @@ module ContextDev
 
           CUSTOM: :custom
           GOOGLE_MAPS: :"google-maps"
+          GOOGLE_MAPS_REVIEWS: :"google-maps-reviews"
           GOOGLE_PLAY: :"google-play"
           GOOGLE_PLAY_REVIEWS: :"google-play-reviews"
           APP_STORE: :"app-store"

@@ -554,7 +554,9 @@ module ContextDev
               type prebuilt_parser =
                 {
                   parser: ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::parser,
-                  type: :prebuilt
+                  type: :prebuilt,
+                  limit: Integer,
+                  sort: ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::sort
                 }
 
               class PrebuiltParser < ContextDev::Internal::Type::BaseModel
@@ -562,18 +564,33 @@ module ContextDev
 
                 attr_accessor type: :prebuilt
 
+                attr_reader limit: Integer?
+
+                def limit=: (Integer) -> Integer
+
+                attr_reader sort: ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::sort?
+
+                def sort=: (
+                  ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::sort
+                ) -> ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::sort
+
                 def initialize: (
                   parser: ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::parser,
+                  ?limit: Integer,
+                  ?sort: ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::sort,
                   ?type: :prebuilt
                 ) -> void
 
                 def to_hash: -> {
                   parser: ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::parser,
-                  type: :prebuilt
+                  type: :prebuilt,
+                  limit: Integer,
+                  sort: ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::sort
                 }
 
                 type parser =
                   :"google-maps"
+                  | :"google-maps-reviews"
                   | :"google-play"
                   | :"google-play-reviews"
                   | :"app-store"
@@ -586,6 +603,7 @@ module ContextDev
                   extend ContextDev::Internal::Type::Enum
 
                   GOOGLE_MAPS: :"google-maps"
+                  GOOGLE_MAPS_REVIEWS: :"google-maps-reviews"
                   GOOGLE_PLAY: :"google-play"
                   GOOGLE_PLAY_REVIEWS: :"google-play-reviews"
                   APP_STORE: :"app-store"
@@ -595,6 +613,20 @@ module ContextDev
                   LINKS: :links
 
                   def self?.values: -> ::Array[ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::parser]
+                end
+
+                type sort = :newest | :oldest | :relevant | :highest | :lowest
+
+                module Sort
+                  extend ContextDev::Internal::Type::Enum
+
+                  NEWEST: :newest
+                  OLDEST: :oldest
+                  RELEVANT: :relevant
+                  HIGHEST: :highest
+                  LOWEST: :lowest
+
+                  def self?.values: -> ::Array[ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::sort]
                 end
               end
 
@@ -1767,7 +1799,9 @@ module ContextDev
               type prebuilt_parser =
                 {
                   parser: ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::parser,
-                  type: :prebuilt
+                  type: :prebuilt,
+                  limit: Integer,
+                  sort: ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::sort
                 }
 
               class PrebuiltParser < ContextDev::Internal::Type::BaseModel
@@ -1775,18 +1809,33 @@ module ContextDev
 
                 attr_accessor type: :prebuilt
 
+                attr_reader limit: Integer?
+
+                def limit=: (Integer) -> Integer
+
+                attr_reader sort: ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::sort?
+
+                def sort=: (
+                  ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::sort
+                ) -> ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::sort
+
                 def initialize: (
                   parser: ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::parser,
+                  ?limit: Integer,
+                  ?sort: ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::sort,
                   ?type: :prebuilt
                 ) -> void
 
                 def to_hash: -> {
                   parser: ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::parser,
-                  type: :prebuilt
+                  type: :prebuilt,
+                  limit: Integer,
+                  sort: ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::sort
                 }
 
                 type parser =
                   :"google-maps"
+                  | :"google-maps-reviews"
                   | :"google-play"
                   | :"google-play-reviews"
                   | :"app-store"
@@ -1799,6 +1848,7 @@ module ContextDev
                   extend ContextDev::Internal::Type::Enum
 
                   GOOGLE_MAPS: :"google-maps"
+                  GOOGLE_MAPS_REVIEWS: :"google-maps-reviews"
                   GOOGLE_PLAY: :"google-play"
                   GOOGLE_PLAY_REVIEWS: :"google-play-reviews"
                   APP_STORE: :"app-store"
@@ -1808,6 +1858,20 @@ module ContextDev
                   LINKS: :links
 
                   def self?.values: -> ::Array[ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::parser]
+                end
+
+                type sort = :newest | :oldest | :relevant | :highest | :lowest
+
+                module Sort
+                  extend ContextDev::Internal::Type::Enum
+
+                  NEWEST: :newest
+                  OLDEST: :oldest
+                  RELEVANT: :relevant
+                  HIGHEST: :highest
+                  LOWEST: :lowest
+
+                  def self?.values: -> ::Array[ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::sort]
                 end
               end
 
