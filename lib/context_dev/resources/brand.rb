@@ -29,14 +29,20 @@ module ContextDev
       # Some parameter documentations has been truncated, see
       # {ContextDev::Models::BrandSearchParams} for more details.
       #
-      # Find up to 10 brands by name or domain, ordered by popularity. Use the returned
-      # domain to retrieve a full brand profile.
+      # Find up to 10 brands by name or domain, ordered by popularity. Optionally filter
+      # by country and primary language; both filters must match when provided together.
+      # Results include description, country, and language when available. Use the
+      # returned domain to retrieve a full brand profile.
       #
-      # @overload search(query:, autocomplete: nil, query_by: nil, tags: nil, typo_tolerance: nil, request_options: {})
+      # @overload search(query:, autocomplete: nil, country: nil, language: nil, query_by: nil, tags: nil, typo_tolerance: nil, request_options: {})
       #
       # @param query [String] Search term, matched against the fields selected by queryBy (e.g. 'nike', 'nike.
       #
       # @param autocomplete [Boolean] Whether the search term matches by prefix, so partial words match as they are ty
+      #
+      # @param country [Symbol, ContextDev::Models::BrandSearchParams::Country] Only return brands in this country, as an uppercase ISO 3166-1 alpha-2 code such
+      #
+      # @param language [Symbol, ContextDev::Models::BrandSearchParams::Language] Only return brands with this primary language, such as english or french.
       #
       # @param query_by [Array<Symbol, ContextDev::Models::BrandSearchParams::QueryBy>] Fields to match the search term against, as a comma-separated list or repeated p
       #

@@ -26,12 +26,16 @@ module ContextDev
       )
       end
 
-      # Find up to 10 brands by name or domain, ordered by popularity. Use the returned
-      # domain to retrieve a full brand profile.
+      # Find up to 10 brands by name or domain, ordered by popularity. Optionally filter
+      # by country and primary language; both filters must match when provided together.
+      # Results include description, country, and language when available. Use the
+      # returned domain to retrieve a full brand profile.
       sig do
         params(
           query: String,
           autocomplete: T::Boolean,
+          country: ContextDev::BrandSearchParams::Country::OrSymbol,
+          language: ContextDev::BrandSearchParams::Language::OrSymbol,
           query_by: T::Array[ContextDev::BrandSearchParams::QueryBy::OrSymbol],
           tags: T::Array[String],
           typo_tolerance: Integer,
@@ -45,6 +49,11 @@ module ContextDev
         # Whether the search term matches by prefix, so partial words match as they are
         # typed (e.g. 'nik' matches Nike). Set to false to match whole words only.
         autocomplete: nil,
+        # Only return brands in this country, as an uppercase ISO 3166-1 alpha-2 code such
+        # as US or GB.
+        country: nil,
+        # Only return brands with this primary language, such as english or french.
+        language: nil,
         # Fields to match the search term against, as a comma-separated list or repeated
         # parameter: 'name', 'domain', or both. Defaults to both.
         query_by: nil,

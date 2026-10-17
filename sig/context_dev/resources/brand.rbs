@@ -9,6 +9,8 @@ module ContextDev
       def search: (
         query: String,
         ?autocomplete: bool,
+        ?country: ContextDev::Models::BrandSearchParams::country,
+        ?language: ContextDev::Models::BrandSearchParams::language,
         ?query_by: ::Array[ContextDev::Models::BrandSearchParams::query_by],
         ?tags: ::Array[String],
         ?typo_tolerance: Integer,
