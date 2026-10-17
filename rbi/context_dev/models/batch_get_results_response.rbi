@@ -381,10 +381,11 @@ module ContextDev
             # for lists). The google-maps parser returns business records in data.results,
             # google-maps-reviews returns data.reviews, and the google-play parser returns one
             # app record as data, google-play-reviews returns data.reviews, app-store and
-            # app-store-reviews do the same for the App Store, emails, phone-numbers, and
-            # links return data.emails, data.phone_numbers, and data.links from the rendered
-            # page; the store and Maps parsers read their data directly, independently of DOM
-            # filters and other outputs.
+            # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
+            # for a G2 product, emails, phone-numbers, and links return data.emails,
+            # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
+            # G2 parsers read their data directly, independently of DOM filters and other
+            # outputs.
             sig do
               returns(
                 ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed
@@ -559,10 +560,11 @@ module ContextDev
               # for lists). The google-maps parser returns business records in data.results,
               # google-maps-reviews returns data.reviews, and the google-play parser returns one
               # app record as data, google-play-reviews returns data.reviews, app-store and
-              # app-store-reviews do the same for the App Store, emails, phone-numbers, and
-              # links return data.emails, data.phone_numbers, and data.links from the rendered
-              # page; the store and Maps parsers read their data directly, independently of DOM
-              # filters and other outputs.
+              # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
+              # for a G2 product, emails, phone-numbers, and links return data.emails,
+              # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
+              # G2 parsers read their data directly, independently of DOM filters and other
+              # outputs.
               parsed:,
               # Product details found on the page.
               product:,
@@ -1989,10 +1991,11 @@ module ContextDev
               # for lists). The google-maps parser returns business records in data.results,
               # google-maps-reviews returns data.reviews, and the google-play parser returns one
               # app record as data, google-play-reviews returns data.reviews, app-store and
-              # app-store-reviews do the same for the App Store, emails, phone-numbers, and
-              # links return data.emails, data.phone_numbers, and data.links from the rendered
-              # page; the store and Maps parsers read their data directly, independently of DOM
-              # filters and other outputs.
+              # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
+              # for a G2 product, emails, phone-numbers, and links return data.emails,
+              # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
+              # G2 parsers read their data directly, independently of DOM filters and other
+              # outputs.
               sig do
                 params(
                   data: T.nilable(T::Hash[Symbol, T.anything]),
@@ -2082,6 +2085,11 @@ module ContextDev
                 APP_STORE_REVIEWS =
                   T.let(
                     :"app-store-reviews",
+                    ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::Type::TaggedSymbol
+                  )
+                G2_REVIEWS =
+                  T.let(
+                    :"g2-reviews",
                     ContextDev::Models::BatchGetResultsResponse::Data::Ok::Result::Parsed::Type::TaggedSymbol
                   )
                 EMAILS =
@@ -3018,10 +3026,11 @@ module ContextDev
             # for lists). The google-maps parser returns business records in data.results,
             # google-maps-reviews returns data.reviews, and the google-play parser returns one
             # app record as data, google-play-reviews returns data.reviews, app-store and
-            # app-store-reviews do the same for the App Store, emails, phone-numbers, and
-            # links return data.emails, data.phone_numbers, and data.links from the rendered
-            # page; the store and Maps parsers read their data directly, independently of DOM
-            # filters and other outputs.
+            # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
+            # for a G2 product, emails, phone-numbers, and links return data.emails,
+            # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
+            # G2 parsers read their data directly, independently of DOM filters and other
+            # outputs.
             sig do
               returns(
                 ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed
@@ -3196,10 +3205,11 @@ module ContextDev
               # for lists). The google-maps parser returns business records in data.results,
               # google-maps-reviews returns data.reviews, and the google-play parser returns one
               # app record as data, google-play-reviews returns data.reviews, app-store and
-              # app-store-reviews do the same for the App Store, emails, phone-numbers, and
-              # links return data.emails, data.phone_numbers, and data.links from the rendered
-              # page; the store and Maps parsers read their data directly, independently of DOM
-              # filters and other outputs.
+              # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
+              # for a G2 product, emails, phone-numbers, and links return data.emails,
+              # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
+              # G2 parsers read their data directly, independently of DOM filters and other
+              # outputs.
               parsed:,
               # Product details found on the page.
               product:,
@@ -4626,10 +4636,11 @@ module ContextDev
               # for lists). The google-maps parser returns business records in data.results,
               # google-maps-reviews returns data.reviews, and the google-play parser returns one
               # app record as data, google-play-reviews returns data.reviews, app-store and
-              # app-store-reviews do the same for the App Store, emails, phone-numbers, and
-              # links return data.emails, data.phone_numbers, and data.links from the rendered
-              # page; the store and Maps parsers read their data directly, independently of DOM
-              # filters and other outputs.
+              # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
+              # for a G2 product, emails, phone-numbers, and links return data.emails,
+              # data.phone_numbers, and data.links from the rendered page; the store, Maps, and
+              # G2 parsers read their data directly, independently of DOM filters and other
+              # outputs.
               sig do
                 params(
                   data: T.nilable(T::Hash[Symbol, T.anything]),
@@ -4719,6 +4730,11 @@ module ContextDev
                 APP_STORE_REVIEWS =
                   T.let(
                     :"app-store-reviews",
+                    ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::Type::TaggedSymbol
+                  )
+                G2_REVIEWS =
+                  T.let(
+                    :"g2-reviews",
                     ContextDev::Models::BatchGetResultsResponse::Data::Error::Result::Parsed::Type::TaggedSymbol
                   )
                 EMAILS =

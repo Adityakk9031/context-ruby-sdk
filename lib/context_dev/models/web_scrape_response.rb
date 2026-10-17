@@ -58,10 +58,11 @@ module ContextDev
       #   for lists). The google-maps parser returns business records in data.results,
       #   google-maps-reviews returns data.reviews, and the google-play parser returns one
       #   app record as data, google-play-reviews returns data.reviews, app-store and
-      #   app-store-reviews do the same for the App Store, emails, phone-numbers, and
-      #   links return data.emails, data.phone_numbers, and data.links from the rendered
-      #   page; the store and Maps parsers read their data directly, independently of DOM
-      #   filters and other outputs.
+      #   app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
+      #   for a G2 product, emails, phone-numbers, and links return data.emails,
+      #   data.phone_numbers, and data.links from the rendered page; the store, Maps, and
+      #   G2 parsers read their data directly, independently of DOM filters and other
+      #   outputs.
       #
       #   @return [ContextDev::Models::WebScrapeResponse::Parsed]
       required :parsed, -> { ContextDev::Models::WebScrapeResponse::Parsed }
@@ -870,10 +871,11 @@ module ContextDev
         #   for lists). The google-maps parser returns business records in data.results,
         #   google-maps-reviews returns data.reviews, and the google-play parser returns one
         #   app record as data, google-play-reviews returns data.reviews, app-store and
-        #   app-store-reviews do the same for the App Store, emails, phone-numbers, and
-        #   links return data.emails, data.phone_numbers, and data.links from the rendered
-        #   page; the store and Maps parsers read their data directly, independently of DOM
-        #   filters and other outputs.
+        #   app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
+        #   for a G2 product, emails, phone-numbers, and links return data.emails,
+        #   data.phone_numbers, and data.links from the rendered page; the store, Maps, and
+        #   G2 parsers read their data directly, independently of DOM filters and other
+        #   outputs.
         #
         #   @param data [Hash{Symbol=>Object}, nil]
         #
@@ -901,6 +903,7 @@ module ContextDev
           GOOGLE_PLAY_REVIEWS = :"google-play-reviews"
           APP_STORE = :"app-store"
           APP_STORE_REVIEWS = :"app-store-reviews"
+          G2_REVIEWS = :"g2-reviews"
           EMAILS = :emails
           PHONE_NUMBERS = :"phone-numbers"
           LINKS = :links

@@ -870,6 +870,7 @@ module ContextDev
                 | :"google-play-reviews"
                 | :"app-store"
                 | :"app-store-reviews"
+                | :"g2-reviews"
                 | :emails
                 | :"phone-numbers"
                 | :links
@@ -884,6 +885,7 @@ module ContextDev
                 GOOGLE_PLAY_REVIEWS: :"google-play-reviews"
                 APP_STORE: :"app-store"
                 APP_STORE_REVIEWS: :"app-store-reviews"
+                G2_REVIEWS: :"g2-reviews"
                 EMAILS: :emails
                 PHONE_NUMBERS: :"phone-numbers"
                 LINKS: :links
@@ -2017,6 +2019,7 @@ module ContextDev
                 | :"google-play-reviews"
                 | :"app-store"
                 | :"app-store-reviews"
+                | :"g2-reviews"
                 | :emails
                 | :"phone-numbers"
                 | :links
@@ -2031,6 +2034,7 @@ module ContextDev
                 GOOGLE_PLAY_REVIEWS: :"google-play-reviews"
                 APP_STORE: :"app-store"
                 APP_STORE_REVIEWS: :"app-store-reviews"
+                G2_REVIEWS: :"g2-reviews"
                 EMAILS: :emails
                 PHONE_NUMBERS: :"phone-numbers"
                 LINKS: :links

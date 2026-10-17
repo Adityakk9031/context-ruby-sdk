@@ -1422,17 +1422,22 @@ module ContextDev
                 # data: details, developer, ratings, price, version, and screenshots.
                 # app-store-reviews returns up to the 500 newest reviews in data.reviews. Both App
                 # Store parsers accept app URLs (apps.apple.com/us/app/…/id…); the country in the
-                # path sets the storefront, defaulting to us. emails accepts any page and returns
-                # its email addresses as data.emails ([{ email }]), read from mailto links,
-                # Cloudflare-protected addresses, and visible text. phone-numbers accepts any page
-                # and returns its valid phone numbers in E.164 as data.phone_numbers ([{ phone
-                # }]), read from tel links and visible text; numbers without a country code are
-                # read for the country of the site TLD, defaulting to US. links accepts any page
-                # and returns its unique http(s) links as data.links ([{ url, text }]), with
-                # absolute URLs; text falls back to aria-label or image alt and is null when a
-                # link has none. The emails parser reads the rendered page and respects content
-                # filters; the other prebuilt parsers read their data independently of DOM
-                # filters.
+                # path sets the storefront, defaulting to us. g2-reviews returns the 25 most
+                # recently published reviews of a G2 product in data.reviews (rating, title,
+                # likes, dislikes, problems_solved, reviewer role, company size, and industry),
+                # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
+                # renamed products, and keeps star-rating filters from the URL
+                # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
+                # ignored. emails accepts any page and returns its email addresses as data.emails
+                # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
+                # visible text. phone-numbers accepts any page and returns its valid phone numbers
+                # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
+                # text; numbers without a country code are read for the country of the site TLD,
+                # defaulting to US. links accepts any page and returns its unique http(s) links as
+                # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
+                # or image alt and is null when a link has none. The emails parser reads the
+                # rendered page and respects content filters; the other prebuilt parsers read
+                # their data independently of DOM filters.
                 sig do
                   returns(
                     ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::OrSymbol
@@ -1502,17 +1507,22 @@ module ContextDev
                   # data: details, developer, ratings, price, version, and screenshots.
                   # app-store-reviews returns up to the 500 newest reviews in data.reviews. Both App
                   # Store parsers accept app URLs (apps.apple.com/us/app/…/id…); the country in the
-                  # path sets the storefront, defaulting to us. emails accepts any page and returns
-                  # its email addresses as data.emails ([{ email }]), read from mailto links,
-                  # Cloudflare-protected addresses, and visible text. phone-numbers accepts any page
-                  # and returns its valid phone numbers in E.164 as data.phone_numbers ([{ phone
-                  # }]), read from tel links and visible text; numbers without a country code are
-                  # read for the country of the site TLD, defaulting to US. links accepts any page
-                  # and returns its unique http(s) links as data.links ([{ url, text }]), with
-                  # absolute URLs; text falls back to aria-label or image alt and is null when a
-                  # link has none. The emails parser reads the rendered page and respects content
-                  # filters; the other prebuilt parsers read their data independently of DOM
-                  # filters.
+                  # path sets the storefront, defaulting to us. g2-reviews returns the 25 most
+                  # recently published reviews of a G2 product in data.reviews (rating, title,
+                  # likes, dislikes, problems_solved, reviewer role, company size, and industry),
+                  # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
+                  # renamed products, and keeps star-rating filters from the URL
+                  # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
+                  # ignored. emails accepts any page and returns its email addresses as data.emails
+                  # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
+                  # visible text. phone-numbers accepts any page and returns its valid phone numbers
+                  # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
+                  # text; numbers without a country code are read for the country of the site TLD,
+                  # defaulting to US. links accepts any page and returns its unique http(s) links as
+                  # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
+                  # or image alt and is null when a link has none. The emails parser reads the
+                  # rendered page and respects content filters; the other prebuilt parsers read
+                  # their data independently of DOM filters.
                   parser:,
                   # google-maps-reviews only. Maximum number of reviews to return. Defaults to 100;
                   # maximum 1000.
@@ -1560,17 +1570,22 @@ module ContextDev
                 # data: details, developer, ratings, price, version, and screenshots.
                 # app-store-reviews returns up to the 500 newest reviews in data.reviews. Both App
                 # Store parsers accept app URLs (apps.apple.com/us/app/…/id…); the country in the
-                # path sets the storefront, defaulting to us. emails accepts any page and returns
-                # its email addresses as data.emails ([{ email }]), read from mailto links,
-                # Cloudflare-protected addresses, and visible text. phone-numbers accepts any page
-                # and returns its valid phone numbers in E.164 as data.phone_numbers ([{ phone
-                # }]), read from tel links and visible text; numbers without a country code are
-                # read for the country of the site TLD, defaulting to US. links accepts any page
-                # and returns its unique http(s) links as data.links ([{ url, text }]), with
-                # absolute URLs; text falls back to aria-label or image alt and is null when a
-                # link has none. The emails parser reads the rendered page and respects content
-                # filters; the other prebuilt parsers read their data independently of DOM
-                # filters.
+                # path sets the storefront, defaulting to us. g2-reviews returns the 25 most
+                # recently published reviews of a G2 product in data.reviews (rating, title,
+                # likes, dislikes, problems_solved, reviewer role, company size, and industry),
+                # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
+                # renamed products, and keeps star-rating filters from the URL
+                # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
+                # ignored. emails accepts any page and returns its email addresses as data.emails
+                # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
+                # visible text. phone-numbers accepts any page and returns its valid phone numbers
+                # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
+                # text; numbers without a country code are read for the country of the site TLD,
+                # defaulting to US. links accepts any page and returns its unique http(s) links as
+                # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
+                # or image alt and is null when a link has none. The emails parser reads the
+                # rendered page and respects content filters; the other prebuilt parsers read
+                # their data independently of DOM filters.
                 module Parser
                   extend ContextDev::Internal::Type::Enum
 
@@ -1611,6 +1626,11 @@ module ContextDev
                   APP_STORE_REVIEWS =
                     T.let(
                       :"app-store-reviews",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  G2_REVIEWS =
+                    T.let(
+                      :"g2-reviews",
                       ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
                     )
                   EMAILS =
@@ -4711,17 +4731,22 @@ module ContextDev
                 # data: details, developer, ratings, price, version, and screenshots.
                 # app-store-reviews returns up to the 500 newest reviews in data.reviews. Both App
                 # Store parsers accept app URLs (apps.apple.com/us/app/…/id…); the country in the
-                # path sets the storefront, defaulting to us. emails accepts any page and returns
-                # its email addresses as data.emails ([{ email }]), read from mailto links,
-                # Cloudflare-protected addresses, and visible text. phone-numbers accepts any page
-                # and returns its valid phone numbers in E.164 as data.phone_numbers ([{ phone
-                # }]), read from tel links and visible text; numbers without a country code are
-                # read for the country of the site TLD, defaulting to US. links accepts any page
-                # and returns its unique http(s) links as data.links ([{ url, text }]), with
-                # absolute URLs; text falls back to aria-label or image alt and is null when a
-                # link has none. The emails parser reads the rendered page and respects content
-                # filters; the other prebuilt parsers read their data independently of DOM
-                # filters.
+                # path sets the storefront, defaulting to us. g2-reviews returns the 25 most
+                # recently published reviews of a G2 product in data.reviews (rating, title,
+                # likes, dislikes, problems_solved, reviewer role, company size, and industry),
+                # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
+                # renamed products, and keeps star-rating filters from the URL
+                # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
+                # ignored. emails accepts any page and returns its email addresses as data.emails
+                # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
+                # visible text. phone-numbers accepts any page and returns its valid phone numbers
+                # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
+                # text; numbers without a country code are read for the country of the site TLD,
+                # defaulting to US. links accepts any page and returns its unique http(s) links as
+                # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
+                # or image alt and is null when a link has none. The emails parser reads the
+                # rendered page and respects content filters; the other prebuilt parsers read
+                # their data independently of DOM filters.
                 sig do
                   returns(
                     ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::OrSymbol
@@ -4791,17 +4816,22 @@ module ContextDev
                   # data: details, developer, ratings, price, version, and screenshots.
                   # app-store-reviews returns up to the 500 newest reviews in data.reviews. Both App
                   # Store parsers accept app URLs (apps.apple.com/us/app/…/id…); the country in the
-                  # path sets the storefront, defaulting to us. emails accepts any page and returns
-                  # its email addresses as data.emails ([{ email }]), read from mailto links,
-                  # Cloudflare-protected addresses, and visible text. phone-numbers accepts any page
-                  # and returns its valid phone numbers in E.164 as data.phone_numbers ([{ phone
-                  # }]), read from tel links and visible text; numbers without a country code are
-                  # read for the country of the site TLD, defaulting to US. links accepts any page
-                  # and returns its unique http(s) links as data.links ([{ url, text }]), with
-                  # absolute URLs; text falls back to aria-label or image alt and is null when a
-                  # link has none. The emails parser reads the rendered page and respects content
-                  # filters; the other prebuilt parsers read their data independently of DOM
-                  # filters.
+                  # path sets the storefront, defaulting to us. g2-reviews returns the 25 most
+                  # recently published reviews of a G2 product in data.reviews (rating, title,
+                  # likes, dislikes, problems_solved, reviewer role, company size, and industry),
+                  # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
+                  # renamed products, and keeps star-rating filters from the URL
+                  # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
+                  # ignored. emails accepts any page and returns its email addresses as data.emails
+                  # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
+                  # visible text. phone-numbers accepts any page and returns its valid phone numbers
+                  # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
+                  # text; numbers without a country code are read for the country of the site TLD,
+                  # defaulting to US. links accepts any page and returns its unique http(s) links as
+                  # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
+                  # or image alt and is null when a link has none. The emails parser reads the
+                  # rendered page and respects content filters; the other prebuilt parsers read
+                  # their data independently of DOM filters.
                   parser:,
                   # google-maps-reviews only. Maximum number of reviews to return. Defaults to 100;
                   # maximum 1000.
@@ -4849,17 +4879,22 @@ module ContextDev
                 # data: details, developer, ratings, price, version, and screenshots.
                 # app-store-reviews returns up to the 500 newest reviews in data.reviews. Both App
                 # Store parsers accept app URLs (apps.apple.com/us/app/…/id…); the country in the
-                # path sets the storefront, defaulting to us. emails accepts any page and returns
-                # its email addresses as data.emails ([{ email }]), read from mailto links,
-                # Cloudflare-protected addresses, and visible text. phone-numbers accepts any page
-                # and returns its valid phone numbers in E.164 as data.phone_numbers ([{ phone
-                # }]), read from tel links and visible text; numbers without a country code are
-                # read for the country of the site TLD, defaulting to US. links accepts any page
-                # and returns its unique http(s) links as data.links ([{ url, text }]), with
-                # absolute URLs; text falls back to aria-label or image alt and is null when a
-                # link has none. The emails parser reads the rendered page and respects content
-                # filters; the other prebuilt parsers read their data independently of DOM
-                # filters.
+                # path sets the storefront, defaulting to us. g2-reviews returns the 25 most
+                # recently published reviews of a G2 product in data.reviews (rating, title,
+                # likes, dislikes, problems_solved, reviewer role, company size, and industry),
+                # plus data.product. It accepts G2 product URLs (g2.com/products/…), follows
+                # renamed products, and keeps star-rating filters from the URL
+                # (filters[nps_score][]=1 to 5); other filters, sort orders, and pages are
+                # ignored. emails accepts any page and returns its email addresses as data.emails
+                # ([{ email }]), read from mailto links, Cloudflare-protected addresses, and
+                # visible text. phone-numbers accepts any page and returns its valid phone numbers
+                # in E.164 as data.phone_numbers ([{ phone }]), read from tel links and visible
+                # text; numbers without a country code are read for the country of the site TLD,
+                # defaulting to US. links accepts any page and returns its unique http(s) links as
+                # data.links ([{ url, text }]), with absolute URLs; text falls back to aria-label
+                # or image alt and is null when a link has none. The emails parser reads the
+                # rendered page and respects content filters; the other prebuilt parsers read
+                # their data independently of DOM filters.
                 module Parser
                   extend ContextDev::Internal::Type::Enum
 
@@ -4900,6 +4935,11 @@ module ContextDev
                   APP_STORE_REVIEWS =
                     T.let(
                       :"app-store-reviews",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  G2_REVIEWS =
+                    T.let(
+                      :"g2-reviews",
                       ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
                     )
                   EMAILS =
