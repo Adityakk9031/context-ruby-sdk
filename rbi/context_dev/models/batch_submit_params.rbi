@@ -1438,17 +1438,36 @@ module ContextDev
                 # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
                 # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
                 # it. All three Instagram parsers read public data without logging in, so private
-                # accounts return no posts and follower lists are unavailable. emails accepts any
-                # page and returns its email addresses as data.emails ([{ email }]), read from
-                # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
-                # accepts any page and returns its valid phone numbers in E.164 as
-                # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
-                # without a country code are read for the country of the site TLD, defaulting to
-                # US. links accepts any page and returns its unique http(s) links as data.links
-                # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
-                # alt and is null when a link has none. The emails parser reads the rendered page
-                # and respects content filters; the other prebuilt parsers read their data
-                # independently of DOM filters.
+                # accounts return no posts and follower lists are unavailable. tiktok-profile
+                # parses a public profile (tiktok.com/@{username}) into data: nickname, bio, bio
+                # link, follower, following, like, and video counts, verified, private, and
+                # business flags, and business category; it does not list videos. tiktok-video
+                # parses a video or photo post (/@{username}/video/{id} or
+                # /@{username}/photo/{id}) into data: caption, hashtags, mentions, author, view,
+                # like, comment, share, save, and repost counts, duration, thumbnail, a video_url
+                # that downloads without cookies, image_urls for photo posts, music, location, and
+                # ad, paid-partnership, and AI-generated flags. tiktok-feed returns videos in the
+                # tiktok-video shape as data.videos: the latest 15 from a profile URL, the top 30
+                # from a hashtag URL (/tag/{name}), or the top 12 from a search URL
+                # (/search?q={query}). tiktok-comments returns the first 20 comments of a video or
+                # photo post as data.comments: text, posted_at, like and reply counts, whether the
+                # author liked it, and the commenter. tiktok-followers and tiktok-following return
+                # up to 30 accounts of a profile as data.users, in the tiktok-profile shape.
+                # tiktok-user-search returns the top 10 accounts for a user search URL
+                # (/search/user?q={query}) as data.users: id, username, nickname, biography,
+                # avatar_url, sec_uid, follower_count, like_count, and is_verified. The TikTok
+                # parsers accept tiktok.com, www.tiktok.com, and m.tiktok.com URLs but not short
+                # links (vm.tiktok.com, vt.tiktok.com, tiktok.com/t/…). emails accepts any page
+                # and returns its email addresses as data.emails ([{ email }]), read from mailto
+                # links, Cloudflare-protected addresses, and visible text. phone-numbers accepts
+                # any page and returns its valid phone numbers in E.164 as data.phone_numbers ([{
+                # phone }]), read from tel links and visible text; numbers without a country code
+                # are read for the country of the site TLD, defaulting to US. links accepts any
+                # page and returns its unique http(s) links as data.links ([{ url, text }]), with
+                # absolute URLs; text falls back to aria-label or image alt and is null when a
+                # link has none. The emails parser reads the rendered page and respects content
+                # filters; the other prebuilt parsers read their data independently of DOM
+                # filters.
                 sig do
                   returns(
                     ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::OrSymbol
@@ -1534,17 +1553,36 @@ module ContextDev
                   # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
                   # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
                   # it. All three Instagram parsers read public data without logging in, so private
-                  # accounts return no posts and follower lists are unavailable. emails accepts any
-                  # page and returns its email addresses as data.emails ([{ email }]), read from
-                  # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
-                  # accepts any page and returns its valid phone numbers in E.164 as
-                  # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
-                  # without a country code are read for the country of the site TLD, defaulting to
-                  # US. links accepts any page and returns its unique http(s) links as data.links
-                  # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
-                  # alt and is null when a link has none. The emails parser reads the rendered page
-                  # and respects content filters; the other prebuilt parsers read their data
-                  # independently of DOM filters.
+                  # accounts return no posts and follower lists are unavailable. tiktok-profile
+                  # parses a public profile (tiktok.com/@{username}) into data: nickname, bio, bio
+                  # link, follower, following, like, and video counts, verified, private, and
+                  # business flags, and business category; it does not list videos. tiktok-video
+                  # parses a video or photo post (/@{username}/video/{id} or
+                  # /@{username}/photo/{id}) into data: caption, hashtags, mentions, author, view,
+                  # like, comment, share, save, and repost counts, duration, thumbnail, a video_url
+                  # that downloads without cookies, image_urls for photo posts, music, location, and
+                  # ad, paid-partnership, and AI-generated flags. tiktok-feed returns videos in the
+                  # tiktok-video shape as data.videos: the latest 15 from a profile URL, the top 30
+                  # from a hashtag URL (/tag/{name}), or the top 12 from a search URL
+                  # (/search?q={query}). tiktok-comments returns the first 20 comments of a video or
+                  # photo post as data.comments: text, posted_at, like and reply counts, whether the
+                  # author liked it, and the commenter. tiktok-followers and tiktok-following return
+                  # up to 30 accounts of a profile as data.users, in the tiktok-profile shape.
+                  # tiktok-user-search returns the top 10 accounts for a user search URL
+                  # (/search/user?q={query}) as data.users: id, username, nickname, biography,
+                  # avatar_url, sec_uid, follower_count, like_count, and is_verified. The TikTok
+                  # parsers accept tiktok.com, www.tiktok.com, and m.tiktok.com URLs but not short
+                  # links (vm.tiktok.com, vt.tiktok.com, tiktok.com/t/…). emails accepts any page
+                  # and returns its email addresses as data.emails ([{ email }]), read from mailto
+                  # links, Cloudflare-protected addresses, and visible text. phone-numbers accepts
+                  # any page and returns its valid phone numbers in E.164 as data.phone_numbers ([{
+                  # phone }]), read from tel links and visible text; numbers without a country code
+                  # are read for the country of the site TLD, defaulting to US. links accepts any
+                  # page and returns its unique http(s) links as data.links ([{ url, text }]), with
+                  # absolute URLs; text falls back to aria-label or image alt and is null when a
+                  # link has none. The emails parser reads the rendered page and respects content
+                  # filters; the other prebuilt parsers read their data independently of DOM
+                  # filters.
                   parser:,
                   # google-maps-reviews only. Maximum number of reviews to return. Defaults to 100;
                   # maximum 1000.
@@ -1608,17 +1646,36 @@ module ContextDev
                 # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
                 # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
                 # it. All three Instagram parsers read public data without logging in, so private
-                # accounts return no posts and follower lists are unavailable. emails accepts any
-                # page and returns its email addresses as data.emails ([{ email }]), read from
-                # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
-                # accepts any page and returns its valid phone numbers in E.164 as
-                # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
-                # without a country code are read for the country of the site TLD, defaulting to
-                # US. links accepts any page and returns its unique http(s) links as data.links
-                # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
-                # alt and is null when a link has none. The emails parser reads the rendered page
-                # and respects content filters; the other prebuilt parsers read their data
-                # independently of DOM filters.
+                # accounts return no posts and follower lists are unavailable. tiktok-profile
+                # parses a public profile (tiktok.com/@{username}) into data: nickname, bio, bio
+                # link, follower, following, like, and video counts, verified, private, and
+                # business flags, and business category; it does not list videos. tiktok-video
+                # parses a video or photo post (/@{username}/video/{id} or
+                # /@{username}/photo/{id}) into data: caption, hashtags, mentions, author, view,
+                # like, comment, share, save, and repost counts, duration, thumbnail, a video_url
+                # that downloads without cookies, image_urls for photo posts, music, location, and
+                # ad, paid-partnership, and AI-generated flags. tiktok-feed returns videos in the
+                # tiktok-video shape as data.videos: the latest 15 from a profile URL, the top 30
+                # from a hashtag URL (/tag/{name}), or the top 12 from a search URL
+                # (/search?q={query}). tiktok-comments returns the first 20 comments of a video or
+                # photo post as data.comments: text, posted_at, like and reply counts, whether the
+                # author liked it, and the commenter. tiktok-followers and tiktok-following return
+                # up to 30 accounts of a profile as data.users, in the tiktok-profile shape.
+                # tiktok-user-search returns the top 10 accounts for a user search URL
+                # (/search/user?q={query}) as data.users: id, username, nickname, biography,
+                # avatar_url, sec_uid, follower_count, like_count, and is_verified. The TikTok
+                # parsers accept tiktok.com, www.tiktok.com, and m.tiktok.com URLs but not short
+                # links (vm.tiktok.com, vt.tiktok.com, tiktok.com/t/…). emails accepts any page
+                # and returns its email addresses as data.emails ([{ email }]), read from mailto
+                # links, Cloudflare-protected addresses, and visible text. phone-numbers accepts
+                # any page and returns its valid phone numbers in E.164 as data.phone_numbers ([{
+                # phone }]), read from tel links and visible text; numbers without a country code
+                # are read for the country of the site TLD, defaulting to US. links accepts any
+                # page and returns its unique http(s) links as data.links ([{ url, text }]), with
+                # absolute URLs; text falls back to aria-label or image alt and is null when a
+                # link has none. The emails parser reads the rendered page and respects content
+                # filters; the other prebuilt parsers read their data independently of DOM
+                # filters.
                 module Parser
                   extend ContextDev::Internal::Type::Enum
 
@@ -1679,6 +1736,41 @@ module ContextDev
                   INSTAGRAM_FEED =
                     T.let(
                       :"instagram-feed",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_PROFILE =
+                    T.let(
+                      :"tiktok-profile",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_VIDEO =
+                    T.let(
+                      :"tiktok-video",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_FEED =
+                    T.let(
+                      :"tiktok-feed",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_COMMENTS =
+                    T.let(
+                      :"tiktok-comments",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_FOLLOWERS =
+                    T.let(
+                      :"tiktok-followers",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_FOLLOWING =
+                    T.let(
+                      :"tiktok-following",
+                      ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_USER_SEARCH =
+                    T.let(
+                      :"tiktok-user-search",
                       ContextDev::BatchSubmitParams::Input::Scrape::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
                     )
                   EMAILS =
@@ -4795,17 +4887,36 @@ module ContextDev
                 # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
                 # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
                 # it. All three Instagram parsers read public data without logging in, so private
-                # accounts return no posts and follower lists are unavailable. emails accepts any
-                # page and returns its email addresses as data.emails ([{ email }]), read from
-                # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
-                # accepts any page and returns its valid phone numbers in E.164 as
-                # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
-                # without a country code are read for the country of the site TLD, defaulting to
-                # US. links accepts any page and returns its unique http(s) links as data.links
-                # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
-                # alt and is null when a link has none. The emails parser reads the rendered page
-                # and respects content filters; the other prebuilt parsers read their data
-                # independently of DOM filters.
+                # accounts return no posts and follower lists are unavailable. tiktok-profile
+                # parses a public profile (tiktok.com/@{username}) into data: nickname, bio, bio
+                # link, follower, following, like, and video counts, verified, private, and
+                # business flags, and business category; it does not list videos. tiktok-video
+                # parses a video or photo post (/@{username}/video/{id} or
+                # /@{username}/photo/{id}) into data: caption, hashtags, mentions, author, view,
+                # like, comment, share, save, and repost counts, duration, thumbnail, a video_url
+                # that downloads without cookies, image_urls for photo posts, music, location, and
+                # ad, paid-partnership, and AI-generated flags. tiktok-feed returns videos in the
+                # tiktok-video shape as data.videos: the latest 15 from a profile URL, the top 30
+                # from a hashtag URL (/tag/{name}), or the top 12 from a search URL
+                # (/search?q={query}). tiktok-comments returns the first 20 comments of a video or
+                # photo post as data.comments: text, posted_at, like and reply counts, whether the
+                # author liked it, and the commenter. tiktok-followers and tiktok-following return
+                # up to 30 accounts of a profile as data.users, in the tiktok-profile shape.
+                # tiktok-user-search returns the top 10 accounts for a user search URL
+                # (/search/user?q={query}) as data.users: id, username, nickname, biography,
+                # avatar_url, sec_uid, follower_count, like_count, and is_verified. The TikTok
+                # parsers accept tiktok.com, www.tiktok.com, and m.tiktok.com URLs but not short
+                # links (vm.tiktok.com, vt.tiktok.com, tiktok.com/t/…). emails accepts any page
+                # and returns its email addresses as data.emails ([{ email }]), read from mailto
+                # links, Cloudflare-protected addresses, and visible text. phone-numbers accepts
+                # any page and returns its valid phone numbers in E.164 as data.phone_numbers ([{
+                # phone }]), read from tel links and visible text; numbers without a country code
+                # are read for the country of the site TLD, defaulting to US. links accepts any
+                # page and returns its unique http(s) links as data.links ([{ url, text }]), with
+                # absolute URLs; text falls back to aria-label or image alt and is null when a
+                # link has none. The emails parser reads the rendered page and respects content
+                # filters; the other prebuilt parsers read their data independently of DOM
+                # filters.
                 sig do
                   returns(
                     ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::OrSymbol
@@ -4891,17 +5002,36 @@ module ContextDev
                   # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
                   # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
                   # it. All three Instagram parsers read public data without logging in, so private
-                  # accounts return no posts and follower lists are unavailable. emails accepts any
-                  # page and returns its email addresses as data.emails ([{ email }]), read from
-                  # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
-                  # accepts any page and returns its valid phone numbers in E.164 as
-                  # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
-                  # without a country code are read for the country of the site TLD, defaulting to
-                  # US. links accepts any page and returns its unique http(s) links as data.links
-                  # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
-                  # alt and is null when a link has none. The emails parser reads the rendered page
-                  # and respects content filters; the other prebuilt parsers read their data
-                  # independently of DOM filters.
+                  # accounts return no posts and follower lists are unavailable. tiktok-profile
+                  # parses a public profile (tiktok.com/@{username}) into data: nickname, bio, bio
+                  # link, follower, following, like, and video counts, verified, private, and
+                  # business flags, and business category; it does not list videos. tiktok-video
+                  # parses a video or photo post (/@{username}/video/{id} or
+                  # /@{username}/photo/{id}) into data: caption, hashtags, mentions, author, view,
+                  # like, comment, share, save, and repost counts, duration, thumbnail, a video_url
+                  # that downloads without cookies, image_urls for photo posts, music, location, and
+                  # ad, paid-partnership, and AI-generated flags. tiktok-feed returns videos in the
+                  # tiktok-video shape as data.videos: the latest 15 from a profile URL, the top 30
+                  # from a hashtag URL (/tag/{name}), or the top 12 from a search URL
+                  # (/search?q={query}). tiktok-comments returns the first 20 comments of a video or
+                  # photo post as data.comments: text, posted_at, like and reply counts, whether the
+                  # author liked it, and the commenter. tiktok-followers and tiktok-following return
+                  # up to 30 accounts of a profile as data.users, in the tiktok-profile shape.
+                  # tiktok-user-search returns the top 10 accounts for a user search URL
+                  # (/search/user?q={query}) as data.users: id, username, nickname, biography,
+                  # avatar_url, sec_uid, follower_count, like_count, and is_verified. The TikTok
+                  # parsers accept tiktok.com, www.tiktok.com, and m.tiktok.com URLs but not short
+                  # links (vm.tiktok.com, vt.tiktok.com, tiktok.com/t/…). emails accepts any page
+                  # and returns its email addresses as data.emails ([{ email }]), read from mailto
+                  # links, Cloudflare-protected addresses, and visible text. phone-numbers accepts
+                  # any page and returns its valid phone numbers in E.164 as data.phone_numbers ([{
+                  # phone }]), read from tel links and visible text; numbers without a country code
+                  # are read for the country of the site TLD, defaulting to US. links accepts any
+                  # page and returns its unique http(s) links as data.links ([{ url, text }]), with
+                  # absolute URLs; text falls back to aria-label or image alt and is null when a
+                  # link has none. The emails parser reads the rendered page and respects content
+                  # filters; the other prebuilt parsers read their data independently of DOM
+                  # filters.
                   parser:,
                   # google-maps-reviews only. Maximum number of reviews to return. Defaults to 100;
                   # maximum 1000.
@@ -4965,17 +5095,36 @@ module ContextDev
                 # location (/explore/locations/{id}/…) in data.posts; keyword posts carry only the
                 # shortcode, owner, thumbnail, and views, plus the caption when Instagram shows
                 # it. All three Instagram parsers read public data without logging in, so private
-                # accounts return no posts and follower lists are unavailable. emails accepts any
-                # page and returns its email addresses as data.emails ([{ email }]), read from
-                # mailto links, Cloudflare-protected addresses, and visible text. phone-numbers
-                # accepts any page and returns its valid phone numbers in E.164 as
-                # data.phone_numbers ([{ phone }]), read from tel links and visible text; numbers
-                # without a country code are read for the country of the site TLD, defaulting to
-                # US. links accepts any page and returns its unique http(s) links as data.links
-                # ([{ url, text }]), with absolute URLs; text falls back to aria-label or image
-                # alt and is null when a link has none. The emails parser reads the rendered page
-                # and respects content filters; the other prebuilt parsers read their data
-                # independently of DOM filters.
+                # accounts return no posts and follower lists are unavailable. tiktok-profile
+                # parses a public profile (tiktok.com/@{username}) into data: nickname, bio, bio
+                # link, follower, following, like, and video counts, verified, private, and
+                # business flags, and business category; it does not list videos. tiktok-video
+                # parses a video or photo post (/@{username}/video/{id} or
+                # /@{username}/photo/{id}) into data: caption, hashtags, mentions, author, view,
+                # like, comment, share, save, and repost counts, duration, thumbnail, a video_url
+                # that downloads without cookies, image_urls for photo posts, music, location, and
+                # ad, paid-partnership, and AI-generated flags. tiktok-feed returns videos in the
+                # tiktok-video shape as data.videos: the latest 15 from a profile URL, the top 30
+                # from a hashtag URL (/tag/{name}), or the top 12 from a search URL
+                # (/search?q={query}). tiktok-comments returns the first 20 comments of a video or
+                # photo post as data.comments: text, posted_at, like and reply counts, whether the
+                # author liked it, and the commenter. tiktok-followers and tiktok-following return
+                # up to 30 accounts of a profile as data.users, in the tiktok-profile shape.
+                # tiktok-user-search returns the top 10 accounts for a user search URL
+                # (/search/user?q={query}) as data.users: id, username, nickname, biography,
+                # avatar_url, sec_uid, follower_count, like_count, and is_verified. The TikTok
+                # parsers accept tiktok.com, www.tiktok.com, and m.tiktok.com URLs but not short
+                # links (vm.tiktok.com, vt.tiktok.com, tiktok.com/t/…). emails accepts any page
+                # and returns its email addresses as data.emails ([{ email }]), read from mailto
+                # links, Cloudflare-protected addresses, and visible text. phone-numbers accepts
+                # any page and returns its valid phone numbers in E.164 as data.phone_numbers ([{
+                # phone }]), read from tel links and visible text; numbers without a country code
+                # are read for the country of the site TLD, defaulting to US. links accepts any
+                # page and returns its unique http(s) links as data.links ([{ url, text }]), with
+                # absolute URLs; text falls back to aria-label or image alt and is null when a
+                # link has none. The emails parser reads the rendered page and respects content
+                # filters; the other prebuilt parsers read their data independently of DOM
+                # filters.
                 module Parser
                   extend ContextDev::Internal::Type::Enum
 
@@ -5036,6 +5185,41 @@ module ContextDev
                   INSTAGRAM_FEED =
                     T.let(
                       :"instagram-feed",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_PROFILE =
+                    T.let(
+                      :"tiktok-profile",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_VIDEO =
+                    T.let(
+                      :"tiktok-video",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_FEED =
+                    T.let(
+                      :"tiktok-feed",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_COMMENTS =
+                    T.let(
+                      :"tiktok-comments",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_FOLLOWERS =
+                    T.let(
+                      :"tiktok-followers",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_FOLLOWING =
+                    T.let(
+                      :"tiktok-following",
+                      ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
+                    )
+                  TIKTOK_USER_SEARCH =
+                    T.let(
+                      :"tiktok-user-search",
                       ContextDev::BatchSubmitParams::Input::Crawl::Data::ParseParams::PrebuiltParser::Parser::TaggedSymbol
                     )
                   EMAILS =

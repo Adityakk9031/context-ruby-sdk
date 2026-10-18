@@ -494,6 +494,13 @@ module ContextDev
             | :"instagram-profile"
             | :"instagram-post"
             | :"instagram-feed"
+            | :"tiktok-profile"
+            | :"tiktok-video"
+            | :"tiktok-feed"
+            | :"tiktok-comments"
+            | :"tiktok-followers"
+            | :"tiktok-following"
+            | :"tiktok-user-search"
             | :emails
             | :"phone-numbers"
             | :links
@@ -511,6 +518,13 @@ module ContextDev
             INSTAGRAM_PROFILE: :"instagram-profile"
             INSTAGRAM_POST: :"instagram-post"
             INSTAGRAM_FEED: :"instagram-feed"
+            TIKTOK_PROFILE: :"tiktok-profile"
+            TIKTOK_VIDEO: :"tiktok-video"
+            TIKTOK_FEED: :"tiktok-feed"
+            TIKTOK_COMMENTS: :"tiktok-comments"
+            TIKTOK_FOLLOWERS: :"tiktok-followers"
+            TIKTOK_FOLLOWING: :"tiktok-following"
+            TIKTOK_USER_SEARCH: :"tiktok-user-search"
             EMAILS: :emails
             PHONE_NUMBERS: :"phone-numbers"
             LINKS: :links

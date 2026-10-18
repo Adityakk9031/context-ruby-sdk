@@ -101,10 +101,13 @@ module ContextDev
       # app record as data, google-play-reviews returns data.reviews, app-store and
       # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
       # for a G2 product, instagram-profile and instagram-post return one record as
-      # data, instagram-feed returns data.posts, emails, phone-numbers, and links return
-      # data.emails, data.phone_numbers, and data.links from the rendered page; the
-      # store, Maps, G2, and Instagram parsers read their data directly, independently
-      # of DOM filters and other outputs.
+      # data, instagram-feed returns data.posts, tiktok-profile and tiktok-video return
+      # one record as data, tiktok-feed returns data.videos, tiktok-comments returns
+      # data.comments, tiktok-followers, tiktok-following, and tiktok-user-search return
+      # data.users, emails, phone-numbers, and links return data.emails,
+      # data.phone_numbers, and data.links from the rendered page; the store, Maps, G2,
+      # Instagram, and TikTok parsers read their data directly, independently of DOM
+      # filters and other outputs.
       sig { returns(ContextDev::Models::WebScrapeResponse::Parsed) }
       attr_reader :parsed
 
@@ -240,10 +243,13 @@ module ContextDev
         # app record as data, google-play-reviews returns data.reviews, app-store and
         # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
         # for a G2 product, instagram-profile and instagram-post return one record as
-        # data, instagram-feed returns data.posts, emails, phone-numbers, and links return
-        # data.emails, data.phone_numbers, and data.links from the rendered page; the
-        # store, Maps, G2, and Instagram parsers read their data directly, independently
-        # of DOM filters and other outputs.
+        # data, instagram-feed returns data.posts, tiktok-profile and tiktok-video return
+        # one record as data, tiktok-feed returns data.videos, tiktok-comments returns
+        # data.comments, tiktok-followers, tiktok-following, and tiktok-user-search return
+        # data.users, emails, phone-numbers, and links return data.emails,
+        # data.phone_numbers, and data.links from the rendered page; the store, Maps, G2,
+        # Instagram, and TikTok parsers read their data directly, independently of DOM
+        # filters and other outputs.
         parsed:,
         # Product details found on the page.
         product:,
@@ -1635,10 +1641,13 @@ module ContextDev
         # app record as data, google-play-reviews returns data.reviews, app-store and
         # app-store-reviews do the same for the App Store, g2-reviews returns data.reviews
         # for a G2 product, instagram-profile and instagram-post return one record as
-        # data, instagram-feed returns data.posts, emails, phone-numbers, and links return
-        # data.emails, data.phone_numbers, and data.links from the rendered page; the
-        # store, Maps, G2, and Instagram parsers read their data directly, independently
-        # of DOM filters and other outputs.
+        # data, instagram-feed returns data.posts, tiktok-profile and tiktok-video return
+        # one record as data, tiktok-feed returns data.videos, tiktok-comments returns
+        # data.comments, tiktok-followers, tiktok-following, and tiktok-user-search return
+        # data.users, emails, phone-numbers, and links return data.emails,
+        # data.phone_numbers, and data.links from the rendered page; the store, Maps, G2,
+        # Instagram, and TikTok parsers read their data directly, independently of DOM
+        # filters and other outputs.
         sig do
           params(
             data: T.nilable(T::Hash[Symbol, T.anything]),
@@ -1744,6 +1753,41 @@ module ContextDev
           INSTAGRAM_FEED =
             T.let(
               :"instagram-feed",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          TIKTOK_PROFILE =
+            T.let(
+              :"tiktok-profile",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          TIKTOK_VIDEO =
+            T.let(
+              :"tiktok-video",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          TIKTOK_FEED =
+            T.let(
+              :"tiktok-feed",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          TIKTOK_COMMENTS =
+            T.let(
+              :"tiktok-comments",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          TIKTOK_FOLLOWERS =
+            T.let(
+              :"tiktok-followers",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          TIKTOK_FOLLOWING =
+            T.let(
+              :"tiktok-following",
+              ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
+            )
+          TIKTOK_USER_SEARCH =
+            T.let(
+              :"tiktok-user-search",
               ContextDev::Models::WebScrapeResponse::Parsed::Type::TaggedSymbol
             )
           EMAILS =
