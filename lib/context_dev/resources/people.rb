@@ -7,7 +7,7 @@ module ContextDev
       # {ContextDev::Models::PersonEnrichParams} for more details.
       #
       # Find a person from identity clues and return their profile with a match score.
-      # Requires a paid plan; free or disposable email addresses return 422.
+      # Available on all plans; free or disposable email addresses return 422.
       #
       # @overload enrich(company: nil, education: nil, email: nil, location: nil, name: nil, social_urls: nil, tags: nil, timeout_opts: nil, zdr: nil, request_options: {})
       #
