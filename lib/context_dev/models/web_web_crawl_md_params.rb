@@ -28,6 +28,13 @@ module ContextDev
                api_name: :excludeSelectors,
                nil?: true
 
+      # @!attribute exclude_url_regex
+      #   RE2 regex pattern. URLs matching this pattern are never followed or scraped,
+      #   even when they match urlRegex. The starting URL is always scraped.
+      #
+      #   @return [String, nil]
+      optional :exclude_url_regex, String, api_name: :excludeUrlRegex
+
       # @!attribute follow_subdomains
       #   When true, follow links on subdomains of the starting URL's domain (e.g.
       #   docs.example.com when starting from example.com). www and apex are always
@@ -149,7 +156,7 @@ module ContextDev
       #   @return [Symbol, ContextDev::Models::WebWebCrawlMdParams::Zdr, nil]
       optional :zdr, enum: -> { ContextDev::WebWebCrawlMdParams::Zdr }
 
-      # @!method initialize(url:, country: nil, exclude_selectors: nil, follow_subdomains: nil, include_frames: nil, include_images: nil, include_links: nil, include_selectors: nil, max_age_ms: nil, max_depth: nil, max_pages: nil, pdf: nil, settle_animations: nil, shorten_base64_images: nil, stop_after_ms: nil, tags: nil, timeout_opts: nil, url_regex: nil, use_main_content_only: nil, wait_for_ms: nil, zdr: nil, request_options: {})
+      # @!method initialize(url:, country: nil, exclude_selectors: nil, exclude_url_regex: nil, follow_subdomains: nil, include_frames: nil, include_images: nil, include_links: nil, include_selectors: nil, max_age_ms: nil, max_depth: nil, max_pages: nil, pdf: nil, settle_animations: nil, shorten_base64_images: nil, stop_after_ms: nil, tags: nil, timeout_opts: nil, url_regex: nil, use_main_content_only: nil, wait_for_ms: nil, zdr: nil, request_options: {})
       #   Some parameter documentations has been truncated, see
       #   {ContextDev::Models::WebWebCrawlMdParams} for more details.
       #
@@ -158,6 +165,8 @@ module ContextDev
       #   @param country [Symbol, ContextDev::Models::WebWebCrawlMdParams::Country] Fetch from this country (ISO 3166-1 alpha-2).
       #
       #   @param exclude_selectors [Array<String>, nil] Remove matching elements after inclusions. Exclusions take precedence.
+      #
+      #   @param exclude_url_regex [String] RE2 regex pattern. URLs matching this pattern are never followed or scraped, eve
       #
       #   @param follow_subdomains [Boolean] When true, follow links on subdomains of the starting URL's domain (e.g. docs.ex
       #

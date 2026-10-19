@@ -1839,6 +1839,13 @@ module ContextDev
 
                 # @see ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL#controls
                 class Controls < ContextDev::Internal::Type::BaseModel
+                  # @!attribute exclude_regex
+                  #   RE2 pattern for URLs to exclude, even when they match `regex`. The `start_url`
+                  #   itself is always included.
+                  #
+                  #   @return [String, nil]
+                  optional :exclude_regex, String, api_name: :excludeRegex
+
                   # @!attribute follow_subdomains
                   #   Follow links to subdomains.
                   #
@@ -1865,8 +1872,14 @@ module ContextDev
                   #   @return [String, nil]
                   optional :regex, String
 
-                  # @!method initialize(follow_subdomains: nil, max_depth: nil, max_urls: nil, regex: nil)
+                  # @!method initialize(exclude_regex: nil, follow_subdomains: nil, max_depth: nil, max_urls: nil, regex: nil)
+                  #   Some parameter documentations has been truncated, see
+                  #   {ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls}
+                  #   for more details.
+                  #
                   #   Limits and filters for page discovery.
+                  #
+                  #   @param exclude_regex [String] RE2 pattern for URLs to exclude, even when they match `regex`. The `start_url` i
                   #
                   #   @param follow_subdomains [Boolean] Follow links to subdomains.
                   #
@@ -1915,6 +1928,13 @@ module ContextDev
 
                 # @see ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::Sitemap#controls
                 class Controls < ContextDev::Internal::Type::BaseModel
+                  # @!attribute exclude_regex
+                  #   RE2 pattern; sitemap URLs matching it are not scraped, even when they match
+                  #   `regex`.
+                  #
+                  #   @return [String, nil]
+                  optional :exclude_regex, String, api_name: :excludeRegex
+
                   # @!attribute max_urls
                   #   Maximum pages to fetch. Unused reserved credits are refunded. Maximum 100000.
                   #
@@ -1927,9 +1947,15 @@ module ContextDev
                   #   @return [String, nil]
                   optional :regex, String
 
-                  # @!method initialize(max_urls: nil, regex: nil)
+                  # @!method initialize(exclude_regex: nil, max_urls: nil, regex: nil)
+                  #   Some parameter documentations has been truncated, see
+                  #   {ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::Sitemap::Controls}
+                  #   for more details.
+                  #
                   #   Limits and filters for the sitemap URLs. A sitemap batch scrapes exactly those
                   #   URLs and never follows links off them, so there is no crawl depth here.
+                  #
+                  #   @param exclude_regex [String] RE2 pattern; sitemap URLs matching it are not scraped, even when they match `reg
                   #
                   #   @param max_urls [Integer] Maximum pages to fetch. Unused reserved credits are refunded. Maximum 100000.
                   #

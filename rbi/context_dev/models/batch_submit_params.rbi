@@ -3965,6 +3965,14 @@ module ContextDev
                       )
                     end
 
+                  # RE2 pattern for URLs to exclude, even when they match `regex`. The `start_url`
+                  # itself is always included.
+                  sig { returns(T.nilable(String)) }
+                  attr_reader :exclude_regex
+
+                  sig { params(exclude_regex: String).void }
+                  attr_writer :exclude_regex
+
                   # Follow links to subdomains.
                   sig { returns(T.nilable(T::Boolean)) }
                   attr_reader :follow_subdomains
@@ -3996,6 +4004,7 @@ module ContextDev
                   # Limits and filters for page discovery.
                   sig do
                     params(
+                      exclude_regex: String,
                       follow_subdomains: T::Boolean,
                       max_depth: Integer,
                       max_urls: Integer,
@@ -4003,6 +4012,9 @@ module ContextDev
                     ).returns(T.attached_class)
                   end
                   def self.new(
+                    # RE2 pattern for URLs to exclude, even when they match `regex`. The `start_url`
+                    # itself is always included.
+                    exclude_regex: nil,
                     # Follow links to subdomains.
                     follow_subdomains: nil,
                     # Maximum link depth. Source pages are depth 0. No limit when omitted.
@@ -4017,6 +4029,7 @@ module ContextDev
                   sig do
                     override.returns(
                       {
+                        exclude_regex: String,
                         follow_subdomains: T::Boolean,
                         max_depth: Integer,
                         max_urls: Integer,
@@ -4110,6 +4123,14 @@ module ContextDev
                       )
                     end
 
+                  # RE2 pattern; sitemap URLs matching it are not scraped, even when they match
+                  # `regex`.
+                  sig { returns(T.nilable(String)) }
+                  attr_reader :exclude_regex
+
+                  sig { params(exclude_regex: String).void }
+                  attr_writer :exclude_regex
+
                   # Maximum pages to fetch. Unused reserved credits are refunded. Maximum 100000.
                   sig { returns(T.nilable(Integer)) }
                   attr_reader :max_urls
@@ -4127,11 +4148,16 @@ module ContextDev
                   # Limits and filters for the sitemap URLs. A sitemap batch scrapes exactly those
                   # URLs and never follows links off them, so there is no crawl depth here.
                   sig do
-                    params(max_urls: Integer, regex: String).returns(
-                      T.attached_class
-                    )
+                    params(
+                      exclude_regex: String,
+                      max_urls: Integer,
+                      regex: String
+                    ).returns(T.attached_class)
                   end
                   def self.new(
+                    # RE2 pattern; sitemap URLs matching it are not scraped, even when they match
+                    # `regex`.
+                    exclude_regex: nil,
                     # Maximum pages to fetch. Unused reserved credits are refunded. Maximum 100000.
                     max_urls: nil,
                     # RE2 pattern; only sitemap URLs matching it are scraped.
@@ -4139,7 +4165,15 @@ module ContextDev
                   )
                   end
 
-                  sig { override.returns({ max_urls: Integer, regex: String }) }
+                  sig do
+                    override.returns(
+                      {
+                        exclude_regex: String,
+                        max_urls: Integer,
+                        regex: String
+                      }
+                    )
+                  end
                   def to_hash
                   end
                 end

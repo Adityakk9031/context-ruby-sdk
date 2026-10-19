@@ -30,6 +30,14 @@ module ContextDev
       sig { returns(T.nilable(T::Array[String])) }
       attr_accessor :exclude_selectors
 
+      # RE2 regex pattern. URLs matching this pattern are never followed or scraped,
+      # even when they match urlRegex. The starting URL is always scraped.
+      sig { returns(T.nilable(String)) }
+      attr_reader :exclude_url_regex
+
+      sig { params(exclude_url_regex: String).void }
+      attr_writer :exclude_url_regex
+
       # When true, follow links on subdomains of the starting URL's domain (e.g.
       # docs.example.com when starting from example.com). www and apex are always
       # treated as equivalent.
@@ -166,6 +174,7 @@ module ContextDev
           url: String,
           country: ContextDev::WebWebCrawlMdParams::Country::OrSymbol,
           exclude_selectors: T.nilable(T::Array[String]),
+          exclude_url_regex: String,
           follow_subdomains: T::Boolean,
           include_frames: T::Boolean,
           include_images: T::Boolean,
@@ -194,6 +203,9 @@ module ContextDev
         country: nil,
         # Remove matching elements after inclusions. Exclusions take precedence.
         exclude_selectors: nil,
+        # RE2 regex pattern. URLs matching this pattern are never followed or scraped,
+        # even when they match urlRegex. The starting URL is always scraped.
+        exclude_url_regex: nil,
         # When true, follow links on subdomains of the starting URL's domain (e.g.
         # docs.example.com when starting from example.com). www and apex are always
         # treated as equivalent.
@@ -250,6 +262,7 @@ module ContextDev
             url: String,
             country: ContextDev::WebWebCrawlMdParams::Country::OrSymbol,
             exclude_selectors: T.nilable(T::Array[String]),
+            exclude_url_regex: String,
             follow_subdomains: T::Boolean,
             include_frames: T::Boolean,
             include_images: T::Boolean,

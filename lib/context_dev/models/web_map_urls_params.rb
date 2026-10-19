@@ -13,6 +13,13 @@ module ContextDev
       #   @return [String]
       required :domain, String
 
+      # @!attribute exclude_url_regex
+      #   Optional RE2-compatible regex pattern. URLs matching this pattern are not
+      #   returned, even when they match urlRegex.
+      #
+      #   @return [String, nil]
+      optional :exclude_url_regex, String
+
       # @!attribute headers
       #   HTTP headers for the target origin. Non-empty headers bypass caching.
       #
@@ -70,11 +77,13 @@ module ContextDev
       #   @return [Symbol, ContextDev::Models::WebMapURLsParams::Zdr, nil]
       optional :zdr, enum: -> { ContextDev::WebMapURLsParams::Zdr }
 
-      # @!method initialize(domain:, headers: nil, include_subdomains: nil, max_links: nil, search: nil, sitemap_url: nil, tags: nil, timeout_opts: nil, url_regex: nil, zdr: nil, request_options: {})
+      # @!method initialize(domain:, exclude_url_regex: nil, headers: nil, include_subdomains: nil, max_links: nil, search: nil, sitemap_url: nil, tags: nil, timeout_opts: nil, url_regex: nil, zdr: nil, request_options: {})
       #   Some parameter documentations has been truncated, see
       #   {ContextDev::Models::WebMapURLsParams} for more details.
       #
       #   @param domain [String] Domain to map, e.g. `stripe.com`.
+      #
+      #   @param exclude_url_regex [String] Optional RE2-compatible regex pattern. URLs matching this pattern are not return
       #
       #   @param headers [Hash{Symbol=>String}] HTTP headers for the target origin. Non-empty headers bypass caching.
       #

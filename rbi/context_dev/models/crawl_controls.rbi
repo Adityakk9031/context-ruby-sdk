@@ -8,6 +8,10 @@ module ContextDev
           T.any(ContextDev::CrawlControls, ContextDev::Internal::AnyHash)
         end
 
+      # RE2 pattern URLs must not match to be crawled. Null when the crawl set none.
+      sig { returns(T.nilable(String)) }
+      attr_accessor :exclude_url_pattern
+
       # Whether links to subdomains were followed. Always false for a sitemap crawl.
       sig { returns(T::Boolean) }
       attr_accessor :follow_subdomains
@@ -33,6 +37,7 @@ module ContextDev
       # Crawl settings as submitted.
       sig do
         params(
+          exclude_url_pattern: T.nilable(String),
           follow_subdomains: T::Boolean,
           max_depth: T.nilable(Integer),
           max_pages: Integer,
@@ -45,6 +50,8 @@ module ContextDev
         ).returns(T.attached_class)
       end
       def self.new(
+        # RE2 pattern URLs must not match to be crawled. Null when the crawl set none.
+        exclude_url_pattern:,
         # Whether links to subdomains were followed. Always false for a sitemap crawl.
         follow_subdomains:,
         # Link depth limit. Always 0 for a sitemap crawl, which never follows links off
@@ -63,6 +70,7 @@ module ContextDev
       sig do
         override.returns(
           {
+            exclude_url_pattern: T.nilable(String),
             follow_subdomains: T::Boolean,
             max_depth: T.nilable(Integer),
             max_pages: Integer,

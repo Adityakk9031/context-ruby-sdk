@@ -1485,6 +1485,7 @@ module ContextDev
 
                 type controls =
                   {
+                    exclude_regex: String,
                     follow_subdomains: bool,
                     max_depth: Integer,
                     max_urls: Integer,
@@ -1492,6 +1493,10 @@ module ContextDev
                   }
 
                 class Controls < ContextDev::Internal::Type::BaseModel
+                  attr_reader exclude_regex: String?
+
+                  def exclude_regex=: (String) -> String
+
                   attr_reader follow_subdomains: bool?
 
                   def follow_subdomains=: (bool) -> bool
@@ -1509,6 +1514,7 @@ module ContextDev
                   def regex=: (String) -> String
 
                   def initialize: (
+                    ?exclude_regex: String,
                     ?follow_subdomains: bool,
                     ?max_depth: Integer,
                     ?max_urls: Integer,
@@ -1516,6 +1522,7 @@ module ContextDev
                   ) -> void
 
                   def to_hash: -> {
+                    exclude_regex: String,
                     follow_subdomains: bool,
                     max_depth: Integer,
                     max_urls: Integer,
@@ -1554,9 +1561,14 @@ module ContextDev
                   controls: ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::Sitemap::Controls
                 }
 
-                type controls = { max_urls: Integer, regex: String }
+                type controls =
+                  { exclude_regex: String, max_urls: Integer, regex: String }
 
                 class Controls < ContextDev::Internal::Type::BaseModel
+                  attr_reader exclude_regex: String?
+
+                  def exclude_regex=: (String) -> String
+
                   attr_reader max_urls: Integer?
 
                   def max_urls=: (Integer) -> Integer
@@ -1565,9 +1577,17 @@ module ContextDev
 
                   def regex=: (String) -> String
 
-                  def initialize: (?max_urls: Integer, ?regex: String) -> void
+                  def initialize: (
+                    ?exclude_regex: String,
+                    ?max_urls: Integer,
+                    ?regex: String
+                  ) -> void
 
-                  def to_hash: -> { max_urls: Integer, regex: String }
+                  def to_hash: -> {
+                    exclude_regex: String,
+                    max_urls: Integer,
+                    regex: String
+                  }
                 end
               end
 

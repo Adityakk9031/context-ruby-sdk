@@ -33,6 +33,7 @@ module ContextDev
 
       def map_urls: (
         domain: String,
+        ?exclude_url_regex: String,
         ?headers: ::Hash[Symbol, String],
         ?include_subdomains: bool,
         ?max_links: Integer,
@@ -105,6 +106,7 @@ module ContextDev
         url: String,
         ?country: ContextDev::Models::WebWebCrawlMdParams::country,
         ?exclude_selectors: ::Array[String]?,
+        ?exclude_url_regex: String,
         ?follow_subdomains: bool,
         ?include_frames: bool,
         ?include_images: bool,

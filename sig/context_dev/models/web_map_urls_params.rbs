@@ -3,6 +3,7 @@ module ContextDev
     type web_map_urls_params =
       {
         domain: String,
+        exclude_url_regex: String,
         headers: ::Hash[Symbol, String],
         include_subdomains: bool,
         max_links: Integer,
@@ -20,6 +21,10 @@ module ContextDev
       include ContextDev::Internal::Type::RequestParameters
 
       attr_accessor domain: String
+
+      attr_reader exclude_url_regex: String?
+
+      def exclude_url_regex=: (String) -> String
 
       attr_reader headers: ::Hash[Symbol, String]?
 
@@ -63,6 +68,7 @@ module ContextDev
 
       def initialize: (
         domain: String,
+        ?exclude_url_regex: String,
         ?headers: ::Hash[Symbol, String],
         ?include_subdomains: bool,
         ?max_links: Integer,
@@ -77,6 +83,7 @@ module ContextDev
 
       def to_hash: -> {
         domain: String,
+        exclude_url_regex: String,
         headers: ::Hash[Symbol, String],
         include_subdomains: bool,
         max_links: Integer,

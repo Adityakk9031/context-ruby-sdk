@@ -111,6 +111,7 @@ module ContextDev
       sig do
         params(
           domain: String,
+          exclude_url_regex: String,
           headers: T::Hash[Symbol, String],
           include_subdomains: T::Boolean,
           max_links: Integer,
@@ -126,6 +127,9 @@ module ContextDev
       def map_urls(
         # Domain to map, e.g. `stripe.com`.
         domain:,
+        # Optional RE2-compatible regex pattern. URLs matching this pattern are not
+        # returned, even when they match urlRegex.
+        exclude_url_regex: nil,
         # HTTP headers for the target origin. Non-empty headers bypass caching.
         headers: nil,
         # Include URLs on subdomains.
@@ -384,6 +388,7 @@ module ContextDev
           url: String,
           country: ContextDev::WebWebCrawlMdParams::Country::OrSymbol,
           exclude_selectors: T.nilable(T::Array[String]),
+          exclude_url_regex: String,
           follow_subdomains: T::Boolean,
           include_frames: T::Boolean,
           include_images: T::Boolean,
@@ -412,6 +417,9 @@ module ContextDev
         country: nil,
         # Remove matching elements after inclusions. Exclusions take precedence.
         exclude_selectors: nil,
+        # RE2 regex pattern. URLs matching this pattern are never followed or scraped,
+        # even when they match urlRegex. The starting URL is always scraped.
+        exclude_url_regex: nil,
         # When true, follow links on subdomains of the starting URL's domain (e.g.
         # docs.example.com when starting from example.com). www and apex are always
         # treated as equivalent.

@@ -226,8 +226,8 @@ module ContextDev
         sig { returns(Integer) }
         attr_accessor :num_failed
 
-        # Number of URLs skipped (PDFs when pdf.shouldParse=false, or URLs not matching
-        # urlRegex)
+        # Number of URLs skipped (PDFs when pdf.shouldParse=false, URLs not matching
+        # urlRegex, or URLs matching excludeUrlRegex)
         sig { returns(Integer) }
         attr_accessor :num_skipped
 
@@ -253,8 +253,8 @@ module ContextDev
           max_crawl_depth:,
           # Number of pages that failed to crawl
           num_failed:,
-          # Number of URLs skipped (PDFs when pdf.shouldParse=false, or URLs not matching
-          # urlRegex)
+          # Number of URLs skipped (PDFs when pdf.shouldParse=false, URLs not matching
+          # urlRegex, or URLs matching excludeUrlRegex)
           num_skipped:,
           # Number of pages successfully crawled
           num_succeeded:,

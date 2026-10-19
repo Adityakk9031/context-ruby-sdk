@@ -5,6 +5,7 @@ module ContextDev
         url: String,
         country: ContextDev::Models::WebWebCrawlMdParams::country,
         exclude_selectors: ::Array[String]?,
+        exclude_url_regex: String,
         follow_subdomains: bool,
         include_frames: bool,
         include_images: bool,
@@ -39,6 +40,10 @@ module ContextDev
       ) -> ContextDev::Models::WebWebCrawlMdParams::country
 
       attr_accessor exclude_selectors: ::Array[String]?
+
+      attr_reader exclude_url_regex: String?
+
+      def exclude_url_regex=: (String) -> String
 
       attr_reader follow_subdomains: bool?
 
@@ -116,6 +121,7 @@ module ContextDev
         url: String,
         ?country: ContextDev::Models::WebWebCrawlMdParams::country,
         ?exclude_selectors: ::Array[String]?,
+        ?exclude_url_regex: String,
         ?follow_subdomains: bool,
         ?include_frames: bool,
         ?include_images: bool,
@@ -141,6 +147,7 @@ module ContextDev
         url: String,
         country: ContextDev::Models::WebWebCrawlMdParams::country,
         exclude_selectors: ::Array[String]?,
+        exclude_url_regex: String,
         follow_subdomains: bool,
         include_frames: bool,
         include_images: bool,

@@ -123,9 +123,11 @@ module ContextDev
       # Discover a site's URLs, with page titles, descriptions, keywords, and language
       # when available. Metadata can be missing on newly discovered URLs.
       #
-      # @overload map_urls(domain:, headers: nil, include_subdomains: nil, max_links: nil, search: nil, sitemap_url: nil, tags: nil, timeout_opts: nil, url_regex: nil, zdr: nil, request_options: {})
+      # @overload map_urls(domain:, exclude_url_regex: nil, headers: nil, include_subdomains: nil, max_links: nil, search: nil, sitemap_url: nil, tags: nil, timeout_opts: nil, url_regex: nil, zdr: nil, request_options: {})
       #
       # @param domain [String] Domain to map, e.g. `stripe.com`.
+      #
+      # @param exclude_url_regex [String] Optional RE2-compatible regex pattern. URLs matching this pattern are not return
       #
       # @param headers [Hash{Symbol=>String}] HTTP headers for the target origin. Non-empty headers bypass caching.
       #
@@ -157,6 +159,7 @@ module ContextDev
           method: :get,
           path: "web/urls",
           query: query.transform_keys(
+            exclude_url_regex: "excludeUrlRegex",
             include_subdomains: "includeSubdomains",
             max_links: "maxLinks",
             sitemap_url: "sitemapUrl",
@@ -344,13 +347,15 @@ module ContextDev
       # Crawl a website and return page content as Markdown. Use a batch for crawls
       # beyond 500 pages.
       #
-      # @overload web_crawl_md(url:, country: nil, exclude_selectors: nil, follow_subdomains: nil, include_frames: nil, include_images: nil, include_links: nil, include_selectors: nil, max_age_ms: nil, max_depth: nil, max_pages: nil, pdf: nil, settle_animations: nil, shorten_base64_images: nil, stop_after_ms: nil, tags: nil, timeout_opts: nil, url_regex: nil, use_main_content_only: nil, wait_for_ms: nil, zdr: nil, request_options: {})
+      # @overload web_crawl_md(url:, country: nil, exclude_selectors: nil, exclude_url_regex: nil, follow_subdomains: nil, include_frames: nil, include_images: nil, include_links: nil, include_selectors: nil, max_age_ms: nil, max_depth: nil, max_pages: nil, pdf: nil, settle_animations: nil, shorten_base64_images: nil, stop_after_ms: nil, tags: nil, timeout_opts: nil, url_regex: nil, use_main_content_only: nil, wait_for_ms: nil, zdr: nil, request_options: {})
       #
       # @param url [String] Start URL, including `http://` or `https://`.
       #
       # @param country [Symbol, ContextDev::Models::WebWebCrawlMdParams::Country] Fetch from this country (ISO 3166-1 alpha-2).
       #
       # @param exclude_selectors [Array<String>, nil] Remove matching elements after inclusions. Exclusions take precedence.
+      #
+      # @param exclude_url_regex [String] RE2 regex pattern. URLs matching this pattern are never followed or scraped, eve
       #
       # @param follow_subdomains [Boolean] When true, follow links on subdomains of the starting URL's domain (e.g. docs.ex
       #

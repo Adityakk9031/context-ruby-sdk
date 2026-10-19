@@ -15,6 +15,14 @@ module ContextDev
       sig { returns(String) }
       attr_accessor :domain
 
+      # Optional RE2-compatible regex pattern. URLs matching this pattern are not
+      # returned, even when they match urlRegex.
+      sig { returns(T.nilable(String)) }
+      attr_reader :exclude_url_regex
+
+      sig { params(exclude_url_regex: String).void }
+      attr_writer :exclude_url_regex
+
       # HTTP headers for the target origin. Non-empty headers bypass caching.
       sig { returns(T.nilable(T::Hash[Symbol, String])) }
       attr_reader :headers
@@ -88,6 +96,7 @@ module ContextDev
       sig do
         params(
           domain: String,
+          exclude_url_regex: String,
           headers: T::Hash[Symbol, String],
           include_subdomains: T::Boolean,
           max_links: Integer,
@@ -103,6 +112,9 @@ module ContextDev
       def self.new(
         # Domain to map, e.g. `stripe.com`.
         domain:,
+        # Optional RE2-compatible regex pattern. URLs matching this pattern are not
+        # returned, even when they match urlRegex.
+        exclude_url_regex: nil,
         # HTTP headers for the target origin. Non-empty headers bypass caching.
         headers: nil,
         # Include URLs on subdomains.
@@ -132,6 +144,7 @@ module ContextDev
         override.returns(
           {
             domain: String,
+            exclude_url_regex: String,
             headers: T::Hash[Symbol, String],
             include_subdomains: T::Boolean,
             max_links: Integer,

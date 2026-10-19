@@ -3,6 +3,12 @@
 module ContextDev
   module Models
     class CrawlControls < ContextDev::Internal::Type::BaseModel
+      # @!attribute exclude_url_pattern
+      #   RE2 pattern URLs must not match to be crawled. Null when the crawl set none.
+      #
+      #   @return [String, nil]
+      required :exclude_url_pattern, String, nil?: true
+
       # @!attribute follow_subdomains
       #   Whether links to subdomains were followed. Always false for a sitemap crawl.
       #
@@ -35,11 +41,13 @@ module ContextDev
       #   @return [String, nil]
       required :url_pattern, String, nil?: true
 
-      # @!method initialize(follow_subdomains:, max_depth:, max_pages:, source:, url_pattern:)
+      # @!method initialize(exclude_url_pattern:, follow_subdomains:, max_depth:, max_pages:, source:, url_pattern:)
       #   Some parameter documentations has been truncated, see
       #   {ContextDev::Models::CrawlControls} for more details.
       #
       #   Crawl settings as submitted.
+      #
+      #   @param exclude_url_pattern [String, nil] RE2 pattern URLs must not match to be crawled. Null when the crawl set none.
       #
       #   @param follow_subdomains [Boolean] Whether links to subdomains were followed. Always false for a sitemap crawl.
       #
