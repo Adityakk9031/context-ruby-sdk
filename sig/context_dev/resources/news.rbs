@@ -2,7 +2,7 @@ module ContextDev
   module Resources
     class News
       def search: (
-        search_by: ContextDev::NewsSearchParams::SearchBy,
+        search_by: ContextDev::Models::NewsSearchParams::search_by,
         ?cursor: String?,
         ?filter_by: ContextDev::NewsSearchParams::FilterBy,
         ?limit: Integer,

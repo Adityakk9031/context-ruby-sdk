@@ -92,10 +92,11 @@ module ContextDev
         required :language, String, nil?: true
 
         # @!attribute match
-        #   How the article relates to the company you searched for.
+        #   How the article relates to the company you searched for. Null for
+        #   natural-language searches.
         #
-        #   @return [ContextDev::Models::NewsSearchResponse::Data::Match]
-        required :match, -> { ContextDev::Models::NewsSearchResponse::Data::Match }
+        #   @return [ContextDev::Models::NewsSearchResponse::Data::Match, nil]
+        required :match, -> { ContextDev::Models::NewsSearchResponse::Data::Match }, nil?: true
 
         # @!attribute published_at
         #   When the article was published, as an ISO 8601 timestamp. Null when the
@@ -150,7 +151,7 @@ module ContextDev
         #
         #   @param language [String, nil] Language the article is written in, as a lowercase ISO 639-1 code such as en. Nu
         #
-        #   @param match [ContextDev::Models::NewsSearchResponse::Data::Match] How the article relates to the company you searched for.
+        #   @param match [ContextDev::Models::NewsSearchResponse::Data::Match, nil] How the article relates to the company you searched for. Null for natural-langua
         #
         #   @param published_at [Time, nil] When the article was published, as an ISO 8601 timestamp. Null when the publishe
         #
@@ -183,7 +184,8 @@ module ContextDev
           #   Some parameter documentations has been truncated, see
           #   {ContextDev::Models::NewsSearchResponse::Data::Match} for more details.
           #
-          #   How the article relates to the company you searched for.
+          #   How the article relates to the company you searched for. Null for
+          #   natural-language searches.
           #
           #   @param confidence [Float, nil] How confident the match is, from 0 to 1. Null when a score is unavailable.
           #

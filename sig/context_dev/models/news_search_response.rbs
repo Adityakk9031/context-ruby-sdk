@@ -52,7 +52,7 @@ module ContextDev
           description: String?,
           image_url: String?,
           language: String?,
-          match: ContextDev::Models::NewsSearchResponse::Data::Match,
+          match: ContextDev::Models::NewsSearchResponse::Data::Match?,
           published_at: Time?,
           source: ContextDev::Models::NewsSearchResponse::Data::Source,
           story_id: String,
@@ -72,7 +72,7 @@ module ContextDev
 
         attr_accessor language: String?
 
-        attr_accessor match: ContextDev::Models::NewsSearchResponse::Data::Match
+        attr_accessor match: ContextDev::Models::NewsSearchResponse::Data::Match?
 
         attr_accessor published_at: Time?
 
@@ -92,7 +92,7 @@ module ContextDev
           description: String?,
           image_url: String?,
           language: String?,
-          match: ContextDev::Models::NewsSearchResponse::Data::Match,
+          match: ContextDev::Models::NewsSearchResponse::Data::Match?,
           published_at: Time?,
           source: ContextDev::Models::NewsSearchResponse::Data::Source,
           story_id: String,
@@ -107,7 +107,7 @@ module ContextDev
           description: String?,
           image_url: String?,
           language: String?,
-          match: ContextDev::Models::NewsSearchResponse::Data::Match,
+          match: ContextDev::Models::NewsSearchResponse::Data::Match?,
           published_at: Time?,
           source: ContextDev::Models::NewsSearchResponse::Data::Source,
           story_id: String,

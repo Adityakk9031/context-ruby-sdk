@@ -2,7 +2,7 @@ module ContextDev
   module Models
     type news_search_params =
       {
-        search_by: ContextDev::NewsSearchParams::SearchBy,
+        search_by: ContextDev::Models::NewsSearchParams::search_by,
         cursor: String?,
         filter_by: ContextDev::NewsSearchParams::FilterBy,
         limit: Integer,
@@ -15,7 +15,7 @@ module ContextDev
       extend ContextDev::Internal::Type::RequestParameters::Converter
       include ContextDev::Internal::Type::RequestParameters
 
-      attr_accessor search_by: ContextDev::NewsSearchParams::SearchBy
+      attr_accessor search_by: ContextDev::Models::NewsSearchParams::search_by
 
       attr_accessor cursor: String?
 
@@ -40,7 +40,7 @@ module ContextDev
       def tags=: (::Array[String]) -> ::Array[String]
 
       def initialize: (
-        search_by: ContextDev::NewsSearchParams::SearchBy,
+        search_by: ContextDev::Models::NewsSearchParams::search_by,
         ?cursor: String?,
         ?filter_by: ContextDev::NewsSearchParams::FilterBy,
         ?limit: Integer,
@@ -50,7 +50,7 @@ module ContextDev
       ) -> void
 
       def to_hash: -> {
-        search_by: ContextDev::NewsSearchParams::SearchBy,
+        search_by: ContextDev::Models::NewsSearchParams::search_by,
         cursor: String?,
         filter_by: ContextDev::NewsSearchParams::FilterBy,
         limit: Integer,
@@ -60,267 +60,279 @@ module ContextDev
       }
 
       type search_by =
-        {
-          entity: ContextDev::Models::NewsSearchParams::SearchBy::entity,
-          type: ContextDev::Models::NewsSearchParams::SearchBy::type_
-        }
+        ContextDev::NewsSearchParams::SearchBy::NaturalLanguage
+        | ContextDev::NewsSearchParams::SearchBy::Entity
 
-      class SearchBy < ContextDev::Internal::Type::BaseModel
-        attr_accessor entity: ContextDev::Models::NewsSearchParams::SearchBy::entity
+      module SearchBy
+        extend ContextDev::Internal::Type::Union
 
-        attr_accessor type: ContextDev::Models::NewsSearchParams::SearchBy::type_
+        type natural_language = { query: String, type: :natural_language }
 
-        def initialize: (
-          entity: ContextDev::Models::NewsSearchParams::SearchBy::entity,
-          type: ContextDev::Models::NewsSearchParams::SearchBy::type_
-        ) -> void
+        class NaturalLanguage < ContextDev::Internal::Type::BaseModel
+          attr_accessor query: String
 
-        def to_hash: -> {
-          entity: ContextDev::Models::NewsSearchParams::SearchBy::entity,
-          type: ContextDev::Models::NewsSearchParams::SearchBy::type_
-        }
+          attr_accessor type: :natural_language
+
+          def initialize: (query: String, ?type: :natural_language) -> void
+
+          def to_hash: -> { query: String, type: :natural_language }
+        end
 
         type entity =
-          ContextDev::NewsSearchParams::SearchBy::Entity::Name
-          | ContextDev::NewsSearchParams::SearchBy::Entity::Domain
-          | ContextDev::NewsSearchParams::SearchBy::Entity::Ticker
-          | ContextDev::NewsSearchParams::SearchBy::Entity::Isin
+          {
+            entity: ContextDev::Models::NewsSearchParams::SearchBy::Entity::entity,
+            type: :entity
+          }
 
-        module Entity
-          extend ContextDev::Internal::Type::Union
+        class Entity < ContextDev::Internal::Type::BaseModel
+          attr_accessor entity: ContextDev::Models::NewsSearchParams::SearchBy::Entity::entity
 
-          type name_ = { name: String, type: :name }
+          attr_accessor type: :entity
 
-          class Name < ContextDev::Internal::Type::BaseModel
-            attr_accessor name: String
+          def initialize: (
+            entity: ContextDev::Models::NewsSearchParams::SearchBy::Entity::entity,
+            ?type: :entity
+          ) -> void
 
-            attr_accessor type: :name
+          def to_hash: -> {
+            entity: ContextDev::Models::NewsSearchParams::SearchBy::Entity::entity,
+            type: :entity
+          }
 
-            def initialize: (name: String, ?type: :name) -> void
+          type entity =
+            ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Name
+            | ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Domain
+            | ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker
+            | ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Isin
 
-            def to_hash: -> { name: String, type: :name }
-          end
+          module Entity
+            extend ContextDev::Internal::Type::Union
 
-          type domain = { domain: String, type: :domain }
+            type name_ = { name: String, type: :name }
 
-          class Domain < ContextDev::Internal::Type::BaseModel
-            attr_accessor domain: String
+            class Name < ContextDev::Internal::Type::BaseModel
+              attr_accessor name: String
 
-            attr_accessor type: :domain
+              attr_accessor type: :name
 
-            def initialize: (domain: String, ?type: :domain) -> void
+              def initialize: (name: String, ?type: :name) -> void
 
-            def to_hash: -> { domain: String, type: :domain }
-          end
-
-          type ticker =
-            {
-              ticker: String,
-              type: :ticker,
-              exchange: ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker::exchange
-            }
-
-          class Ticker < ContextDev::Internal::Type::BaseModel
-            attr_accessor ticker: String
-
-            attr_accessor type: :ticker
-
-            attr_reader exchange: ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker::exchange?
-
-            def exchange=: (
-              ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker::exchange
-            ) -> ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker::exchange
-
-            def initialize: (
-              ticker: String,
-              ?exchange: ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker::exchange,
-              ?type: :ticker
-            ) -> void
-
-            def to_hash: -> {
-              ticker: String,
-              type: :ticker,
-              exchange: ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker::exchange
-            }
-
-            type exchange =
-              :AMEX
-              | :AMS
-              | :AQS
-              | :ASX
-              | :ATH
-              | :BER
-              | :BME
-              | :BRU
-              | :BSE
-              | :BUD
-              | :BUE
-              | :BVC
-              | :CBOE
-              | :CNQ
-              | :CPH
-              | :DFM
-              | :DOH
-              | :DUB
-              | :DUS
-              | :DXE
-              | :EGX
-              | :FSX
-              | :HAM
-              | :HEL
-              | :HKSE
-              | :HOSE
-              | :ICE
-              | :IOB
-              | :IST
-              | :JKT
-              | :JNB
-              | :JPX
-              | :KLS
-              | :KOE
-              | :KSC
-              | :KUW
-              | :LIS
-              | :LSE
-              | :MCX
-              | :MEX
-              | :MIL
-              | :MUN
-              | :NASDAQ
-              | :NEO
-              | :NSE
-              | :NYSE
-              | :NZE
-              | :OSL
-              | :OTC
-              | :PAR
-              | :PNK
-              | :PRA
-              | :RIS
-              | :SAO
-              | :SAU
-              | :SES
-              | :SET
-              | :SGO
-              | :SHH
-              | :SHZ
-              | :SIX
-              | :STO
-              | :STU
-              | :TAI
-              | :TAL
-              | :TLV
-              | :TSX
-              | :TSXV
-              | :TWO
-              | :VIE
-              | :WSE
-              | :XETRA
-
-            module Exchange
-              extend ContextDev::Internal::Type::Enum
-
-              AMEX: :AMEX
-              AMS: :AMS
-              AQS: :AQS
-              ASX: :ASX
-              ATH: :ATH
-              BER: :BER
-              BME: :BME
-              BRU: :BRU
-              BSE: :BSE
-              BUD: :BUD
-              BUE: :BUE
-              BVC: :BVC
-              CBOE: :CBOE
-              CNQ: :CNQ
-              CPH: :CPH
-              DFM: :DFM
-              DOH: :DOH
-              DUB: :DUB
-              DUS: :DUS
-              DXE: :DXE
-              EGX: :EGX
-              FSX: :FSX
-              HAM: :HAM
-              HEL: :HEL
-              HKSE: :HKSE
-              HOSE: :HOSE
-              ICE: :ICE
-              IOB: :IOB
-              IST: :IST
-              JKT: :JKT
-              JNB: :JNB
-              JPX: :JPX
-              KLS: :KLS
-              KOE: :KOE
-              KSC: :KSC
-              KUW: :KUW
-              LIS: :LIS
-              LSE: :LSE
-              MCX: :MCX
-              MEX: :MEX
-              MIL: :MIL
-              MUN: :MUN
-              NASDAQ: :NASDAQ
-              NEO: :NEO
-              NSE: :NSE
-              NYSE: :NYSE
-              NZE: :NZE
-              OSL: :OSL
-              OTC: :OTC
-              PAR: :PAR
-              PNK: :PNK
-              PRA: :PRA
-              RIS: :RIS
-              SAO: :SAO
-              SAU: :SAU
-              SES: :SES
-              SET: :SET
-              SGO: :SGO
-              SHH: :SHH
-              SHZ: :SHZ
-              SIX: :SIX
-              STO: :STO
-              STU: :STU
-              TAI: :TAI
-              TAL: :TAL
-              TLV: :TLV
-              TSX: :TSX
-              TSXV: :TSXV
-              TWO: :TWO
-              VIE: :VIE
-              WSE: :WSE
-              XETRA: :XETRA
-
-              def self?.values: -> ::Array[ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker::exchange]
+              def to_hash: -> { name: String, type: :name }
             end
+
+            type domain = { domain: String, type: :domain }
+
+            class Domain < ContextDev::Internal::Type::BaseModel
+              attr_accessor domain: String
+
+              attr_accessor type: :domain
+
+              def initialize: (domain: String, ?type: :domain) -> void
+
+              def to_hash: -> { domain: String, type: :domain }
+            end
+
+            type ticker =
+              {
+                ticker: String,
+                type: :ticker,
+                exchange: ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker::exchange
+              }
+
+            class Ticker < ContextDev::Internal::Type::BaseModel
+              attr_accessor ticker: String
+
+              attr_accessor type: :ticker
+
+              attr_reader exchange: ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker::exchange?
+
+              def exchange=: (
+                ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker::exchange
+              ) -> ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker::exchange
+
+              def initialize: (
+                ticker: String,
+                ?exchange: ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker::exchange,
+                ?type: :ticker
+              ) -> void
+
+              def to_hash: -> {
+                ticker: String,
+                type: :ticker,
+                exchange: ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker::exchange
+              }
+
+              type exchange =
+                :AMEX
+                | :AMS
+                | :AQS
+                | :ASX
+                | :ATH
+                | :BER
+                | :BME
+                | :BRU
+                | :BSE
+                | :BUD
+                | :BUE
+                | :BVC
+                | :CBOE
+                | :CNQ
+                | :CPH
+                | :DFM
+                | :DOH
+                | :DUB
+                | :DUS
+                | :DXE
+                | :EGX
+                | :FSX
+                | :HAM
+                | :HEL
+                | :HKSE
+                | :HOSE
+                | :ICE
+                | :IOB
+                | :IST
+                | :JKT
+                | :JNB
+                | :JPX
+                | :KLS
+                | :KOE
+                | :KSC
+                | :KUW
+                | :LIS
+                | :LSE
+                | :MCX
+                | :MEX
+                | :MIL
+                | :MUN
+                | :NASDAQ
+                | :NEO
+                | :NSE
+                | :NYSE
+                | :NZE
+                | :OSL
+                | :OTC
+                | :PAR
+                | :PNK
+                | :PRA
+                | :RIS
+                | :SAO
+                | :SAU
+                | :SES
+                | :SET
+                | :SGO
+                | :SHH
+                | :SHZ
+                | :SIX
+                | :STO
+                | :STU
+                | :TAI
+                | :TAL
+                | :TLV
+                | :TSX
+                | :TSXV
+                | :TWO
+                | :VIE
+                | :WSE
+                | :XETRA
+
+              module Exchange
+                extend ContextDev::Internal::Type::Enum
+
+                AMEX: :AMEX
+                AMS: :AMS
+                AQS: :AQS
+                ASX: :ASX
+                ATH: :ATH
+                BER: :BER
+                BME: :BME
+                BRU: :BRU
+                BSE: :BSE
+                BUD: :BUD
+                BUE: :BUE
+                BVC: :BVC
+                CBOE: :CBOE
+                CNQ: :CNQ
+                CPH: :CPH
+                DFM: :DFM
+                DOH: :DOH
+                DUB: :DUB
+                DUS: :DUS
+                DXE: :DXE
+                EGX: :EGX
+                FSX: :FSX
+                HAM: :HAM
+                HEL: :HEL
+                HKSE: :HKSE
+                HOSE: :HOSE
+                ICE: :ICE
+                IOB: :IOB
+                IST: :IST
+                JKT: :JKT
+                JNB: :JNB
+                JPX: :JPX
+                KLS: :KLS
+                KOE: :KOE
+                KSC: :KSC
+                KUW: :KUW
+                LIS: :LIS
+                LSE: :LSE
+                MCX: :MCX
+                MEX: :MEX
+                MIL: :MIL
+                MUN: :MUN
+                NASDAQ: :NASDAQ
+                NEO: :NEO
+                NSE: :NSE
+                NYSE: :NYSE
+                NZE: :NZE
+                OSL: :OSL
+                OTC: :OTC
+                PAR: :PAR
+                PNK: :PNK
+                PRA: :PRA
+                RIS: :RIS
+                SAO: :SAO
+                SAU: :SAU
+                SES: :SES
+                SET: :SET
+                SGO: :SGO
+                SHH: :SHH
+                SHZ: :SHZ
+                SIX: :SIX
+                STO: :STO
+                STU: :STU
+                TAI: :TAI
+                TAL: :TAL
+                TLV: :TLV
+                TSX: :TSX
+                TSXV: :TSXV
+                TWO: :TWO
+                VIE: :VIE
+                WSE: :WSE
+                XETRA: :XETRA
+
+                def self?.values: -> ::Array[ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker::exchange]
+              end
+            end
+
+            type isin = { isin: String, type: :isin }
+
+            class Isin < ContextDev::Internal::Type::BaseModel
+              attr_accessor isin: String
+
+              attr_accessor type: :isin
+
+              def initialize: (isin: String, ?type: :isin) -> void
+
+              def to_hash: -> { isin: String, type: :isin }
+            end
+
+            def self?.variants: -> ::Array[ContextDev::Models::NewsSearchParams::SearchBy::Entity::entity]
           end
-
-          type isin = { isin: String, type: :isin }
-
-          class Isin < ContextDev::Internal::Type::BaseModel
-            attr_accessor isin: String
-
-            attr_accessor type: :isin
-
-            def initialize: (isin: String, ?type: :isin) -> void
-
-            def to_hash: -> { isin: String, type: :isin }
-          end
-
-          def self?.variants: -> ::Array[ContextDev::Models::NewsSearchParams::SearchBy::entity]
         end
 
-        type type_ = :entity
-
-        module Type
-          extend ContextDev::Internal::Type::Enum
-
-          ENTITY: :entity
-
-          def self?.values: -> ::Array[ContextDev::Models::NewsSearchParams::SearchBy::type_]
-        end
+        def self?.variants: -> ::Array[ContextDev::Models::NewsSearchParams::search_by]
       end
 
       type filter_by =

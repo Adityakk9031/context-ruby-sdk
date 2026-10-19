@@ -7,12 +7,13 @@ module ContextDev
       # Some parameter documentations has been truncated, see
       # {ContextDev::Models::NewsSearchParams} for more details.
       #
-      # Find company news by name, domain, ticker, or ISIN. Filter articles and continue
-      # through results with a cursor.
+      # Find news about a company by name, domain, ticker, or ISIN, or search all news
+      # with a natural-language query. Filter articles and continue through results with
+      # a cursor.
       #
       # @overload search(search_by:, cursor: nil, filter_by: nil, limit: nil, sort_by: nil, tags: nil, request_options: {})
       #
-      # @param search_by [ContextDev::Models::NewsSearchParams::SearchBy] What to search for.
+      # @param search_by [ContextDev::Models::NewsSearchParams::SearchBy::NaturalLanguage, ContextDev::Models::NewsSearchParams::SearchBy::Entity] What to search for: a specific company, or a natural-language query across all n
       #
       # @param cursor [String, nil] Opaque next_cursor from the previous response, or null for the first page.
       #
@@ -20,7 +21,7 @@ module ContextDev
       #
       # @param limit [Integer] Maximum results to return. Defaults to 10.
       #
-      # @param sort_by [ContextDev::Models::NewsSearchParams::SortBy] Result ordering. Defaults to newest.
+      # @param sort_by [ContextDev::Models::NewsSearchParams::SortBy] Result ordering. Defaults to newest for entity searches. Natural-language search
       #
       # @param tags [Array<String>] Labels for filtering usage in the dashboard.
       #

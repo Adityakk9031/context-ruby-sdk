@@ -127,13 +127,21 @@ module ContextDev
         sig { returns(T.nilable(String)) }
         attr_accessor :language
 
-        # How the article relates to the company you searched for.
-        sig { returns(ContextDev::Models::NewsSearchResponse::Data::Match) }
+        # How the article relates to the company you searched for. Null for
+        # natural-language searches.
+        sig do
+          returns(
+            T.nilable(ContextDev::Models::NewsSearchResponse::Data::Match)
+          )
+        end
         attr_reader :match
 
         sig do
           params(
-            match: ContextDev::Models::NewsSearchResponse::Data::Match::OrHash
+            match:
+              T.nilable(
+                ContextDev::Models::NewsSearchResponse::Data::Match::OrHash
+              )
           ).void
         end
         attr_writer :match
@@ -183,7 +191,10 @@ module ContextDev
             description: T.nilable(String),
             image_url: T.nilable(String),
             language: T.nilable(String),
-            match: ContextDev::Models::NewsSearchResponse::Data::Match::OrHash,
+            match:
+              T.nilable(
+                ContextDev::Models::NewsSearchResponse::Data::Match::OrHash
+              ),
             published_at: T.nilable(Time),
             source:
               ContextDev::Models::NewsSearchResponse::Data::Source::OrHash,
@@ -206,7 +217,8 @@ module ContextDev
           # Language the article is written in, as a lowercase ISO 639-1 code such as en.
           # Null when unknown.
           language:,
-          # How the article relates to the company you searched for.
+          # How the article relates to the company you searched for. Null for
+          # natural-language searches.
           match:,
           # When the article was published, as an ISO 8601 timestamp. Null when the
           # publisher does not state a reliable date.
@@ -234,7 +246,8 @@ module ContextDev
               description: T.nilable(String),
               image_url: T.nilable(String),
               language: T.nilable(String),
-              match: ContextDev::Models::NewsSearchResponse::Data::Match,
+              match:
+                T.nilable(ContextDev::Models::NewsSearchResponse::Data::Match),
               published_at: T.nilable(Time),
               source: ContextDev::Models::NewsSearchResponse::Data::Source,
               story_id: String,
@@ -270,7 +283,8 @@ module ContextDev
           end
           attr_accessor :level
 
-          # How the article relates to the company you searched for.
+          # How the article relates to the company you searched for. Null for
+          # natural-language searches.
           sig do
             params(
               confidence: T.nilable(Float),

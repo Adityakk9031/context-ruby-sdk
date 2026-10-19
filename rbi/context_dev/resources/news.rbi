@@ -4,11 +4,16 @@ module ContextDev
   module Resources
     # Search live and historical news about a company.
     class News
-      # Find company news by name, domain, ticker, or ISIN. Filter articles and continue
-      # through results with a cursor.
+      # Find news about a company by name, domain, ticker, or ISIN, or search all news
+      # with a natural-language query. Filter articles and continue through results with
+      # a cursor.
       sig do
         params(
-          search_by: ContextDev::NewsSearchParams::SearchBy::OrHash,
+          search_by:
+            T.any(
+              ContextDev::NewsSearchParams::SearchBy::NaturalLanguage::OrHash,
+              ContextDev::NewsSearchParams::SearchBy::Entity::OrHash
+            ),
           cursor: T.nilable(String),
           filter_by: ContextDev::NewsSearchParams::FilterBy::OrHash,
           limit: Integer,
@@ -18,7 +23,8 @@ module ContextDev
         ).returns(ContextDev::Models::NewsSearchResponse)
       end
       def search(
-        # What to search for.
+        # What to search for: a specific company, or a natural-language query across all
+        # news.
         search_by:,
         # Opaque next_cursor from the previous response, or null for the first page.
         cursor: nil,
@@ -28,7 +34,8 @@ module ContextDev
         filter_by: nil,
         # Maximum results to return. Defaults to 10.
         limit: nil,
-        # Result ordering. Defaults to newest.
+        # Result ordering. Defaults to newest for entity searches. Natural-language
+        # searches are always ordered by relevance.
         sort_by: nil,
         # Labels for filtering usage in the dashboard.
         tags: nil,

@@ -11,14 +11,17 @@ module ContextDev
           T.any(ContextDev::NewsSearchParams, ContextDev::Internal::AnyHash)
         end
 
-      # What to search for.
-      sig { returns(ContextDev::NewsSearchParams::SearchBy) }
-      attr_reader :search_by
-
+      # What to search for: a specific company, or a natural-language query across all
+      # news.
       sig do
-        params(search_by: ContextDev::NewsSearchParams::SearchBy::OrHash).void
+        returns(
+          T.any(
+            ContextDev::NewsSearchParams::SearchBy::NaturalLanguage,
+            ContextDev::NewsSearchParams::SearchBy::Entity
+          )
+        )
       end
-      attr_writer :search_by
+      attr_accessor :search_by
 
       # Opaque next_cursor from the previous response, or null for the first page.
       sig { returns(T.nilable(String)) }
@@ -42,7 +45,8 @@ module ContextDev
       sig { params(limit: Integer).void }
       attr_writer :limit
 
-      # Result ordering. Defaults to newest.
+      # Result ordering. Defaults to newest for entity searches. Natural-language
+      # searches are always ordered by relevance.
       sig { returns(T.nilable(ContextDev::NewsSearchParams::SortBy)) }
       attr_reader :sort_by
 
@@ -58,7 +62,11 @@ module ContextDev
 
       sig do
         params(
-          search_by: ContextDev::NewsSearchParams::SearchBy::OrHash,
+          search_by:
+            T.any(
+              ContextDev::NewsSearchParams::SearchBy::NaturalLanguage::OrHash,
+              ContextDev::NewsSearchParams::SearchBy::Entity::OrHash
+            ),
           cursor: T.nilable(String),
           filter_by: ContextDev::NewsSearchParams::FilterBy::OrHash,
           limit: Integer,
@@ -68,7 +76,8 @@ module ContextDev
         ).returns(T.attached_class)
       end
       def self.new(
-        # What to search for.
+        # What to search for: a specific company, or a natural-language query across all
+        # news.
         search_by:,
         # Opaque next_cursor from the previous response, or null for the first page.
         cursor: nil,
@@ -78,7 +87,8 @@ module ContextDev
         filter_by: nil,
         # Maximum results to return. Defaults to 10.
         limit: nil,
-        # Result ordering. Defaults to newest.
+        # Result ordering. Defaults to newest for entity searches. Natural-language
+        # searches are always ordered by relevance.
         sort_by: nil,
         # Labels for filtering usage in the dashboard.
         tags: nil,
@@ -89,7 +99,11 @@ module ContextDev
       sig do
         override.returns(
           {
-            search_by: ContextDev::NewsSearchParams::SearchBy,
+            search_by:
+              T.any(
+                ContextDev::NewsSearchParams::SearchBy::NaturalLanguage,
+                ContextDev::NewsSearchParams::SearchBy::Entity
+              ),
             cursor: T.nilable(String),
             filter_by: ContextDev::NewsSearchParams::FilterBy,
             limit: Integer,
@@ -102,672 +116,708 @@ module ContextDev
       def to_hash
       end
 
-      class SearchBy < ContextDev::Internal::Type::BaseModel
-        OrHash =
+      # What to search for: a specific company, or a natural-language query across all
+      # news.
+      module SearchBy
+        extend ContextDev::Internal::Type::Union
+
+        Variants =
           T.type_alias do
             T.any(
-              ContextDev::NewsSearchParams::SearchBy,
-              ContextDev::Internal::AnyHash
+              ContextDev::NewsSearchParams::SearchBy::NaturalLanguage,
+              ContextDev::NewsSearchParams::SearchBy::Entity
             )
           end
 
-        # The company to search news for, identified by name, domain, ticker, or ISIN.
-        sig do
-          returns(
-            T.any(
-              ContextDev::NewsSearchParams::SearchBy::Entity::Name,
-              ContextDev::NewsSearchParams::SearchBy::Entity::Domain,
-              ContextDev::NewsSearchParams::SearchBy::Entity::Ticker,
-              ContextDev::NewsSearchParams::SearchBy::Entity::Isin
-            )
-          )
-        end
-        attr_accessor :entity
-
-        # How to search. Only entity search is supported.
-        sig { returns(ContextDev::NewsSearchParams::SearchBy::Type::OrSymbol) }
-        attr_accessor :type
-
-        # What to search for.
-        sig do
-          params(
-            entity:
-              T.any(
-                ContextDev::NewsSearchParams::SearchBy::Entity::Name::OrHash,
-                ContextDev::NewsSearchParams::SearchBy::Entity::Domain::OrHash,
-                ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::OrHash,
-                ContextDev::NewsSearchParams::SearchBy::Entity::Isin::OrHash
-              ),
-            type: ContextDev::NewsSearchParams::SearchBy::Type::OrSymbol
-          ).returns(T.attached_class)
-        end
-        def self.new(
-          # The company to search news for, identified by name, domain, ticker, or ISIN.
-          entity:,
-          # How to search. Only entity search is supported.
-          type:
-        )
-        end
-
-        sig do
-          override.returns(
-            {
-              entity:
-                T.any(
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Name,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Domain,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Isin
-                ),
-              type: ContextDev::NewsSearchParams::SearchBy::Type::OrSymbol
-            }
-          )
-        end
-        def to_hash
-        end
-
-        # The company to search news for, identified by name, domain, ticker, or ISIN.
-        module Entity
-          extend ContextDev::Internal::Type::Union
-
-          Variants =
+        class NaturalLanguage < ContextDev::Internal::Type::BaseModel
+          OrHash =
             T.type_alias do
               T.any(
-                ContextDev::NewsSearchParams::SearchBy::Entity::Name,
-                ContextDev::NewsSearchParams::SearchBy::Entity::Domain,
-                ContextDev::NewsSearchParams::SearchBy::Entity::Ticker,
-                ContextDev::NewsSearchParams::SearchBy::Entity::Isin
+                ContextDev::NewsSearchParams::SearchBy::NaturalLanguage,
+                ContextDev::Internal::AnyHash
               )
             end
 
-          class Name < ContextDev::Internal::Type::BaseModel
-            OrHash =
-              T.type_alias do
-                T.any(
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Name,
-                  ContextDev::Internal::AnyHash
-                )
-              end
+          # What to search for, in plain language, such as "chip export restrictions to
+          # China".
+          sig { returns(String) }
+          attr_accessor :query
 
-            # Company name.
-            sig { returns(String) }
-            attr_accessor :name
+          # Use `natural_language` to search all news with a plain-language query.
+          sig { returns(Symbol) }
+          attr_accessor :type
 
-            # Use `name` to identify the company by name.
-            sig { returns(Symbol) }
-            attr_accessor :type
-
-            # Identify the company by name.
-            sig { params(name: String, type: Symbol).returns(T.attached_class) }
-            def self.new(
-              # Company name.
-              name:,
-              # Use `name` to identify the company by name.
-              type: :name
-            )
-            end
-
-            sig { override.returns({ name: String, type: Symbol }) }
-            def to_hash
-            end
+          # Search all news with a plain-language query. Returns up to 100 matches, ordered
+          # by relevance.
+          sig { params(query: String, type: Symbol).returns(T.attached_class) }
+          def self.new(
+            # What to search for, in plain language, such as "chip export restrictions to
+            # China".
+            query:,
+            # Use `natural_language` to search all news with a plain-language query.
+            type: :natural_language
+          )
           end
 
-          class Domain < ContextDev::Internal::Type::BaseModel
-            OrHash =
-              T.type_alias do
-                T.any(
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Domain,
-                  ContextDev::Internal::AnyHash
-                )
-              end
-
-            # Company website domain, such as apple.com.
-            sig { returns(String) }
-            attr_accessor :domain
-
-            # Use `domain` to identify the company by website domain.
-            sig { returns(Symbol) }
-            attr_accessor :type
-
-            # Identify the company by website domain.
-            sig do
-              params(domain: String, type: Symbol).returns(T.attached_class)
-            end
-            def self.new(
-              # Company website domain, such as apple.com.
-              domain:,
-              # Use `domain` to identify the company by website domain.
-              type: :domain
-            )
-            end
-
-            sig { override.returns({ domain: String, type: Symbol }) }
-            def to_hash
-            end
+          sig { override.returns({ query: String, type: Symbol }) }
+          def to_hash
           end
+        end
 
-          class Ticker < ContextDev::Internal::Type::BaseModel
-            OrHash =
-              T.type_alias do
-                T.any(
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker,
-                  ContextDev::Internal::AnyHash
-                )
-              end
-
-            # Public-company ticker.
-            sig { returns(String) }
-            attr_accessor :ticker
-
-            # Use `ticker` to identify a publicly traded company.
-            sig { returns(Symbol) }
-            attr_accessor :type
-
-            # Stock exchange the ticker trades on, used to disambiguate tickers listed on
-            # multiple exchanges.
-            sig do
-              returns(
-                T.nilable(
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::OrSymbol
-                )
+        class Entity < ContextDev::Internal::Type::BaseModel
+          OrHash =
+            T.type_alias do
+              T.any(
+                ContextDev::NewsSearchParams::SearchBy::Entity,
+                ContextDev::Internal::AnyHash
               )
             end
-            attr_reader :exchange
 
-            sig do
-              params(
-                exchange:
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::OrSymbol
-              ).void
-            end
-            attr_writer :exchange
+          # The company to search news for, identified by name, domain, ticker, or ISIN.
+          sig do
+            returns(
+              T.any(
+                ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Name,
+                ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Domain,
+                ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker,
+                ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Isin
+              )
+            )
+          end
+          attr_accessor :entity
 
-            # Identify the company by stock ticker, optionally scoped to an exchange.
-            sig do
-              params(
-                ticker: String,
-                exchange:
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::OrSymbol,
+          # Use `entity` to find news about a specific company.
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          # Find news about a specific company.
+          sig do
+            params(
+              entity:
+                T.any(
+                  ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Name::OrHash,
+                  ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Domain::OrHash,
+                  ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::OrHash,
+                  ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Isin::OrHash
+                ),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def self.new(
+            # The company to search news for, identified by name, domain, ticker, or ISIN.
+            entity:,
+            # Use `entity` to find news about a specific company.
+            type: :entity
+          )
+          end
+
+          sig do
+            override.returns(
+              {
+                entity:
+                  T.any(
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Name,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Domain,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Isin
+                  ),
                 type: Symbol
-              ).returns(T.attached_class)
+              }
+            )
+          end
+          def to_hash
+          end
+
+          # The company to search news for, identified by name, domain, ticker, or ISIN.
+          module Entity
+            extend ContextDev::Internal::Type::Union
+
+            Variants =
+              T.type_alias do
+                T.any(
+                  ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Name,
+                  ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Domain,
+                  ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker,
+                  ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Isin
+                )
+              end
+
+            class Name < ContextDev::Internal::Type::BaseModel
+              OrHash =
+                T.type_alias do
+                  T.any(
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Name,
+                    ContextDev::Internal::AnyHash
+                  )
+                end
+
+              # Company name.
+              sig { returns(String) }
+              attr_accessor :name
+
+              # Use `name` to identify the company by name.
+              sig { returns(Symbol) }
+              attr_accessor :type
+
+              # Identify the company by name.
+              sig do
+                params(name: String, type: Symbol).returns(T.attached_class)
+              end
+              def self.new(
+                # Company name.
+                name:,
+                # Use `name` to identify the company by name.
+                type: :name
+              )
+              end
+
+              sig { override.returns({ name: String, type: Symbol }) }
+              def to_hash
+              end
             end
-            def self.new(
+
+            class Domain < ContextDev::Internal::Type::BaseModel
+              OrHash =
+                T.type_alias do
+                  T.any(
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Domain,
+                    ContextDev::Internal::AnyHash
+                  )
+                end
+
+              # Company website domain, such as apple.com.
+              sig { returns(String) }
+              attr_accessor :domain
+
+              # Use `domain` to identify the company by website domain.
+              sig { returns(Symbol) }
+              attr_accessor :type
+
+              # Identify the company by website domain.
+              sig do
+                params(domain: String, type: Symbol).returns(T.attached_class)
+              end
+              def self.new(
+                # Company website domain, such as apple.com.
+                domain:,
+                # Use `domain` to identify the company by website domain.
+                type: :domain
+              )
+              end
+
+              sig { override.returns({ domain: String, type: Symbol }) }
+              def to_hash
+              end
+            end
+
+            class Ticker < ContextDev::Internal::Type::BaseModel
+              OrHash =
+                T.type_alias do
+                  T.any(
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker,
+                    ContextDev::Internal::AnyHash
+                  )
+                end
+
               # Public-company ticker.
-              ticker:,
+              sig { returns(String) }
+              attr_accessor :ticker
+
+              # Use `ticker` to identify a publicly traded company.
+              sig { returns(Symbol) }
+              attr_accessor :type
+
               # Stock exchange the ticker trades on, used to disambiguate tickers listed on
               # multiple exchanges.
-              exchange: nil,
-              # Use `ticker` to identify a publicly traded company.
-              type: :ticker
-            )
+              sig do
+                returns(
+                  T.nilable(
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::OrSymbol
+                  )
+                )
+              end
+              attr_reader :exchange
+
+              sig do
+                params(
+                  exchange:
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::OrSymbol
+                ).void
+              end
+              attr_writer :exchange
+
+              # Identify the company by stock ticker, optionally scoped to an exchange.
+              sig do
+                params(
+                  ticker: String,
+                  exchange:
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::OrSymbol,
+                  type: Symbol
+                ).returns(T.attached_class)
+              end
+              def self.new(
+                # Public-company ticker.
+                ticker:,
+                # Stock exchange the ticker trades on, used to disambiguate tickers listed on
+                # multiple exchanges.
+                exchange: nil,
+                # Use `ticker` to identify a publicly traded company.
+                type: :ticker
+              )
+              end
+
+              sig do
+                override.returns(
+                  {
+                    ticker: String,
+                    type: Symbol,
+                    exchange:
+                      ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::OrSymbol
+                  }
+                )
+              end
+              def to_hash
+              end
+
+              # Stock exchange the ticker trades on, used to disambiguate tickers listed on
+              # multiple exchanges.
+              module Exchange
+                extend ContextDev::Internal::Type::Enum
+
+                TaggedSymbol =
+                  T.type_alias do
+                    T.all(
+                      Symbol,
+                      ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange
+                    )
+                  end
+                OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+                AMEX =
+                  T.let(
+                    :AMEX,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                AMS =
+                  T.let(
+                    :AMS,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                AQS =
+                  T.let(
+                    :AQS,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                ASX =
+                  T.let(
+                    :ASX,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                ATH =
+                  T.let(
+                    :ATH,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                BER =
+                  T.let(
+                    :BER,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                BME =
+                  T.let(
+                    :BME,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                BRU =
+                  T.let(
+                    :BRU,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                BSE =
+                  T.let(
+                    :BSE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                BUD =
+                  T.let(
+                    :BUD,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                BUE =
+                  T.let(
+                    :BUE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                BVC =
+                  T.let(
+                    :BVC,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                CBOE =
+                  T.let(
+                    :CBOE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                CNQ =
+                  T.let(
+                    :CNQ,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                CPH =
+                  T.let(
+                    :CPH,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                DFM =
+                  T.let(
+                    :DFM,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                DOH =
+                  T.let(
+                    :DOH,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                DUB =
+                  T.let(
+                    :DUB,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                DUS =
+                  T.let(
+                    :DUS,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                DXE =
+                  T.let(
+                    :DXE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                EGX =
+                  T.let(
+                    :EGX,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                FSX =
+                  T.let(
+                    :FSX,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                HAM =
+                  T.let(
+                    :HAM,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                HEL =
+                  T.let(
+                    :HEL,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                HKSE =
+                  T.let(
+                    :HKSE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                HOSE =
+                  T.let(
+                    :HOSE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                ICE =
+                  T.let(
+                    :ICE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                IOB =
+                  T.let(
+                    :IOB,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                IST =
+                  T.let(
+                    :IST,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                JKT =
+                  T.let(
+                    :JKT,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                JNB =
+                  T.let(
+                    :JNB,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                JPX =
+                  T.let(
+                    :JPX,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                KLS =
+                  T.let(
+                    :KLS,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                KOE =
+                  T.let(
+                    :KOE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                KSC =
+                  T.let(
+                    :KSC,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                KUW =
+                  T.let(
+                    :KUW,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                LIS =
+                  T.let(
+                    :LIS,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                LSE =
+                  T.let(
+                    :LSE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                MCX =
+                  T.let(
+                    :MCX,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                MEX =
+                  T.let(
+                    :MEX,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                MIL =
+                  T.let(
+                    :MIL,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                MUN =
+                  T.let(
+                    :MUN,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                NASDAQ =
+                  T.let(
+                    :NASDAQ,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                NEO =
+                  T.let(
+                    :NEO,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                NSE =
+                  T.let(
+                    :NSE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                NYSE =
+                  T.let(
+                    :NYSE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                NZE =
+                  T.let(
+                    :NZE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                OSL =
+                  T.let(
+                    :OSL,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                OTC =
+                  T.let(
+                    :OTC,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                PAR =
+                  T.let(
+                    :PAR,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                PNK =
+                  T.let(
+                    :PNK,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                PRA =
+                  T.let(
+                    :PRA,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                RIS =
+                  T.let(
+                    :RIS,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                SAO =
+                  T.let(
+                    :SAO,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                SAU =
+                  T.let(
+                    :SAU,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                SES =
+                  T.let(
+                    :SES,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                SET =
+                  T.let(
+                    :SET,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                SGO =
+                  T.let(
+                    :SGO,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                SHH =
+                  T.let(
+                    :SHH,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                SHZ =
+                  T.let(
+                    :SHZ,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                SIX =
+                  T.let(
+                    :SIX,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                STO =
+                  T.let(
+                    :STO,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                STU =
+                  T.let(
+                    :STU,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                TAI =
+                  T.let(
+                    :TAI,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                TAL =
+                  T.let(
+                    :TAL,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                TLV =
+                  T.let(
+                    :TLV,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                TSX =
+                  T.let(
+                    :TSX,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                TSXV =
+                  T.let(
+                    :TSXV,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                TWO =
+                  T.let(
+                    :TWO,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                VIE =
+                  T.let(
+                    :VIE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                WSE =
+                  T.let(
+                    :WSE,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+                XETRA =
+                  T.let(
+                    :XETRA,
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                  )
+
+                sig do
+                  override.returns(
+                    T::Array[
+                      ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange::TaggedSymbol
+                    ]
+                  )
+                end
+                def self.values
+                end
+              end
+            end
+
+            class Isin < ContextDev::Internal::Type::BaseModel
+              OrHash =
+                T.type_alias do
+                  T.any(
+                    ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Isin,
+                    ContextDev::Internal::AnyHash
+                  )
+                end
+
+              # International Securities Identification Number.
+              sig { returns(String) }
+              attr_accessor :isin
+
+              # Use `isin` to identify the company by its securities identifier.
+              sig { returns(Symbol) }
+              attr_accessor :type
+
+              # Identify the company by International Securities Identification Number.
+              sig do
+                params(isin: String, type: Symbol).returns(T.attached_class)
+              end
+              def self.new(
+                # International Securities Identification Number.
+                isin:,
+                # Use `isin` to identify the company by its securities identifier.
+                type: :isin
+              )
+              end
+
+              sig { override.returns({ isin: String, type: Symbol }) }
+              def to_hash
+              end
             end
 
             sig do
               override.returns(
-                {
-                  ticker: String,
-                  type: Symbol,
-                  exchange:
-                    ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::OrSymbol
-                }
+                T::Array[
+                  ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Variants
+                ]
               )
             end
-            def to_hash
+            def self.variants
             end
-
-            # Stock exchange the ticker trades on, used to disambiguate tickers listed on
-            # multiple exchanges.
-            module Exchange
-              extend ContextDev::Internal::Type::Enum
-
-              TaggedSymbol =
-                T.type_alias do
-                  T.all(
-                    Symbol,
-                    ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange
-                  )
-                end
-              OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-              AMEX =
-                T.let(
-                  :AMEX,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              AMS =
-                T.let(
-                  :AMS,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              AQS =
-                T.let(
-                  :AQS,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              ASX =
-                T.let(
-                  :ASX,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              ATH =
-                T.let(
-                  :ATH,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              BER =
-                T.let(
-                  :BER,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              BME =
-                T.let(
-                  :BME,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              BRU =
-                T.let(
-                  :BRU,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              BSE =
-                T.let(
-                  :BSE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              BUD =
-                T.let(
-                  :BUD,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              BUE =
-                T.let(
-                  :BUE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              BVC =
-                T.let(
-                  :BVC,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              CBOE =
-                T.let(
-                  :CBOE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              CNQ =
-                T.let(
-                  :CNQ,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              CPH =
-                T.let(
-                  :CPH,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              DFM =
-                T.let(
-                  :DFM,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              DOH =
-                T.let(
-                  :DOH,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              DUB =
-                T.let(
-                  :DUB,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              DUS =
-                T.let(
-                  :DUS,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              DXE =
-                T.let(
-                  :DXE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              EGX =
-                T.let(
-                  :EGX,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              FSX =
-                T.let(
-                  :FSX,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              HAM =
-                T.let(
-                  :HAM,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              HEL =
-                T.let(
-                  :HEL,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              HKSE =
-                T.let(
-                  :HKSE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              HOSE =
-                T.let(
-                  :HOSE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              ICE =
-                T.let(
-                  :ICE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              IOB =
-                T.let(
-                  :IOB,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              IST =
-                T.let(
-                  :IST,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              JKT =
-                T.let(
-                  :JKT,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              JNB =
-                T.let(
-                  :JNB,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              JPX =
-                T.let(
-                  :JPX,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              KLS =
-                T.let(
-                  :KLS,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              KOE =
-                T.let(
-                  :KOE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              KSC =
-                T.let(
-                  :KSC,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              KUW =
-                T.let(
-                  :KUW,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              LIS =
-                T.let(
-                  :LIS,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              LSE =
-                T.let(
-                  :LSE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              MCX =
-                T.let(
-                  :MCX,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              MEX =
-                T.let(
-                  :MEX,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              MIL =
-                T.let(
-                  :MIL,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              MUN =
-                T.let(
-                  :MUN,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              NASDAQ =
-                T.let(
-                  :NASDAQ,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              NEO =
-                T.let(
-                  :NEO,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              NSE =
-                T.let(
-                  :NSE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              NYSE =
-                T.let(
-                  :NYSE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              NZE =
-                T.let(
-                  :NZE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              OSL =
-                T.let(
-                  :OSL,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              OTC =
-                T.let(
-                  :OTC,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              PAR =
-                T.let(
-                  :PAR,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              PNK =
-                T.let(
-                  :PNK,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              PRA =
-                T.let(
-                  :PRA,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              RIS =
-                T.let(
-                  :RIS,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              SAO =
-                T.let(
-                  :SAO,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              SAU =
-                T.let(
-                  :SAU,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              SES =
-                T.let(
-                  :SES,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              SET =
-                T.let(
-                  :SET,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              SGO =
-                T.let(
-                  :SGO,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              SHH =
-                T.let(
-                  :SHH,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              SHZ =
-                T.let(
-                  :SHZ,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              SIX =
-                T.let(
-                  :SIX,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              STO =
-                T.let(
-                  :STO,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              STU =
-                T.let(
-                  :STU,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              TAI =
-                T.let(
-                  :TAI,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              TAL =
-                T.let(
-                  :TAL,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              TLV =
-                T.let(
-                  :TLV,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              TSX =
-                T.let(
-                  :TSX,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              TSXV =
-                T.let(
-                  :TSXV,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              TWO =
-                T.let(
-                  :TWO,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              VIE =
-                T.let(
-                  :VIE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              WSE =
-                T.let(
-                  :WSE,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-              XETRA =
-                T.let(
-                  :XETRA,
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                )
-
-              sig do
-                override.returns(
-                  T::Array[
-                    ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange::TaggedSymbol
-                  ]
-                )
-              end
-              def self.values
-              end
-            end
-          end
-
-          class Isin < ContextDev::Internal::Type::BaseModel
-            OrHash =
-              T.type_alias do
-                T.any(
-                  ContextDev::NewsSearchParams::SearchBy::Entity::Isin,
-                  ContextDev::Internal::AnyHash
-                )
-              end
-
-            # International Securities Identification Number.
-            sig { returns(String) }
-            attr_accessor :isin
-
-            # Use `isin` to identify the company by its securities identifier.
-            sig { returns(Symbol) }
-            attr_accessor :type
-
-            # Identify the company by International Securities Identification Number.
-            sig { params(isin: String, type: Symbol).returns(T.attached_class) }
-            def self.new(
-              # International Securities Identification Number.
-              isin:,
-              # Use `isin` to identify the company by its securities identifier.
-              type: :isin
-            )
-            end
-
-            sig { override.returns({ isin: String, type: Symbol }) }
-            def to_hash
-            end
-          end
-
-          sig do
-            override.returns(
-              T::Array[ContextDev::NewsSearchParams::SearchBy::Entity::Variants]
-            )
-          end
-          def self.variants
           end
         end
 
-        # How to search. Only entity search is supported.
-        module Type
-          extend ContextDev::Internal::Type::Enum
-
-          TaggedSymbol =
-            T.type_alias do
-              T.all(Symbol, ContextDev::NewsSearchParams::SearchBy::Type)
-            end
-          OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-          ENTITY =
-            T.let(
-              :entity,
-              ContextDev::NewsSearchParams::SearchBy::Type::TaggedSymbol
-            )
-
-          sig do
-            override.returns(
-              T::Array[
-                ContextDev::NewsSearchParams::SearchBy::Type::TaggedSymbol
-              ]
-            )
-          end
-          def self.values
-          end
+        sig do
+          override.returns(
+            T::Array[ContextDev::NewsSearchParams::SearchBy::Variants]
+          )
+        end
+        def self.variants
         end
       end
 
@@ -1568,7 +1618,8 @@ module ContextDev
         sig { returns(ContextDev::NewsSearchParams::SortBy::Type::OrSymbol) }
         attr_accessor :type
 
-        # Result ordering. Defaults to newest.
+        # Result ordering. Defaults to newest for entity searches. Natural-language
+        # searches are always ordered by relevance.
         sig do
           params(
             type: ContextDev::NewsSearchParams::SortBy::Type::OrSymbol

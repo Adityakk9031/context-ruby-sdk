@@ -8,10 +8,11 @@ module ContextDev
       include ContextDev::Internal::Type::RequestParameters
 
       # @!attribute search_by
-      #   What to search for.
+      #   What to search for: a specific company, or a natural-language query across all
+      #   news.
       #
-      #   @return [ContextDev::Models::NewsSearchParams::SearchBy]
-      required :search_by, -> { ContextDev::NewsSearchParams::SearchBy }, api_name: :searchBy
+      #   @return [ContextDev::Models::NewsSearchParams::SearchBy::NaturalLanguage, ContextDev::Models::NewsSearchParams::SearchBy::Entity]
+      required :search_by, union: -> { ContextDev::NewsSearchParams::SearchBy }, api_name: :searchBy
 
       # @!attribute cursor
       #   Opaque next_cursor from the previous response, or null for the first page.
@@ -34,7 +35,8 @@ module ContextDev
       optional :limit, Integer
 
       # @!attribute sort_by
-      #   Result ordering. Defaults to newest.
+      #   Result ordering. Defaults to newest for entity searches. Natural-language
+      #   searches are always ordered by relevance.
       #
       #   @return [ContextDev::Models::NewsSearchParams::SortBy, nil]
       optional :sort_by, -> { ContextDev::NewsSearchParams::SortBy }, api_name: :sortBy
@@ -49,7 +51,7 @@ module ContextDev
       #   Some parameter documentations has been truncated, see
       #   {ContextDev::Models::NewsSearchParams} for more details.
       #
-      #   @param search_by [ContextDev::Models::NewsSearchParams::SearchBy] What to search for.
+      #   @param search_by [ContextDev::Models::NewsSearchParams::SearchBy::NaturalLanguage, ContextDev::Models::NewsSearchParams::SearchBy::Entity] What to search for: a specific company, or a natural-language query across all n
       #
       #   @param cursor [String, nil] Opaque next_cursor from the previous response, or null for the first page.
       #
@@ -57,248 +59,280 @@ module ContextDev
       #
       #   @param limit [Integer] Maximum results to return. Defaults to 10.
       #
-      #   @param sort_by [ContextDev::Models::NewsSearchParams::SortBy] Result ordering. Defaults to newest.
+      #   @param sort_by [ContextDev::Models::NewsSearchParams::SortBy] Result ordering. Defaults to newest for entity searches. Natural-language search
       #
       #   @param tags [Array<String>] Labels for filtering usage in the dashboard.
       #
       #   @param request_options [ContextDev::RequestOptions, Hash{Symbol=>Object}]
 
-      class SearchBy < ContextDev::Internal::Type::BaseModel
-        # @!attribute entity
-        #   The company to search news for, identified by name, domain, ticker, or ISIN.
-        #
-        #   @return [ContextDev::Models::NewsSearchParams::SearchBy::Entity::Name, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Domain, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Isin]
-        required :entity, union: -> { ContextDev::NewsSearchParams::SearchBy::Entity }
+      # What to search for: a specific company, or a natural-language query across all
+      # news.
+      module SearchBy
+        extend ContextDev::Internal::Type::Union
 
-        # @!attribute type
-        #   How to search. Only entity search is supported.
-        #
-        #   @return [Symbol, ContextDev::Models::NewsSearchParams::SearchBy::Type]
-        required :type, enum: -> { ContextDev::NewsSearchParams::SearchBy::Type }
+        discriminator :type
 
-        # @!method initialize(entity:, type:)
-        #   What to search for.
-        #
-        #   @param entity [ContextDev::Models::NewsSearchParams::SearchBy::Entity::Name, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Domain, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Isin] The company to search news for, identified by name, domain, ticker, or ISIN.
-        #
-        #   @param type [Symbol, ContextDev::Models::NewsSearchParams::SearchBy::Type] How to search. Only entity search is supported.
+        # Search all news with a plain-language query. Returns up to 100 matches, ordered by relevance.
+        variant :natural_language, -> { ContextDev::NewsSearchParams::SearchBy::NaturalLanguage }
 
-        # The company to search news for, identified by name, domain, ticker, or ISIN.
-        #
-        # @see ContextDev::Models::NewsSearchParams::SearchBy#entity
-        module Entity
-          extend ContextDev::Internal::Type::Union
+        # Find news about a specific company.
+        variant :entity, -> { ContextDev::NewsSearchParams::SearchBy::Entity }
 
-          discriminator :type
+        class NaturalLanguage < ContextDev::Internal::Type::BaseModel
+          # @!attribute query
+          #   What to search for, in plain language, such as "chip export restrictions to
+          #   China".
+          #
+          #   @return [String]
+          required :query, String
 
-          # Identify the company by name.
-          variant :name, -> { ContextDev::NewsSearchParams::SearchBy::Entity::Name }
+          # @!attribute type
+          #   Use `natural_language` to search all news with a plain-language query.
+          #
+          #   @return [Symbol, :natural_language]
+          required :type, const: :natural_language
 
-          # Identify the company by website domain.
-          variant :domain, -> { ContextDev::NewsSearchParams::SearchBy::Entity::Domain }
+          # @!method initialize(query:, type: :natural_language)
+          #   Some parameter documentations has been truncated, see
+          #   {ContextDev::Models::NewsSearchParams::SearchBy::NaturalLanguage} for more
+          #   details.
+          #
+          #   Search all news with a plain-language query. Returns up to 100 matches, ordered
+          #   by relevance.
+          #
+          #   @param query [String] What to search for, in plain language, such as "chip export restrictions to Chin
+          #
+          #   @param type [Symbol, :natural_language] Use `natural_language` to search all news with a plain-language query.
+        end
 
-          # Identify the company by stock ticker, optionally scoped to an exchange.
-          variant :ticker, -> { ContextDev::NewsSearchParams::SearchBy::Entity::Ticker }
+        class Entity < ContextDev::Internal::Type::BaseModel
+          # @!attribute entity
+          #   The company to search news for, identified by name, domain, ticker, or ISIN.
+          #
+          #   @return [ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Name, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Domain, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Isin]
+          required :entity, union: -> { ContextDev::NewsSearchParams::SearchBy::Entity::Entity }
 
-          # Identify the company by International Securities Identification Number.
-          variant :isin, -> { ContextDev::NewsSearchParams::SearchBy::Entity::Isin }
+          # @!attribute type
+          #   Use `entity` to find news about a specific company.
+          #
+          #   @return [Symbol, :entity]
+          required :type, const: :entity
 
-          class Name < ContextDev::Internal::Type::BaseModel
-            # @!attribute name
-            #   Company name.
-            #
-            #   @return [String]
-            required :name, String
+          # @!method initialize(entity:, type: :entity)
+          #   Find news about a specific company.
+          #
+          #   @param entity [ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Name, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Domain, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Isin] The company to search news for, identified by name, domain, ticker, or ISIN.
+          #
+          #   @param type [Symbol, :entity] Use `entity` to find news about a specific company.
 
-            # @!attribute type
-            #   Use `name` to identify the company by name.
-            #
-            #   @return [Symbol, :name]
-            required :type, const: :name
+          # The company to search news for, identified by name, domain, ticker, or ISIN.
+          #
+          # @see ContextDev::Models::NewsSearchParams::SearchBy::Entity#entity
+          module Entity
+            extend ContextDev::Internal::Type::Union
 
-            # @!method initialize(name:, type: :name)
-            #   Identify the company by name.
-            #
-            #   @param name [String] Company name.
-            #
-            #   @param type [Symbol, :name] Use `name` to identify the company by name.
-          end
+            discriminator :type
 
-          class Domain < ContextDev::Internal::Type::BaseModel
-            # @!attribute domain
-            #   Company website domain, such as apple.com.
-            #
-            #   @return [String]
-            required :domain, String
+            # Identify the company by name.
+            variant :name, -> { ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Name }
 
-            # @!attribute type
-            #   Use `domain` to identify the company by website domain.
-            #
-            #   @return [Symbol, :domain]
-            required :type, const: :domain
+            # Identify the company by website domain.
+            variant :domain, -> { ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Domain }
 
-            # @!method initialize(domain:, type: :domain)
-            #   Identify the company by website domain.
-            #
-            #   @param domain [String] Company website domain, such as apple.com.
-            #
-            #   @param type [Symbol, :domain] Use `domain` to identify the company by website domain.
-          end
+            # Identify the company by stock ticker, optionally scoped to an exchange.
+            variant :ticker, -> { ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker }
 
-          class Ticker < ContextDev::Internal::Type::BaseModel
-            # @!attribute ticker
-            #   Public-company ticker.
-            #
-            #   @return [String]
-            required :ticker, String
+            # Identify the company by International Securities Identification Number.
+            variant :isin, -> { ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Isin }
 
-            # @!attribute type
-            #   Use `ticker` to identify a publicly traded company.
-            #
-            #   @return [Symbol, :ticker]
-            required :type, const: :ticker
+            class Name < ContextDev::Internal::Type::BaseModel
+              # @!attribute name
+              #   Company name.
+              #
+              #   @return [String]
+              required :name, String
 
-            # @!attribute exchange
-            #   Stock exchange the ticker trades on, used to disambiguate tickers listed on
-            #   multiple exchanges.
-            #
-            #   @return [Symbol, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker::Exchange, nil]
-            optional :exchange, enum: -> { ContextDev::NewsSearchParams::SearchBy::Entity::Ticker::Exchange }
+              # @!attribute type
+              #   Use `name` to identify the company by name.
+              #
+              #   @return [Symbol, :name]
+              required :type, const: :name
 
-            # @!method initialize(ticker:, exchange: nil, type: :ticker)
-            #   Some parameter documentations has been truncated, see
-            #   {ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker} for more
-            #   details.
-            #
-            #   Identify the company by stock ticker, optionally scoped to an exchange.
-            #
-            #   @param ticker [String] Public-company ticker.
-            #
-            #   @param exchange [Symbol, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker::Exchange] Stock exchange the ticker trades on, used to disambiguate tickers listed on mult
-            #
-            #   @param type [Symbol, :ticker] Use `ticker` to identify a publicly traded company.
-
-            # Stock exchange the ticker trades on, used to disambiguate tickers listed on
-            # multiple exchanges.
-            #
-            # @see ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker#exchange
-            module Exchange
-              extend ContextDev::Internal::Type::Enum
-
-              AMEX = :AMEX
-              AMS = :AMS
-              AQS = :AQS
-              ASX = :ASX
-              ATH = :ATH
-              BER = :BER
-              BME = :BME
-              BRU = :BRU
-              BSE = :BSE
-              BUD = :BUD
-              BUE = :BUE
-              BVC = :BVC
-              CBOE = :CBOE
-              CNQ = :CNQ
-              CPH = :CPH
-              DFM = :DFM
-              DOH = :DOH
-              DUB = :DUB
-              DUS = :DUS
-              DXE = :DXE
-              EGX = :EGX
-              FSX = :FSX
-              HAM = :HAM
-              HEL = :HEL
-              HKSE = :HKSE
-              HOSE = :HOSE
-              ICE = :ICE
-              IOB = :IOB
-              IST = :IST
-              JKT = :JKT
-              JNB = :JNB
-              JPX = :JPX
-              KLS = :KLS
-              KOE = :KOE
-              KSC = :KSC
-              KUW = :KUW
-              LIS = :LIS
-              LSE = :LSE
-              MCX = :MCX
-              MEX = :MEX
-              MIL = :MIL
-              MUN = :MUN
-              NASDAQ = :NASDAQ
-              NEO = :NEO
-              NSE = :NSE
-              NYSE = :NYSE
-              NZE = :NZE
-              OSL = :OSL
-              OTC = :OTC
-              PAR = :PAR
-              PNK = :PNK
-              PRA = :PRA
-              RIS = :RIS
-              SAO = :SAO
-              SAU = :SAU
-              SES = :SES
-              SET = :SET
-              SGO = :SGO
-              SHH = :SHH
-              SHZ = :SHZ
-              SIX = :SIX
-              STO = :STO
-              STU = :STU
-              TAI = :TAI
-              TAL = :TAL
-              TLV = :TLV
-              TSX = :TSX
-              TSXV = :TSXV
-              TWO = :TWO
-              VIE = :VIE
-              WSE = :WSE
-              XETRA = :XETRA
-
-              # @!method self.values
-              #   @return [Array<Symbol>]
+              # @!method initialize(name:, type: :name)
+              #   Identify the company by name.
+              #
+              #   @param name [String] Company name.
+              #
+              #   @param type [Symbol, :name] Use `name` to identify the company by name.
             end
+
+            class Domain < ContextDev::Internal::Type::BaseModel
+              # @!attribute domain
+              #   Company website domain, such as apple.com.
+              #
+              #   @return [String]
+              required :domain, String
+
+              # @!attribute type
+              #   Use `domain` to identify the company by website domain.
+              #
+              #   @return [Symbol, :domain]
+              required :type, const: :domain
+
+              # @!method initialize(domain:, type: :domain)
+              #   Identify the company by website domain.
+              #
+              #   @param domain [String] Company website domain, such as apple.com.
+              #
+              #   @param type [Symbol, :domain] Use `domain` to identify the company by website domain.
+            end
+
+            class Ticker < ContextDev::Internal::Type::BaseModel
+              # @!attribute ticker
+              #   Public-company ticker.
+              #
+              #   @return [String]
+              required :ticker, String
+
+              # @!attribute type
+              #   Use `ticker` to identify a publicly traded company.
+              #
+              #   @return [Symbol, :ticker]
+              required :type, const: :ticker
+
+              # @!attribute exchange
+              #   Stock exchange the ticker trades on, used to disambiguate tickers listed on
+              #   multiple exchanges.
+              #
+              #   @return [Symbol, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange, nil]
+              optional :exchange, enum: -> { ContextDev::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange }
+
+              # @!method initialize(ticker:, exchange: nil, type: :ticker)
+              #   Some parameter documentations has been truncated, see
+              #   {ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker} for
+              #   more details.
+              #
+              #   Identify the company by stock ticker, optionally scoped to an exchange.
+              #
+              #   @param ticker [String] Public-company ticker.
+              #
+              #   @param exchange [Symbol, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker::Exchange] Stock exchange the ticker trades on, used to disambiguate tickers listed on mult
+              #
+              #   @param type [Symbol, :ticker] Use `ticker` to identify a publicly traded company.
+
+              # Stock exchange the ticker trades on, used to disambiguate tickers listed on
+              # multiple exchanges.
+              #
+              # @see ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker#exchange
+              module Exchange
+                extend ContextDev::Internal::Type::Enum
+
+                AMEX = :AMEX
+                AMS = :AMS
+                AQS = :AQS
+                ASX = :ASX
+                ATH = :ATH
+                BER = :BER
+                BME = :BME
+                BRU = :BRU
+                BSE = :BSE
+                BUD = :BUD
+                BUE = :BUE
+                BVC = :BVC
+                CBOE = :CBOE
+                CNQ = :CNQ
+                CPH = :CPH
+                DFM = :DFM
+                DOH = :DOH
+                DUB = :DUB
+                DUS = :DUS
+                DXE = :DXE
+                EGX = :EGX
+                FSX = :FSX
+                HAM = :HAM
+                HEL = :HEL
+                HKSE = :HKSE
+                HOSE = :HOSE
+                ICE = :ICE
+                IOB = :IOB
+                IST = :IST
+                JKT = :JKT
+                JNB = :JNB
+                JPX = :JPX
+                KLS = :KLS
+                KOE = :KOE
+                KSC = :KSC
+                KUW = :KUW
+                LIS = :LIS
+                LSE = :LSE
+                MCX = :MCX
+                MEX = :MEX
+                MIL = :MIL
+                MUN = :MUN
+                NASDAQ = :NASDAQ
+                NEO = :NEO
+                NSE = :NSE
+                NYSE = :NYSE
+                NZE = :NZE
+                OSL = :OSL
+                OTC = :OTC
+                PAR = :PAR
+                PNK = :PNK
+                PRA = :PRA
+                RIS = :RIS
+                SAO = :SAO
+                SAU = :SAU
+                SES = :SES
+                SET = :SET
+                SGO = :SGO
+                SHH = :SHH
+                SHZ = :SHZ
+                SIX = :SIX
+                STO = :STO
+                STU = :STU
+                TAI = :TAI
+                TAL = :TAL
+                TLV = :TLV
+                TSX = :TSX
+                TSXV = :TSXV
+                TWO = :TWO
+                VIE = :VIE
+                WSE = :WSE
+                XETRA = :XETRA
+
+                # @!method self.values
+                #   @return [Array<Symbol>]
+              end
+            end
+
+            class Isin < ContextDev::Internal::Type::BaseModel
+              # @!attribute isin
+              #   International Securities Identification Number.
+              #
+              #   @return [String]
+              required :isin, String
+
+              # @!attribute type
+              #   Use `isin` to identify the company by its securities identifier.
+              #
+              #   @return [Symbol, :isin]
+              required :type, const: :isin
+
+              # @!method initialize(isin:, type: :isin)
+              #   Identify the company by International Securities Identification Number.
+              #
+              #   @param isin [String] International Securities Identification Number.
+              #
+              #   @param type [Symbol, :isin] Use `isin` to identify the company by its securities identifier.
+            end
+
+            # @!method self.variants
+            #   @return [Array(ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Name, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Domain, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Ticker, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Entity::Isin)]
           end
-
-          class Isin < ContextDev::Internal::Type::BaseModel
-            # @!attribute isin
-            #   International Securities Identification Number.
-            #
-            #   @return [String]
-            required :isin, String
-
-            # @!attribute type
-            #   Use `isin` to identify the company by its securities identifier.
-            #
-            #   @return [Symbol, :isin]
-            required :type, const: :isin
-
-            # @!method initialize(isin:, type: :isin)
-            #   Identify the company by International Securities Identification Number.
-            #
-            #   @param isin [String] International Securities Identification Number.
-            #
-            #   @param type [Symbol, :isin] Use `isin` to identify the company by its securities identifier.
-          end
-
-          # @!method self.variants
-          #   @return [Array(ContextDev::Models::NewsSearchParams::SearchBy::Entity::Name, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Domain, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Ticker, ContextDev::Models::NewsSearchParams::SearchBy::Entity::Isin)]
         end
 
-        # How to search. Only entity search is supported.
-        #
-        # @see ContextDev::Models::NewsSearchParams::SearchBy#type
-        module Type
-          extend ContextDev::Internal::Type::Enum
-
-          ENTITY = :entity
-
-          # @!method self.values
-          #   @return [Array<Symbol>]
-        end
+        # @!method self.variants
+        #   @return [Array(ContextDev::Models::NewsSearchParams::SearchBy::NaturalLanguage, ContextDev::Models::NewsSearchParams::SearchBy::Entity)]
       end
 
       class FilterBy < ContextDev::Internal::Type::BaseModel
@@ -519,7 +553,8 @@ module ContextDev
         required :type, enum: -> { ContextDev::NewsSearchParams::SortBy::Type }
 
         # @!method initialize(type:)
-        #   Result ordering. Defaults to newest.
+        #   Result ordering. Defaults to newest for entity searches. Natural-language
+        #   searches are always ordered by relevance.
         #
         #   @param type [Symbol, ContextDev::Models::NewsSearchParams::SortBy::Type] Result ordering.
 
