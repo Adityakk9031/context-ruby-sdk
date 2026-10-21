@@ -15,6 +15,11 @@ module ContextDev
       sig { returns(T::Hash[Symbol, T.anything]) }
       attr_accessor :json_content
 
+      # Unique ID of this request, also in `X-Request-Id`. Include it when contacting
+      # support.
+      sig { returns(String) }
+      attr_accessor :request_id
+
       # URLs of the pages and company/profile records read for the answer, followed by
       # URLs cited in json_content.
       sig { returns(T::Array[String]) }
@@ -45,6 +50,7 @@ module ContextDev
       sig do
         params(
           json_content: T::Hash[Symbol, T.anything],
+          request_id: String,
           sources: T::Array[String],
           key_metadata:
             ContextDev::Models::WebAnswersResponse::KeyMetadata::OrHash,
@@ -54,6 +60,9 @@ module ContextDev
       def self.new(
         # The answer, in the shape requested by json_format.
         json_content:,
+        # Unique ID of this request, also in `X-Request-Id`. Include it when contacting
+        # support.
+        request_id:,
         # URLs of the pages and company/profile records read for the answer, followed by
         # URLs cited in json_content.
         sources:,
@@ -69,6 +78,7 @@ module ContextDev
         override.returns(
           {
             json_content: T::Hash[Symbol, T.anything],
+            request_id: String,
             sources: T::Array[String],
             key_metadata: ContextDev::Models::WebAnswersResponse::KeyMetadata,
             partial: T::Boolean

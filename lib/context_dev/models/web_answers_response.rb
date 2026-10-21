@@ -10,6 +10,13 @@ module ContextDev
       #   @return [Hash{Symbol=>Object}]
       required :json_content, ContextDev::Internal::Type::HashOf[ContextDev::Internal::Type::Unknown]
 
+      # @!attribute request_id
+      #   Unique ID of this request, also in `X-Request-Id`. Include it when contacting
+      #   support.
+      #
+      #   @return [String]
+      required :request_id, String
+
       # @!attribute sources
       #   URLs of the pages and company/profile records read for the answer, followed by
       #   URLs cited in json_content.
@@ -30,11 +37,13 @@ module ContextDev
       #   @return [Boolean, nil]
       optional :partial, ContextDev::Internal::Type::Boolean
 
-      # @!method initialize(json_content:, sources:, key_metadata: nil, partial: nil)
+      # @!method initialize(json_content:, request_id:, sources:, key_metadata: nil, partial: nil)
       #   Some parameter documentations has been truncated, see
       #   {ContextDev::Models::WebAnswersResponse} for more details.
       #
       #   @param json_content [Hash{Symbol=>Object}] The answer, in the shape requested by json_format.
+      #
+      #   @param request_id [String] Unique ID of this request, also in `X-Request-Id`. Include it when contacting su
       #
       #   @param sources [Array<String>] URLs of the pages and company/profile records read for the answer, followed by U
       #

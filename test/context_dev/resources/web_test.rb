@@ -15,6 +15,7 @@ class ContextDev::Test::Resources::WebTest < ContextDev::Test::ResourceTest
     assert_pattern do
       response => {
         json_content: ^(ContextDev::Internal::Type::HashOf[ContextDev::Internal::Type::Unknown]),
+        request_id: String,
         sources: ^(ContextDev::Internal::Type::ArrayOf[String]),
         key_metadata: ContextDev::Models::WebAnswersResponse::KeyMetadata | nil,
         partial: ContextDev::Internal::Type::Boolean | nil
