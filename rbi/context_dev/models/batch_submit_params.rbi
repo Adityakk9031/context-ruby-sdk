@@ -3980,6 +3980,37 @@ module ContextDev
                   sig { params(follow_subdomains: T::Boolean).void }
                   attr_writer :follow_subdomains
 
+                  # Languages whose pages are followed. `same_as_start_url` follows only the start
+                  # page's language; a list of language codes such as `["en"]` follows those
+                  # languages. Links whose language cannot be determined are followed. When omitted
+                  # all urls are crawled.
+                  sig do
+                    returns(
+                      T.nilable(
+                        T.any(
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::OrSymbol,
+                          T::Array[
+                            ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::OrSymbol
+                          ]
+                        )
+                      )
+                    )
+                  end
+                  attr_reader :languages
+
+                  sig do
+                    params(
+                      languages:
+                        T.any(
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::OrSymbol,
+                          T::Array[
+                            ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::OrSymbol
+                          ]
+                        )
+                    ).void
+                  end
+                  attr_writer :languages
+
                   # Maximum link depth. Source pages are depth 0. No limit when omitted.
                   sig { returns(T.nilable(Integer)) }
                   attr_reader :max_depth
@@ -4006,6 +4037,13 @@ module ContextDev
                     params(
                       exclude_regex: String,
                       follow_subdomains: T::Boolean,
+                      languages:
+                        T.any(
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::OrSymbol,
+                          T::Array[
+                            ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::OrSymbol
+                          ]
+                        ),
                       max_depth: Integer,
                       max_urls: Integer,
                       regex: String
@@ -4017,6 +4055,11 @@ module ContextDev
                     exclude_regex: nil,
                     # Follow links to subdomains.
                     follow_subdomains: nil,
+                    # Languages whose pages are followed. `same_as_start_url` follows only the start
+                    # page's language; a list of language codes such as `["en"]` follows those
+                    # languages. Links whose language cannot be determined are followed. When omitted
+                    # all urls are crawled.
+                    languages: nil,
                     # Maximum link depth. Source pages are depth 0. No limit when omitted.
                     max_depth: nil,
                     # Maximum pages to fetch. Unused reserved credits are refunded. Maximum 100000.
@@ -4031,6 +4074,13 @@ module ContextDev
                       {
                         exclude_regex: String,
                         follow_subdomains: T::Boolean,
+                        languages:
+                          T.any(
+                            ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::OrSymbol,
+                            T::Array[
+                              ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::OrSymbol
+                            ]
+                          ),
                         max_depth: Integer,
                         max_urls: Integer,
                         regex: String
@@ -4038,6 +4088,452 @@ module ContextDev
                     )
                   end
                   def to_hash
+                  end
+
+                  # Languages whose pages are followed. `same_as_start_url` follows only the start
+                  # page's language; a list of language codes such as `["en"]` follows those
+                  # languages. Links whose language cannot be determined are followed. When omitted
+                  # all urls are crawled.
+                  module Languages
+                    extend ContextDev::Internal::Type::Union
+
+                    Variants =
+                      T.type_alias do
+                        T.any(
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::TaggedSymbol,
+                          T::Array[
+                            ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                          ]
+                        )
+                      end
+
+                    module UnionMember1
+                      extend ContextDev::Internal::Type::Enum
+
+                      TaggedSymbol =
+                        T.type_alias do
+                          T.all(
+                            Symbol,
+                            ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1
+                          )
+                        end
+                      OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+                      AM =
+                        T.let(
+                          :am,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      AR =
+                        T.let(
+                          :ar,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      AZ =
+                        T.let(
+                          :az,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      BE =
+                        T.let(
+                          :be,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      BG =
+                        T.let(
+                          :bg,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      BN =
+                        T.let(
+                          :bn,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      CA =
+                        T.let(
+                          :ca,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      CEB =
+                        T.let(
+                          :ceb,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      CS =
+                        T.let(
+                          :cs,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      CY =
+                        T.let(
+                          :cy,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      DA =
+                        T.let(
+                          :da,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      DE =
+                        T.let(
+                          :de,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      EL =
+                        T.let(
+                          :el,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      EN =
+                        T.let(
+                          :en,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      ES =
+                        T.let(
+                          :es,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      ET =
+                        T.let(
+                          :et,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      EU =
+                        T.let(
+                          :eu,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      FA =
+                        T.let(
+                          :fa,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      FI =
+                        T.let(
+                          :fi,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      FR =
+                        T.let(
+                          :fr,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      GU =
+                        T.let(
+                          :gu,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      HA =
+                        T.let(
+                          :ha,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      HAW =
+                        T.let(
+                          :haw,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      HE =
+                        T.let(
+                          :he,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      HI =
+                        T.let(
+                          :hi,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      HR =
+                        T.let(
+                          :hr,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      HU =
+                        T.let(
+                          :hu,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      HY =
+                        T.let(
+                          :hy,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      ID =
+                        T.let(
+                          :id,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      IS =
+                        T.let(
+                          :is,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      IT =
+                        T.let(
+                          :it,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      JA =
+                        T.let(
+                          :ja,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      KA =
+                        T.let(
+                          :ka,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      KK =
+                        T.let(
+                          :kk,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      KN =
+                        T.let(
+                          :kn,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      KO =
+                        T.let(
+                          :ko,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      KU =
+                        T.let(
+                          :ku,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      KY =
+                        T.let(
+                          :ky,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      LO =
+                        T.let(
+                          :lo,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      LT =
+                        T.let(
+                          :lt,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      LV =
+                        T.let(
+                          :lv,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      MK =
+                        T.let(
+                          :mk,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      ML =
+                        T.let(
+                          :ml,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      MN =
+                        T.let(
+                          :mn,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      MR =
+                        T.let(
+                          :mr,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      MS =
+                        T.let(
+                          :ms,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      NE =
+                        T.let(
+                          :ne,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      NL =
+                        T.let(
+                          :nl,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      NO =
+                        T.let(
+                          :no,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      OR =
+                        T.let(
+                          :or,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      PA =
+                        T.let(
+                          :pa,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      PL =
+                        T.let(
+                          :pl,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      PS =
+                        T.let(
+                          :ps,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      PT =
+                        T.let(
+                          :pt,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      RO =
+                        T.let(
+                          :ro,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      RU =
+                        T.let(
+                          :ru,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      SK =
+                        T.let(
+                          :sk,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      SL =
+                        T.let(
+                          :sl,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      SO =
+                        T.let(
+                          :so,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      SQ =
+                        T.let(
+                          :sq,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      SR =
+                        T.let(
+                          :sr,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      SV =
+                        T.let(
+                          :sv,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      SW =
+                        T.let(
+                          :sw,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      TA =
+                        T.let(
+                          :ta,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      TE =
+                        T.let(
+                          :te,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      TH =
+                        T.let(
+                          :th,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      TL =
+                        T.let(
+                          :tl,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      TR =
+                        T.let(
+                          :tr,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      UK =
+                        T.let(
+                          :uk,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      UR =
+                        T.let(
+                          :ur,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      UZ =
+                        T.let(
+                          :uz,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      VI =
+                        T.let(
+                          :vi,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      YO =
+                        T.let(
+                          :yo,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+                      ZH =
+                        T.let(
+                          :zh,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                        )
+
+                      sig do
+                        override.returns(
+                          T::Array[
+                            ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                          ]
+                        )
+                      end
+                      def self.values
+                      end
+                    end
+
+                    sig do
+                      override.returns(
+                        T::Array[
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::Variants
+                        ]
+                      )
+                    end
+                    def self.variants
+                    end
+
+                    TaggedSymbol =
+                      T.type_alias do
+                        T.all(
+                          Symbol,
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages
+                        )
+                      end
+                    OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+                    SAME_AS_START_URL =
+                      T.let(
+                        :same_as_start_url,
+                        ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::TaggedSymbol
+                      )
+
+                    UnionMember1Array =
+                      T.let(
+                        ContextDev::Internal::Type::ArrayOf[
+                          enum:
+                            ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1
+                        ],
+                        ContextDev::Internal::Type::Converter
+                      )
                   end
                 end
               end

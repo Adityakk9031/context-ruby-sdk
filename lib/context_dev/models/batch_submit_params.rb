@@ -1854,6 +1854,16 @@ module ContextDev
                            ContextDev::Internal::Type::Boolean,
                            api_name: :followSubdomains
 
+                  # @!attribute languages
+                  #   Languages whose pages are followed. `same_as_start_url` follows only the start
+                  #   page's language; a list of language codes such as `["en"]` follows those
+                  #   languages. Links whose language cannot be determined are followed. When omitted
+                  #   all urls are crawled.
+                  #
+                  #   @return [Symbol, Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1>, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages, nil]
+                  optional :languages,
+                           union: -> { ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages }
+
                   # @!attribute max_depth
                   #   Maximum link depth. Source pages are depth 0. No limit when omitted.
                   #
@@ -1872,7 +1882,7 @@ module ContextDev
                   #   @return [String, nil]
                   optional :regex, String
 
-                  # @!method initialize(exclude_regex: nil, follow_subdomains: nil, max_depth: nil, max_urls: nil, regex: nil)
+                  # @!method initialize(exclude_regex: nil, follow_subdomains: nil, languages: nil, max_depth: nil, max_urls: nil, regex: nil)
                   #   Some parameter documentations has been truncated, see
                   #   {ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls}
                   #   for more details.
@@ -1883,11 +1893,135 @@ module ContextDev
                   #
                   #   @param follow_subdomains [Boolean] Follow links to subdomains.
                   #
+                  #   @param languages [Symbol, Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1>, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages] Languages whose pages are followed. `same_as_start_url` follows only the start p
+                  #
                   #   @param max_depth [Integer] Maximum link depth. Source pages are depth 0. No limit when omitted.
                   #
                   #   @param max_urls [Integer] Maximum pages to fetch. Unused reserved credits are refunded. Maximum 100000.
                   #
                   #   @param regex [String] RE2 pattern for URLs to include. The `start_url` itself is always included.
+
+                  # Languages whose pages are followed. `same_as_start_url` follows only the start
+                  # page's language; a list of language codes such as `["en"]` follows those
+                  # languages. Links whose language cannot be determined are followed. When omitted
+                  # all urls are crawled.
+                  #
+                  # @see ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls#languages
+                  module Languages
+                    extend ContextDev::Internal::Type::Union
+
+                    variant const: -> { ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::SAME_AS_START_URL }
+
+                    variant -> { ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1Array }
+
+                    module UnionMember1
+                      extend ContextDev::Internal::Type::Enum
+
+                      AM = :am
+                      AR = :ar
+                      AZ = :az
+                      BE = :be
+                      BG = :bg
+                      BN = :bn
+                      CA = :ca
+                      CEB = :ceb
+                      CS = :cs
+                      CY = :cy
+                      DA = :da
+                      DE = :de
+                      EL = :el
+                      EN = :en
+                      ES = :es
+                      ET = :et
+                      EU = :eu
+                      FA = :fa
+                      FI = :fi
+                      FR = :fr
+                      GU = :gu
+                      HA = :ha
+                      HAW = :haw
+                      HE = :he
+                      HI = :hi
+                      HR = :hr
+                      HU = :hu
+                      HY = :hy
+                      ID = :id
+                      IS = :is
+                      IT = :it
+                      JA = :ja
+                      KA = :ka
+                      KK = :kk
+                      KN = :kn
+                      KO = :ko
+                      KU = :ku
+                      KY = :ky
+                      LO = :lo
+                      LT = :lt
+                      LV = :lv
+                      MK = :mk
+                      ML = :ml
+                      MN = :mn
+                      MR = :mr
+                      MS = :ms
+                      NE = :ne
+                      NL = :nl
+                      NO = :no
+                      OR = :or
+                      PA = :pa
+                      PL = :pl
+                      PS = :ps
+                      PT = :pt
+                      RO = :ro
+                      RU = :ru
+                      SK = :sk
+                      SL = :sl
+                      SO = :so
+                      SQ = :sq
+                      SR = :sr
+                      SV = :sv
+                      SW = :sw
+                      TA = :ta
+                      TE = :te
+                      TH = :th
+                      TL = :tl
+                      TR = :tr
+                      UK = :uk
+                      UR = :ur
+                      UZ = :uz
+                      VI = :vi
+                      YO = :yo
+                      ZH = :zh
+
+                      # @!method self.values
+                      #   @return [Array<Symbol>]
+                    end
+
+                    # @!method self.variants
+                    #   @return [Array(Symbol, Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1>)]
+
+                    define_sorbet_constant!(:Variants) do
+                      T.type_alias do
+                        T.any(
+                          ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::TaggedSymbol,
+                          T::Array[
+                            ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1::TaggedSymbol
+                          ]
+                        )
+                      end
+                    end
+
+                    # @!group
+
+                    SAME_AS_START_URL = :same_as_start_url
+
+                    # @!endgroup
+
+                    # @type [ContextDev::Internal::Type::Converter]
+                    UnionMember1Array =
+                      ContextDev::Internal::Type::ArrayOf[
+                        enum: -> { ContextDev::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1 }
+                      ]
+                  end
                 end
               end
 

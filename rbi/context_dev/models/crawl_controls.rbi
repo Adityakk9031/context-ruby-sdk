@@ -16,6 +16,12 @@ module ContextDev
       sig { returns(T::Boolean) }
       attr_accessor :follow_subdomains
 
+      # Languages whose pages were followed: `same_as_start_url` or a list of language
+      # codes. Null when every language was followed, which is always the case for a
+      # sitemap crawl.
+      sig { returns(T.nilable(ContextDev::CrawlControls::Languages::Variants)) }
+      attr_accessor :languages
+
       # Link depth limit. Always 0 for a sitemap crawl, which never follows links off
       # its URLs; null when a `start_url` crawl set no limit.
       sig { returns(T.nilable(Integer)) }
@@ -39,6 +45,15 @@ module ContextDev
         params(
           exclude_url_pattern: T.nilable(String),
           follow_subdomains: T::Boolean,
+          languages:
+            T.nilable(
+              T.any(
+                ContextDev::CrawlControls::Languages::OrSymbol,
+                T::Array[
+                  ContextDev::CrawlControls::Languages::UnionMember1::OrSymbol
+                ]
+              )
+            ),
           max_depth: T.nilable(Integer),
           max_pages: Integer,
           source:
@@ -54,6 +69,10 @@ module ContextDev
         exclude_url_pattern:,
         # Whether links to subdomains were followed. Always false for a sitemap crawl.
         follow_subdomains:,
+        # Languages whose pages were followed: `same_as_start_url` or a list of language
+        # codes. Null when every language was followed, which is always the case for a
+        # sitemap crawl.
+        languages:,
         # Link depth limit. Always 0 for a sitemap crawl, which never follows links off
         # its URLs; null when a `start_url` crawl set no limit.
         max_depth:,
@@ -72,6 +91,8 @@ module ContextDev
           {
             exclude_url_pattern: T.nilable(String),
             follow_subdomains: T::Boolean,
+            languages:
+              T.nilable(ContextDev::CrawlControls::Languages::Variants),
             max_depth: T.nilable(Integer),
             max_pages: Integer,
             source: ContextDev::CrawlControls::Source::Variants,
@@ -80,6 +101,440 @@ module ContextDev
         )
       end
       def to_hash
+      end
+
+      # Languages whose pages were followed: `same_as_start_url` or a list of language
+      # codes. Null when every language was followed, which is always the case for a
+      # sitemap crawl.
+      module Languages
+        extend ContextDev::Internal::Type::Union
+
+        Variants =
+          T.type_alias do
+            T.any(
+              ContextDev::CrawlControls::Languages::TaggedSymbol,
+              T::Array[
+                ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+              ]
+            )
+          end
+
+        module UnionMember1
+          extend ContextDev::Internal::Type::Enum
+
+          TaggedSymbol =
+            T.type_alias do
+              T.all(Symbol, ContextDev::CrawlControls::Languages::UnionMember1)
+            end
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          AM =
+            T.let(
+              :am,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          AR =
+            T.let(
+              :ar,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          AZ =
+            T.let(
+              :az,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          BE =
+            T.let(
+              :be,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          BG =
+            T.let(
+              :bg,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          BN =
+            T.let(
+              :bn,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          CA =
+            T.let(
+              :ca,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          CEB =
+            T.let(
+              :ceb,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          CS =
+            T.let(
+              :cs,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          CY =
+            T.let(
+              :cy,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          DA =
+            T.let(
+              :da,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          DE =
+            T.let(
+              :de,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          EL =
+            T.let(
+              :el,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          EN =
+            T.let(
+              :en,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          ES =
+            T.let(
+              :es,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          ET =
+            T.let(
+              :et,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          EU =
+            T.let(
+              :eu,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          FA =
+            T.let(
+              :fa,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          FI =
+            T.let(
+              :fi,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          FR =
+            T.let(
+              :fr,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          GU =
+            T.let(
+              :gu,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          HA =
+            T.let(
+              :ha,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          HAW =
+            T.let(
+              :haw,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          HE =
+            T.let(
+              :he,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          HI =
+            T.let(
+              :hi,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          HR =
+            T.let(
+              :hr,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          HU =
+            T.let(
+              :hu,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          HY =
+            T.let(
+              :hy,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          ID =
+            T.let(
+              :id,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          IS =
+            T.let(
+              :is,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          IT =
+            T.let(
+              :it,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          JA =
+            T.let(
+              :ja,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          KA =
+            T.let(
+              :ka,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          KK =
+            T.let(
+              :kk,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          KN =
+            T.let(
+              :kn,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          KO =
+            T.let(
+              :ko,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          KU =
+            T.let(
+              :ku,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          KY =
+            T.let(
+              :ky,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          LO =
+            T.let(
+              :lo,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          LT =
+            T.let(
+              :lt,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          LV =
+            T.let(
+              :lv,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          MK =
+            T.let(
+              :mk,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          ML =
+            T.let(
+              :ml,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          MN =
+            T.let(
+              :mn,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          MR =
+            T.let(
+              :mr,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          MS =
+            T.let(
+              :ms,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          NE =
+            T.let(
+              :ne,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          NL =
+            T.let(
+              :nl,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          NO =
+            T.let(
+              :no,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          OR =
+            T.let(
+              :or,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          PA =
+            T.let(
+              :pa,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          PL =
+            T.let(
+              :pl,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          PS =
+            T.let(
+              :ps,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          PT =
+            T.let(
+              :pt,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          RO =
+            T.let(
+              :ro,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          RU =
+            T.let(
+              :ru,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          SK =
+            T.let(
+              :sk,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          SL =
+            T.let(
+              :sl,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          SO =
+            T.let(
+              :so,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          SQ =
+            T.let(
+              :sq,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          SR =
+            T.let(
+              :sr,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          SV =
+            T.let(
+              :sv,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          SW =
+            T.let(
+              :sw,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          TA =
+            T.let(
+              :ta,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          TE =
+            T.let(
+              :te,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          TH =
+            T.let(
+              :th,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          TL =
+            T.let(
+              :tl,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          TR =
+            T.let(
+              :tr,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          UK =
+            T.let(
+              :uk,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          UR =
+            T.let(
+              :ur,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          UZ =
+            T.let(
+              :uz,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          VI =
+            T.let(
+              :vi,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          YO =
+            T.let(
+              :yo,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+          ZH =
+            T.let(
+              :zh,
+              ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+            )
+
+          sig do
+            override.returns(
+              T::Array[
+                ContextDev::CrawlControls::Languages::UnionMember1::TaggedSymbol
+              ]
+            )
+          end
+          def self.values
+          end
+        end
+
+        sig do
+          override.returns(
+            T::Array[ContextDev::CrawlControls::Languages::Variants]
+          )
+        end
+        def self.variants
+        end
+
+        TaggedSymbol =
+          T.type_alias { T.all(Symbol, ContextDev::CrawlControls::Languages) }
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        SAME_AS_START_URL =
+          T.let(
+            :same_as_start_url,
+            ContextDev::CrawlControls::Languages::TaggedSymbol
+          )
+
+        UnionMember1Array =
+          T.let(
+            ContextDev::Internal::Type::ArrayOf[
+              enum: ContextDev::CrawlControls::Languages::UnionMember1
+            ],
+            ContextDev::Internal::Type::Converter
+          )
       end
 
       # Where the crawl started.
