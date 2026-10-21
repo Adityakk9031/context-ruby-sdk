@@ -114,7 +114,8 @@ module ContextDev
         sig { returns(T::Array[String]) }
         attr_accessor :authors
 
-        # Short summary or excerpt of the article, when the publisher provides one.
+        # Article summary or excerpt. Natural-language search descriptions include
+        # matching passages and are capped at 2,000 characters.
         sig { returns(T.nilable(String)) }
         attr_accessor :description
 
@@ -210,7 +211,8 @@ module ContextDev
           id:,
           # Bylined authors. Empty when no byline is available.
           authors:,
-          # Short summary or excerpt of the article, when the publisher provides one.
+          # Article summary or excerpt. Natural-language search descriptions include
+          # matching passages and are capped at 2,000 characters.
           description:,
           # Lead image for the article, when one is available.
           image_url:,

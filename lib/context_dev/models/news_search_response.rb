@@ -73,7 +73,8 @@ module ContextDev
         required :authors, ContextDev::Internal::Type::ArrayOf[String]
 
         # @!attribute description
-        #   Short summary or excerpt of the article, when the publisher provides one.
+        #   Article summary or excerpt. Natural-language search descriptions include
+        #   matching passages and are capped at 2,000 characters.
         #
         #   @return [String, nil]
         required :description, String, nil?: true
@@ -145,7 +146,7 @@ module ContextDev
         #
         #   @param authors [Array<String>] Bylined authors. Empty when no byline is available.
         #
-        #   @param description [String, nil] Short summary or excerpt of the article, when the publisher provides one.
+        #   @param description [String, nil] Article summary or excerpt. Natural-language search descriptions include matchin
         #
         #   @param image_url [String, nil] Lead image for the article, when one is available.
         #
