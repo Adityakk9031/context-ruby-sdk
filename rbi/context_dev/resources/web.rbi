@@ -127,8 +127,8 @@ module ContextDev
       def map_urls(
         # Domain to map, e.g. `stripe.com`.
         domain:,
-        # Optional RE2-compatible regex pattern. URLs matching this pattern are not
-        # returned, even when they match urlRegex.
+        # Regex pattern. URLs matching this pattern are not returned, even when they match
+        # urlRegex.
         exclude_url_regex: nil,
         # HTTP headers for the target origin. Non-empty headers bypass caching.
         headers: nil,
@@ -145,8 +145,8 @@ module ContextDev
         tags: nil,
         # Request deadline and what to return when it passes.
         timeout_opts: nil,
-        # Optional RE2-compatible regex pattern. Only URLs matching this pattern are
-        # returned and counted against maxLinks.
+        # Regex pattern. Only URLs matching this pattern are returned and counted against
+        # maxLinks.
         url_regex: nil,
         # `enabled` turns on zero data retention. Returns 403 `ZDR_NOT_ENABLED` unless
         # your organization has ZDR.
@@ -421,8 +421,8 @@ module ContextDev
         country: nil,
         # Remove matching elements after inclusions. Exclusions take precedence.
         exclude_selectors: nil,
-        # RE2 regex pattern. URLs matching this pattern are never followed or scraped,
-        # even when they match urlRegex. The starting URL is always scraped.
+        # Regex pattern. URLs matching this pattern are never followed or scraped, even
+        # when they match urlRegex. The starting URL is always scraped.
         exclude_url_regex: nil,
         # When true, follow links on subdomains of the starting URL's domain (e.g.
         # docs.example.com when starting from example.com). www and apex are always
@@ -431,11 +431,9 @@ module ContextDev
         # When true, the contents of iframes are rendered to Markdown for each crawled
         # page.
         include_frames: nil,
-        # Include image references in the Markdown output Only applies to
-        # `html-conversion` extractions.
+        # Include image references in the Markdown output (`html-conversion` only).
         include_images: nil,
-        # Preserve hyperlinks in the Markdown output Only applies to `html-conversion`
-        # extractions.
+        # Preserve hyperlinks in the Markdown output (`html-conversion` only).
         include_links: nil,
         # Keep matching HTML subtrees before converting each page to Markdown.
         include_selectors: nil,
@@ -450,18 +448,11 @@ module ContextDev
         # Wait briefly for CSS animations and transitions to settle before reading each
         # page.
         settle_animations: nil,
-        # Truncate base64-encoded image data in the Markdown output Only applies to
-        # `html-conversion` extractions.
+        # Truncate base64-encoded image data in the Markdown output (`html-conversion`
+        # only).
         shorten_base64_images: nil,
-        # Where the Markdown should come from, in order of preference; the first usable
-        # source wins. `html-conversion` converts the page HTML, and counts as unusable
-        # when the conversion has almost no content (under 200 characters).
-        # `markdown-direct` uses the official Markdown version the page publishes through,
-        # returned as the site serves it. Defaults to
-        # `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
-        # that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
-        # Requests with include or exclude selectors never use `markdown-direct`, so they
-        # must include `html-conversion`.
+        # Markdown sources in order of preference: `html-conversion` converts the page
+        # HTML, `markdown-direct` uses Markdown the site publishes.
         source_preference: nil,
         # Soft crawl deadline in milliseconds. Returns pages collected before the next
         # deadline check.

@@ -127,7 +127,7 @@ module ContextDev
       #
       # @param domain [String] Domain to map, e.g. `stripe.com`.
       #
-      # @param exclude_url_regex [String] Optional RE2-compatible regex pattern. URLs matching this pattern are not return
+      # @param exclude_url_regex [String] Regex pattern. URLs matching this pattern are not returned, even when they match
       #
       # @param headers [Hash{Symbol=>String}] HTTP headers for the target origin. Non-empty headers bypass caching.
       #
@@ -143,7 +143,7 @@ module ContextDev
       #
       # @param timeout_opts [ContextDev::Models::WebMapURLsParams::TimeoutOpts] Request deadline and what to return when it passes.
       #
-      # @param url_regex [String] Optional RE2-compatible regex pattern. Only URLs matching this pattern are retur
+      # @param url_regex [String] Regex pattern. Only URLs matching this pattern are returned and counted against
       #
       # @param zdr [Symbol, ContextDev::Models::WebMapURLsParams::Zdr] `enabled` turns on zero data retention. Returns 403 `ZDR_NOT_ENABLED` unless you
       #
@@ -355,15 +355,15 @@ module ContextDev
       #
       # @param exclude_selectors [Array<String>, nil] Remove matching elements after inclusions. Exclusions take precedence.
       #
-      # @param exclude_url_regex [String] RE2 regex pattern. URLs matching this pattern are never followed or scraped, eve
+      # @param exclude_url_regex [String] Regex pattern. URLs matching this pattern are never followed or scraped, even wh
       #
       # @param follow_subdomains [Boolean] When true, follow links on subdomains of the starting URL's domain (e.g. docs.ex
       #
       # @param include_frames [Boolean] When true, the contents of iframes are rendered to Markdown for each crawled pag
       #
-      # @param include_images [Boolean] Include image references in the Markdown output Only applies to `html-conversion
+      # @param include_images [Boolean] Include image references in the Markdown output (`html-conversion` only).
       #
-      # @param include_links [Boolean] Preserve hyperlinks in the Markdown output Only applies to `html-conversion` ext
+      # @param include_links [Boolean] Preserve hyperlinks in the Markdown output (`html-conversion` only).
       #
       # @param include_selectors [Array<String>, nil] Keep matching HTML subtrees before converting each page to Markdown.
       #
@@ -377,9 +377,9 @@ module ContextDev
       #
       # @param settle_animations [Boolean] Wait briefly for CSS animations and transitions to settle before reading each pa
       #
-      # @param shorten_base64_images [Boolean] Truncate base64-encoded image data in the Markdown output Only applies to `html-
+      # @param shorten_base64_images [Boolean] Truncate base64-encoded image data in the Markdown output (`html-conversion` onl
       #
-      # @param source_preference [Array<Symbol, ContextDev::Models::WebWebCrawlMdParams::SourcePreference>] Where the Markdown should come from, in order of preference; the first usable so
+      # @param source_preference [Array<Symbol, ContextDev::Models::WebWebCrawlMdParams::SourcePreference>] Markdown sources in order of preference: `html-conversion` converts the page HTM
       #
       # @param stop_after_ms [Integer] Soft crawl deadline in milliseconds. Returns pages collected before the next dea
       #

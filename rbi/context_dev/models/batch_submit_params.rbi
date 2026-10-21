@@ -961,24 +961,21 @@ module ContextDev
                   )
                 end
 
-              # Include images in the Markdown using image syntax with URLs and alt text. Only
-              # applies to `html-conversion` extractions.
+              # Include images in the Markdown (`html-conversion` only).
               sig { returns(T.nilable(T::Boolean)) }
               attr_reader :include_images
 
               sig { params(include_images: T::Boolean).void }
               attr_writer :include_images
 
-              # Keep link URLs in the Markdown. Set false to return link text without URLs. Only
-              # applies to `html-conversion` extractions.
+              # Keep link URLs in the Markdown (`html-conversion` only).
               sig { returns(T.nilable(T::Boolean)) }
               attr_reader :include_links
 
               sig { params(include_links: T::Boolean).void }
               attr_writer :include_links
 
-              # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              # `includeImages`. Only applies to `html-conversion` extractions.
+              # How base64 images appear when `includeImages` is set (`html-conversion` only).
               sig do
                 returns(
                   T.nilable(
@@ -996,15 +993,8 @@ module ContextDev
               end
               attr_writer :inline_images
 
-              # Where the Markdown should come from, in order of preference; the first usable
-              # source wins. `html-conversion` converts the page HTML, and counts as unusable
-              # when the conversion has almost no content (under 200 characters).
-              # `markdown-direct` uses the official Markdown version the page publishes through,
-              # returned as the site serves it. Defaults to
-              # `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
-              # that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
-              # Requests with include or exclude selectors never use `markdown-direct`, so they
-              # must include `html-conversion`.
+              # Markdown sources in order of preference: `html-conversion` converts the page
+              # HTML, `markdown-direct` uses Markdown the site publishes.
               sig do
                 returns(
                   T.nilable(
@@ -1040,24 +1030,14 @@ module ContextDev
                 ).returns(T.attached_class)
               end
               def self.new(
-                # Include images in the Markdown using image syntax with URLs and alt text. Only
-                # applies to `html-conversion` extractions.
+                # Include images in the Markdown (`html-conversion` only).
                 include_images: nil,
-                # Keep link URLs in the Markdown. Set false to return link text without URLs. Only
-                # applies to `html-conversion` extractions.
+                # Keep link URLs in the Markdown (`html-conversion` only).
                 include_links: nil,
-                # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-                # `includeImages`. Only applies to `html-conversion` extractions.
+                # How base64 images appear when `includeImages` is set (`html-conversion` only).
                 inline_images: nil,
-                # Where the Markdown should come from, in order of preference; the first usable
-                # source wins. `html-conversion` converts the page HTML, and counts as unusable
-                # when the conversion has almost no content (under 200 characters).
-                # `markdown-direct` uses the official Markdown version the page publishes through,
-                # returned as the site serves it. Defaults to
-                # `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
-                # that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
-                # Requests with include or exclude selectors never use `markdown-direct`, so they
-                # must include `html-conversion`.
+                # Markdown sources in order of preference: `html-conversion` converts the page
+                # HTML, `markdown-direct` uses Markdown the site publishes.
                 source_preference: nil
               )
               end
@@ -1079,8 +1059,7 @@ module ContextDev
               def to_hash
               end
 
-              # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              # `includeImages`. Only applies to `html-conversion` extractions.
+              # How base64 images appear when `includeImages` is set (`html-conversion` only).
               module InlineImages
                 extend ContextDev::Internal::Type::Enum
 
@@ -4051,7 +4030,7 @@ module ContextDev
                       )
                     end
 
-                  # RE2 pattern for URLs to exclude, even when they match `regex`. The `start_url`
+                  # Regex pattern for URLs to exclude, even when they match `regex`. The `start_url`
                   # itself is always included.
                   sig { returns(T.nilable(String)) }
                   attr_reader :exclude_regex
@@ -4066,10 +4045,8 @@ module ContextDev
                   sig { params(follow_subdomains: T::Boolean).void }
                   attr_writer :follow_subdomains
 
-                  # Languages whose pages are followed. `same_as_start_url` follows only the start
-                  # page's language; a list of language codes such as `["en"]` follows those
-                  # languages. Links whose language cannot be determined are followed. When omitted
-                  # all urls are crawled.
+                  # Only follow pages in these languages, or `same_as_start_url`; all languages when
+                  # omitted.
                   sig do
                     returns(
                       T.nilable(
@@ -4111,7 +4088,7 @@ module ContextDev
                   sig { params(max_urls: Integer).void }
                   attr_writer :max_urls
 
-                  # RE2 pattern for URLs to include. The `start_url` itself is always included.
+                  # Regex pattern for URLs to include. The `start_url` itself is always included.
                   sig { returns(T.nilable(String)) }
                   attr_reader :regex
 
@@ -4136,21 +4113,19 @@ module ContextDev
                     ).returns(T.attached_class)
                   end
                   def self.new(
-                    # RE2 pattern for URLs to exclude, even when they match `regex`. The `start_url`
+                    # Regex pattern for URLs to exclude, even when they match `regex`. The `start_url`
                     # itself is always included.
                     exclude_regex: nil,
                     # Follow links to subdomains.
                     follow_subdomains: nil,
-                    # Languages whose pages are followed. `same_as_start_url` follows only the start
-                    # page's language; a list of language codes such as `["en"]` follows those
-                    # languages. Links whose language cannot be determined are followed. When omitted
-                    # all urls are crawled.
+                    # Only follow pages in these languages, or `same_as_start_url`; all languages when
+                    # omitted.
                     languages: nil,
                     # Maximum link depth. Source pages are depth 0. No limit when omitted.
                     max_depth: nil,
                     # Maximum pages to fetch. Unused reserved credits are refunded. Maximum 100000.
                     max_urls: nil,
-                    # RE2 pattern for URLs to include. The `start_url` itself is always included.
+                    # Regex pattern for URLs to include. The `start_url` itself is always included.
                     regex: nil
                   )
                   end
@@ -4176,10 +4151,8 @@ module ContextDev
                   def to_hash
                   end
 
-                  # Languages whose pages are followed. `same_as_start_url` follows only the start
-                  # page's language; a list of language codes such as `["en"]` follows those
-                  # languages. Links whose language cannot be determined are followed. When omitted
-                  # all urls are crawled.
+                  # Only follow pages in these languages, or `same_as_start_url`; all languages when
+                  # omitted.
                   module Languages
                     extend ContextDev::Internal::Type::Union
 
@@ -4705,7 +4678,7 @@ module ContextDev
                       )
                     end
 
-                  # RE2 pattern; sitemap URLs matching it are not scraped, even when they match
+                  # Regex pattern; sitemap URLs matching it are not scraped, even when they match
                   # `regex`.
                   sig { returns(T.nilable(String)) }
                   attr_reader :exclude_regex
@@ -4720,7 +4693,7 @@ module ContextDev
                   sig { params(max_urls: Integer).void }
                   attr_writer :max_urls
 
-                  # RE2 pattern; only sitemap URLs matching it are scraped.
+                  # Regex pattern; only sitemap URLs matching it are scraped.
                   sig { returns(T.nilable(String)) }
                   attr_reader :regex
 
@@ -4737,12 +4710,12 @@ module ContextDev
                     ).returns(T.attached_class)
                   end
                   def self.new(
-                    # RE2 pattern; sitemap URLs matching it are not scraped, even when they match
+                    # Regex pattern; sitemap URLs matching it are not scraped, even when they match
                     # `regex`.
                     exclude_regex: nil,
                     # Maximum pages to fetch. Unused reserved credits are refunded. Maximum 100000.
                     max_urls: nil,
-                    # RE2 pattern; only sitemap URLs matching it are scraped.
+                    # Regex pattern; only sitemap URLs matching it are scraped.
                     regex: nil
                   )
                   end
@@ -5026,24 +4999,21 @@ module ContextDev
                   )
                 end
 
-              # Include images in the Markdown using image syntax with URLs and alt text. Only
-              # applies to `html-conversion` extractions.
+              # Include images in the Markdown (`html-conversion` only).
               sig { returns(T.nilable(T::Boolean)) }
               attr_reader :include_images
 
               sig { params(include_images: T::Boolean).void }
               attr_writer :include_images
 
-              # Keep link URLs in the Markdown. Set false to return link text without URLs. Only
-              # applies to `html-conversion` extractions.
+              # Keep link URLs in the Markdown (`html-conversion` only).
               sig { returns(T.nilable(T::Boolean)) }
               attr_reader :include_links
 
               sig { params(include_links: T::Boolean).void }
               attr_writer :include_links
 
-              # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              # `includeImages`. Only applies to `html-conversion` extractions.
+              # How base64 images appear when `includeImages` is set (`html-conversion` only).
               sig do
                 returns(
                   T.nilable(
@@ -5061,15 +5031,8 @@ module ContextDev
               end
               attr_writer :inline_images
 
-              # Where the Markdown should come from, in order of preference; the first usable
-              # source wins. `html-conversion` converts the page HTML, and counts as unusable
-              # when the conversion has almost no content (under 200 characters).
-              # `markdown-direct` uses the official Markdown version the page publishes through,
-              # returned as the site serves it. Defaults to
-              # `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
-              # that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
-              # Requests with include or exclude selectors never use `markdown-direct`, so they
-              # must include `html-conversion`.
+              # Markdown sources in order of preference: `html-conversion` converts the page
+              # HTML, `markdown-direct` uses Markdown the site publishes.
               sig do
                 returns(
                   T.nilable(
@@ -5105,24 +5068,14 @@ module ContextDev
                 ).returns(T.attached_class)
               end
               def self.new(
-                # Include images in the Markdown using image syntax with URLs and alt text. Only
-                # applies to `html-conversion` extractions.
+                # Include images in the Markdown (`html-conversion` only).
                 include_images: nil,
-                # Keep link URLs in the Markdown. Set false to return link text without URLs. Only
-                # applies to `html-conversion` extractions.
+                # Keep link URLs in the Markdown (`html-conversion` only).
                 include_links: nil,
-                # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-                # `includeImages`. Only applies to `html-conversion` extractions.
+                # How base64 images appear when `includeImages` is set (`html-conversion` only).
                 inline_images: nil,
-                # Where the Markdown should come from, in order of preference; the first usable
-                # source wins. `html-conversion` converts the page HTML, and counts as unusable
-                # when the conversion has almost no content (under 200 characters).
-                # `markdown-direct` uses the official Markdown version the page publishes through,
-                # returned as the site serves it. Defaults to
-                # `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
-                # that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
-                # Requests with include or exclude selectors never use `markdown-direct`, so they
-                # must include `html-conversion`.
+                # Markdown sources in order of preference: `html-conversion` converts the page
+                # HTML, `markdown-direct` uses Markdown the site publishes.
                 source_preference: nil
               )
               end
@@ -5144,8 +5097,7 @@ module ContextDev
               def to_hash
               end
 
-              # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              # `includeImages`. Only applies to `html-conversion` extractions.
+              # How base64 images appear when `includeImages` is set (`html-conversion` only).
               module InlineImages
                 extend ContextDev::Internal::Type::Enum
 

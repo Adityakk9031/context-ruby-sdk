@@ -8,7 +8,7 @@ module ContextDev
           T.any(ContextDev::CrawlControls, ContextDev::Internal::AnyHash)
         end
 
-      # RE2 pattern URLs must not match to be crawled. Null when the crawl set none.
+      # Regex pattern URLs must not match to be crawled. Null when the crawl set none.
       sig { returns(T.nilable(String)) }
       attr_accessor :exclude_url_pattern
 
@@ -16,9 +16,7 @@ module ContextDev
       sig { returns(T::Boolean) }
       attr_accessor :follow_subdomains
 
-      # Languages whose pages were followed: `same_as_start_url` or a list of language
-      # codes. Null when every language was followed, which is always the case for a
-      # sitemap crawl.
+      # Languages whose pages were followed; null when all languages were.
       sig { returns(T.nilable(ContextDev::CrawlControls::Languages::Variants)) }
       attr_accessor :languages
 
@@ -36,7 +34,7 @@ module ContextDev
       sig { returns(ContextDev::CrawlControls::Source::Variants) }
       attr_accessor :source
 
-      # RE2 pattern URLs had to match to be crawled. Null when the crawl set none.
+      # Regex pattern URLs had to match to be crawled. Null when the crawl set none.
       sig { returns(T.nilable(String)) }
       attr_accessor :url_pattern
 
@@ -65,13 +63,11 @@ module ContextDev
         ).returns(T.attached_class)
       end
       def self.new(
-        # RE2 pattern URLs must not match to be crawled. Null when the crawl set none.
+        # Regex pattern URLs must not match to be crawled. Null when the crawl set none.
         exclude_url_pattern:,
         # Whether links to subdomains were followed. Always false for a sitemap crawl.
         follow_subdomains:,
-        # Languages whose pages were followed: `same_as_start_url` or a list of language
-        # codes. Null when every language was followed, which is always the case for a
-        # sitemap crawl.
+        # Languages whose pages were followed; null when all languages were.
         languages:,
         # Link depth limit. Always 0 for a sitemap crawl, which never follows links off
         # its URLs; null when a `start_url` crawl set no limit.
@@ -81,7 +77,7 @@ module ContextDev
         max_pages:,
         # Where the crawl started.
         source:,
-        # RE2 pattern URLs had to match to be crawled. Null when the crawl set none.
+        # Regex pattern URLs had to match to be crawled. Null when the crawl set none.
         url_pattern:
       )
       end
@@ -103,9 +99,7 @@ module ContextDev
       def to_hash
       end
 
-      # Languages whose pages were followed: `same_as_start_url` or a list of language
-      # codes. Null when every language was followed, which is always the case for a
-      # sitemap crawl.
+      # Languages whose pages were followed; null when all languages were.
       module Languages
         extend ContextDev::Internal::Type::Union
 

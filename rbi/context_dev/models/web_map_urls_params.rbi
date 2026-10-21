@@ -15,8 +15,8 @@ module ContextDev
       sig { returns(String) }
       attr_accessor :domain
 
-      # Optional RE2-compatible regex pattern. URLs matching this pattern are not
-      # returned, even when they match urlRegex.
+      # Regex pattern. URLs matching this pattern are not returned, even when they match
+      # urlRegex.
       sig { returns(T.nilable(String)) }
       attr_reader :exclude_url_regex
 
@@ -77,8 +77,8 @@ module ContextDev
       end
       attr_writer :timeout_opts
 
-      # Optional RE2-compatible regex pattern. Only URLs matching this pattern are
-      # returned and counted against maxLinks.
+      # Regex pattern. Only URLs matching this pattern are returned and counted against
+      # maxLinks.
       sig { returns(T.nilable(String)) }
       attr_reader :url_regex
 
@@ -112,8 +112,8 @@ module ContextDev
       def self.new(
         # Domain to map, e.g. `stripe.com`.
         domain:,
-        # Optional RE2-compatible regex pattern. URLs matching this pattern are not
-        # returned, even when they match urlRegex.
+        # Regex pattern. URLs matching this pattern are not returned, even when they match
+        # urlRegex.
         exclude_url_regex: nil,
         # HTTP headers for the target origin. Non-empty headers bypass caching.
         headers: nil,
@@ -130,8 +130,8 @@ module ContextDev
         tags: nil,
         # Request deadline and what to return when it passes.
         timeout_opts: nil,
-        # Optional RE2-compatible regex pattern. Only URLs matching this pattern are
-        # returned and counted against maxLinks.
+        # Regex pattern. Only URLs matching this pattern are returned and counted against
+        # maxLinks.
         url_regex: nil,
         # `enabled` turns on zero data retention. Returns 403 `ZDR_NOT_ENABLED` unless
         # your organization has ZDR.

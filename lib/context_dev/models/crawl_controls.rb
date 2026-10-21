@@ -4,7 +4,7 @@ module ContextDev
   module Models
     class CrawlControls < ContextDev::Internal::Type::BaseModel
       # @!attribute exclude_url_pattern
-      #   RE2 pattern URLs must not match to be crawled. Null when the crawl set none.
+      #   Regex pattern URLs must not match to be crawled. Null when the crawl set none.
       #
       #   @return [String, nil]
       required :exclude_url_pattern, String, nil?: true
@@ -16,9 +16,7 @@ module ContextDev
       required :follow_subdomains, ContextDev::Internal::Type::Boolean
 
       # @!attribute languages
-      #   Languages whose pages were followed: `same_as_start_url` or a list of language
-      #   codes. Null when every language was followed, which is always the case for a
-      #   sitemap crawl.
+      #   Languages whose pages were followed; null when all languages were.
       #
       #   @return [Symbol, Array<Symbol, ContextDev::Models::CrawlControls::Languages::UnionMember1>, ContextDev::Models::CrawlControls::Languages, nil]
       required :languages, union: -> { ContextDev::CrawlControls::Languages }, nil?: true
@@ -44,7 +42,7 @@ module ContextDev
       required :source, union: -> { ContextDev::CrawlControls::Source }
 
       # @!attribute url_pattern
-      #   RE2 pattern URLs had to match to be crawled. Null when the crawl set none.
+      #   Regex pattern URLs had to match to be crawled. Null when the crawl set none.
       #
       #   @return [String, nil]
       required :url_pattern, String, nil?: true
@@ -55,11 +53,11 @@ module ContextDev
       #
       #   Crawl settings as submitted.
       #
-      #   @param exclude_url_pattern [String, nil] RE2 pattern URLs must not match to be crawled. Null when the crawl set none.
+      #   @param exclude_url_pattern [String, nil] Regex pattern URLs must not match to be crawled. Null when the crawl set none.
       #
       #   @param follow_subdomains [Boolean] Whether links to subdomains were followed. Always false for a sitemap crawl.
       #
-      #   @param languages [Symbol, Array<Symbol, ContextDev::Models::CrawlControls::Languages::UnionMember1>, ContextDev::Models::CrawlControls::Languages, nil] Languages whose pages were followed: `same_as_start_url` or a list of language c
+      #   @param languages [Symbol, Array<Symbol, ContextDev::Models::CrawlControls::Languages::UnionMember1>, ContextDev::Models::CrawlControls::Languages, nil] Languages whose pages were followed; null when all languages were.
       #
       #   @param max_depth [Integer, nil] Link depth limit. Always 0 for a sitemap crawl, which never follows links off it
       #
@@ -67,11 +65,9 @@ module ContextDev
       #
       #   @param source [ContextDev::Models::CrawlControls::Source::StartURL, ContextDev::Models::CrawlControls::Source::Sitemap] Where the crawl started.
       #
-      #   @param url_pattern [String, nil] RE2 pattern URLs had to match to be crawled. Null when the crawl set none.
+      #   @param url_pattern [String, nil] Regex pattern URLs had to match to be crawled. Null when the crawl set none.
 
-      # Languages whose pages were followed: `same_as_start_url` or a list of language
-      # codes. Null when every language was followed, which is always the case for a
-      # sitemap crawl.
+      # Languages whose pages were followed; null when all languages were.
       #
       # @see ContextDev::Models::CrawlControls#languages
       module Languages

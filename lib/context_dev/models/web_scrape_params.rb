@@ -302,22 +302,19 @@ module ContextDev
 
       class MarkdownParams < ContextDev::Internal::Type::BaseModel
         # @!attribute include_images
-        #   Include images in the Markdown using image syntax with URLs and alt text. Only
-        #   applies to `html-conversion` extractions.
+        #   Include images in the Markdown (`html-conversion` only).
         #
         #   @return [Boolean, nil]
         optional :include_images, ContextDev::Internal::Type::Boolean, api_name: :includeImages
 
         # @!attribute include_links
-        #   Keep link URLs in the Markdown. Set false to return link text without URLs. Only
-        #   applies to `html-conversion` extractions.
+        #   Keep link URLs in the Markdown (`html-conversion` only).
         #
         #   @return [Boolean, nil]
         optional :include_links, ContextDev::Internal::Type::Boolean, api_name: :includeLinks
 
         # @!attribute inline_images
-        #   How base64 images appear: `placeholder` (default) or `preserve`. Requires
-        #   `includeImages`. Only applies to `html-conversion` extractions.
+        #   How base64 images appear when `includeImages` is set (`html-conversion` only).
         #
         #   @return [Symbol, ContextDev::Models::WebScrapeParams::MarkdownParams::InlineImages, nil]
         optional :inline_images,
@@ -325,15 +322,8 @@ module ContextDev
                  api_name: :inlineImages
 
         # @!attribute source_preference
-        #   Where the Markdown should come from, in order of preference; the first usable
-        #   source wins. `html-conversion` converts the page HTML, and counts as unusable
-        #   when the conversion has almost no content (under 200 characters).
-        #   `markdown-direct` uses the official Markdown version the page publishes through,
-        #   returned as the site serves it. Defaults to
-        #   `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
-        #   that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
-        #   Requests with include or exclude selectors never use `markdown-direct`, so they
-        #   must include `html-conversion`.
+        #   Markdown sources in order of preference: `html-conversion` converts the page
+        #   HTML, `markdown-direct` uses Markdown the site publishes.
         #
         #   @return [Array<Symbol, ContextDev::Models::WebScrapeParams::MarkdownParams::SourcePreference>, nil]
         optional :source_preference,
@@ -348,16 +338,15 @@ module ContextDev
         #
         #   Markdown options. Requires `formats.markdown`.
         #
-        #   @param include_images [Boolean] Include images in the Markdown using image syntax with URLs and alt text. Only a
+        #   @param include_images [Boolean] Include images in the Markdown (`html-conversion` only).
         #
-        #   @param include_links [Boolean] Keep link URLs in the Markdown. Set false to return link text without URLs. Only
+        #   @param include_links [Boolean] Keep link URLs in the Markdown (`html-conversion` only).
         #
-        #   @param inline_images [Symbol, ContextDev::Models::WebScrapeParams::MarkdownParams::InlineImages] How base64 images appear: `placeholder` (default) or `preserve`. Requires `inclu
+        #   @param inline_images [Symbol, ContextDev::Models::WebScrapeParams::MarkdownParams::InlineImages] How base64 images appear when `includeImages` is set (`html-conversion` only).
         #
-        #   @param source_preference [Array<Symbol, ContextDev::Models::WebScrapeParams::MarkdownParams::SourcePreference>] Where the Markdown should come from, in order of preference; the first usable so
+        #   @param source_preference [Array<Symbol, ContextDev::Models::WebScrapeParams::MarkdownParams::SourcePreference>] Markdown sources in order of preference: `html-conversion` converts the page HTM
 
-        # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-        # `includeImages`. Only applies to `html-conversion` extractions.
+        # How base64 images appear when `includeImages` is set (`html-conversion` only).
         #
         # @see ContextDev::Models::WebScrapeParams::MarkdownParams#inline_images
         module InlineImages

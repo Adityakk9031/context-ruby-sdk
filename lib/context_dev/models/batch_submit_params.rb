@@ -446,22 +446,19 @@ module ContextDev
             # @see ContextDev::Models::BatchSubmitParams::Input::Scrape::Data#markdown_params
             class MarkdownParams < ContextDev::Internal::Type::BaseModel
               # @!attribute include_images
-              #   Include images in the Markdown using image syntax with URLs and alt text. Only
-              #   applies to `html-conversion` extractions.
+              #   Include images in the Markdown (`html-conversion` only).
               #
               #   @return [Boolean, nil]
               optional :include_images, ContextDev::Internal::Type::Boolean, api_name: :includeImages
 
               # @!attribute include_links
-              #   Keep link URLs in the Markdown. Set false to return link text without URLs. Only
-              #   applies to `html-conversion` extractions.
+              #   Keep link URLs in the Markdown (`html-conversion` only).
               #
               #   @return [Boolean, nil]
               optional :include_links, ContextDev::Internal::Type::Boolean, api_name: :includeLinks
 
               # @!attribute inline_images
-              #   How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              #   `includeImages`. Only applies to `html-conversion` extractions.
+              #   How base64 images appear when `includeImages` is set (`html-conversion` only).
               #
               #   @return [Symbol, ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::InlineImages, nil]
               optional :inline_images,
@@ -471,15 +468,8 @@ module ContextDev
                        api_name: :inlineImages
 
               # @!attribute source_preference
-              #   Where the Markdown should come from, in order of preference; the first usable
-              #   source wins. `html-conversion` converts the page HTML, and counts as unusable
-              #   when the conversion has almost no content (under 200 characters).
-              #   `markdown-direct` uses the official Markdown version the page publishes through,
-              #   returned as the site serves it. Defaults to
-              #   `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
-              #   that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
-              #   Requests with include or exclude selectors never use `markdown-direct`, so they
-              #   must include `html-conversion`.
+              #   Markdown sources in order of preference: `html-conversion` converts the page
+              #   HTML, `markdown-direct` uses Markdown the site publishes.
               #
               #   @return [Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::SourcePreference>, nil]
               optional :source_preference,
@@ -495,16 +485,15 @@ module ContextDev
               #
               #   Markdown options. Requires `formats.markdown`.
               #
-              #   @param include_images [Boolean] Include images in the Markdown using image syntax with URLs and alt text. Only a
+              #   @param include_images [Boolean] Include images in the Markdown (`html-conversion` only).
               #
-              #   @param include_links [Boolean] Keep link URLs in the Markdown. Set false to return link text without URLs. Only
+              #   @param include_links [Boolean] Keep link URLs in the Markdown (`html-conversion` only).
               #
-              #   @param inline_images [Symbol, ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::InlineImages] How base64 images appear: `placeholder` (default) or `preserve`. Requires `inclu
+              #   @param inline_images [Symbol, ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::InlineImages] How base64 images appear when `includeImages` is set (`html-conversion` only).
               #
-              #   @param source_preference [Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::SourcePreference>] Where the Markdown should come from, in order of preference; the first usable so
+              #   @param source_preference [Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::SourcePreference>] Markdown sources in order of preference: `html-conversion` converts the page HTM
 
-              # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              # `includeImages`. Only applies to `html-conversion` extractions.
+              # How base64 images appear when `includeImages` is set (`html-conversion` only).
               #
               # @see ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams#inline_images
               module InlineImages
@@ -1872,7 +1861,7 @@ module ContextDev
                 # @see ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL#controls
                 class Controls < ContextDev::Internal::Type::BaseModel
                   # @!attribute exclude_regex
-                  #   RE2 pattern for URLs to exclude, even when they match `regex`. The `start_url`
+                  #   Regex pattern for URLs to exclude, even when they match `regex`. The `start_url`
                   #   itself is always included.
                   #
                   #   @return [String, nil]
@@ -1887,10 +1876,8 @@ module ContextDev
                            api_name: :followSubdomains
 
                   # @!attribute languages
-                  #   Languages whose pages are followed. `same_as_start_url` follows only the start
-                  #   page's language; a list of language codes such as `["en"]` follows those
-                  #   languages. Links whose language cannot be determined are followed. When omitted
-                  #   all urls are crawled.
+                  #   Only follow pages in these languages, or `same_as_start_url`; all languages when
+                  #   omitted.
                   #
                   #   @return [Symbol, Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1>, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages, nil]
                   optional :languages,
@@ -1909,7 +1896,7 @@ module ContextDev
                   optional :max_urls, Integer, api_name: :maxUrls
 
                   # @!attribute regex
-                  #   RE2 pattern for URLs to include. The `start_url` itself is always included.
+                  #   Regex pattern for URLs to include. The `start_url` itself is always included.
                   #
                   #   @return [String, nil]
                   optional :regex, String
@@ -1921,22 +1908,20 @@ module ContextDev
                   #
                   #   Limits and filters for page discovery.
                   #
-                  #   @param exclude_regex [String] RE2 pattern for URLs to exclude, even when they match `regex`. The `start_url` i
+                  #   @param exclude_regex [String] Regex pattern for URLs to exclude, even when they match `regex`. The `start_url`
                   #
                   #   @param follow_subdomains [Boolean] Follow links to subdomains.
                   #
-                  #   @param languages [Symbol, Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1>, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages] Languages whose pages are followed. `same_as_start_url` follows only the start p
+                  #   @param languages [Symbol, Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages::UnionMember1>, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls::Languages] Only follow pages in these languages, or `same_as_start_url`; all languages when
                   #
                   #   @param max_depth [Integer] Maximum link depth. Source pages are depth 0. No limit when omitted.
                   #
                   #   @param max_urls [Integer] Maximum pages to fetch. Unused reserved credits are refunded. Maximum 100000.
                   #
-                  #   @param regex [String] RE2 pattern for URLs to include. The `start_url` itself is always included.
+                  #   @param regex [String] Regex pattern for URLs to include. The `start_url` itself is always included.
 
-                  # Languages whose pages are followed. `same_as_start_url` follows only the start
-                  # page's language; a list of language codes such as `["en"]` follows those
-                  # languages. Links whose language cannot be determined are followed. When omitted
-                  # all urls are crawled.
+                  # Only follow pages in these languages, or `same_as_start_url`; all languages when
+                  # omitted.
                   #
                   # @see ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::StartURL::Controls#languages
                   module Languages
@@ -2095,7 +2080,7 @@ module ContextDev
                 # @see ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::Source::Sitemap#controls
                 class Controls < ContextDev::Internal::Type::BaseModel
                   # @!attribute exclude_regex
-                  #   RE2 pattern; sitemap URLs matching it are not scraped, even when they match
+                  #   Regex pattern; sitemap URLs matching it are not scraped, even when they match
                   #   `regex`.
                   #
                   #   @return [String, nil]
@@ -2108,7 +2093,7 @@ module ContextDev
                   optional :max_urls, Integer, api_name: :maxUrls
 
                   # @!attribute regex
-                  #   RE2 pattern; only sitemap URLs matching it are scraped.
+                  #   Regex pattern; only sitemap URLs matching it are scraped.
                   #
                   #   @return [String, nil]
                   optional :regex, String
@@ -2121,11 +2106,11 @@ module ContextDev
                   #   Limits and filters for the sitemap URLs. A sitemap batch scrapes exactly those
                   #   URLs and never follows links off them, so there is no crawl depth here.
                   #
-                  #   @param exclude_regex [String] RE2 pattern; sitemap URLs matching it are not scraped, even when they match `reg
+                  #   @param exclude_regex [String] Regex pattern; sitemap URLs matching it are not scraped, even when they match `r
                   #
                   #   @param max_urls [Integer] Maximum pages to fetch. Unused reserved credits are refunded. Maximum 100000.
                   #
-                  #   @param regex [String] RE2 pattern; only sitemap URLs matching it are scraped.
+                  #   @param regex [String] Regex pattern; only sitemap URLs matching it are scraped.
                 end
               end
 
@@ -2232,22 +2217,19 @@ module ContextDev
             # @see ContextDev::Models::BatchSubmitParams::Input::Crawl::Data#markdown_params
             class MarkdownParams < ContextDev::Internal::Type::BaseModel
               # @!attribute include_images
-              #   Include images in the Markdown using image syntax with URLs and alt text. Only
-              #   applies to `html-conversion` extractions.
+              #   Include images in the Markdown (`html-conversion` only).
               #
               #   @return [Boolean, nil]
               optional :include_images, ContextDev::Internal::Type::Boolean, api_name: :includeImages
 
               # @!attribute include_links
-              #   Keep link URLs in the Markdown. Set false to return link text without URLs. Only
-              #   applies to `html-conversion` extractions.
+              #   Keep link URLs in the Markdown (`html-conversion` only).
               #
               #   @return [Boolean, nil]
               optional :include_links, ContextDev::Internal::Type::Boolean, api_name: :includeLinks
 
               # @!attribute inline_images
-              #   How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              #   `includeImages`. Only applies to `html-conversion` extractions.
+              #   How base64 images appear when `includeImages` is set (`html-conversion` only).
               #
               #   @return [Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::InlineImages, nil]
               optional :inline_images,
@@ -2257,15 +2239,8 @@ module ContextDev
                        api_name: :inlineImages
 
               # @!attribute source_preference
-              #   Where the Markdown should come from, in order of preference; the first usable
-              #   source wins. `html-conversion` converts the page HTML, and counts as unusable
-              #   when the conversion has almost no content (under 200 characters).
-              #   `markdown-direct` uses the official Markdown version the page publishes through,
-              #   returned as the site serves it. Defaults to
-              #   `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
-              #   that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
-              #   Requests with include or exclude selectors never use `markdown-direct`, so they
-              #   must include `html-conversion`.
+              #   Markdown sources in order of preference: `html-conversion` converts the page
+              #   HTML, `markdown-direct` uses Markdown the site publishes.
               #
               #   @return [Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::SourcePreference>, nil]
               optional :source_preference,
@@ -2281,16 +2256,15 @@ module ContextDev
               #
               #   Markdown options. Requires `formats.markdown`.
               #
-              #   @param include_images [Boolean] Include images in the Markdown using image syntax with URLs and alt text. Only a
+              #   @param include_images [Boolean] Include images in the Markdown (`html-conversion` only).
               #
-              #   @param include_links [Boolean] Keep link URLs in the Markdown. Set false to return link text without URLs. Only
+              #   @param include_links [Boolean] Keep link URLs in the Markdown (`html-conversion` only).
               #
-              #   @param inline_images [Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::InlineImages] How base64 images appear: `placeholder` (default) or `preserve`. Requires `inclu
+              #   @param inline_images [Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::InlineImages] How base64 images appear when `includeImages` is set (`html-conversion` only).
               #
-              #   @param source_preference [Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::SourcePreference>] Where the Markdown should come from, in order of preference; the first usable so
+              #   @param source_preference [Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::SourcePreference>] Markdown sources in order of preference: `html-conversion` converts the page HTM
 
-              # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              # `includeImages`. Only applies to `html-conversion` extractions.
+              # How base64 images appear when `includeImages` is set (`html-conversion` only).
               #
               # @see ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams#inline_images
               module InlineImages

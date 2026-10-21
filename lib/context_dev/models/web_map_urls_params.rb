@@ -14,8 +14,8 @@ module ContextDev
       required :domain, String
 
       # @!attribute exclude_url_regex
-      #   Optional RE2-compatible regex pattern. URLs matching this pattern are not
-      #   returned, even when they match urlRegex.
+      #   Regex pattern. URLs matching this pattern are not returned, even when they match
+      #   urlRegex.
       #
       #   @return [String, nil]
       optional :exclude_url_regex, String
@@ -64,8 +64,8 @@ module ContextDev
       optional :timeout_opts, -> { ContextDev::WebMapURLsParams::TimeoutOpts }
 
       # @!attribute url_regex
-      #   Optional RE2-compatible regex pattern. Only URLs matching this pattern are
-      #   returned and counted against maxLinks.
+      #   Regex pattern. Only URLs matching this pattern are returned and counted against
+      #   maxLinks.
       #
       #   @return [String, nil]
       optional :url_regex, String
@@ -83,7 +83,7 @@ module ContextDev
       #
       #   @param domain [String] Domain to map, e.g. `stripe.com`.
       #
-      #   @param exclude_url_regex [String] Optional RE2-compatible regex pattern. URLs matching this pattern are not return
+      #   @param exclude_url_regex [String] Regex pattern. URLs matching this pattern are not returned, even when they match
       #
       #   @param headers [Hash{Symbol=>String}] HTTP headers for the target origin. Non-empty headers bypass caching.
       #
@@ -99,7 +99,7 @@ module ContextDev
       #
       #   @param timeout_opts [ContextDev::Models::WebMapURLsParams::TimeoutOpts] Request deadline and what to return when it passes.
       #
-      #   @param url_regex [String] Optional RE2-compatible regex pattern. Only URLs matching this pattern are retur
+      #   @param url_regex [String] Regex pattern. Only URLs matching this pattern are returned and counted against
       #
       #   @param zdr [Symbol, ContextDev::Models::WebMapURLsParams::Zdr] `enabled` turns on zero data retention. Returns 403 `ZDR_NOT_ENABLED` unless you
       #
