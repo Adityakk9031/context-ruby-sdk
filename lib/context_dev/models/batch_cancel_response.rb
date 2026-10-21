@@ -79,7 +79,7 @@ module ContextDev
       required :timing, -> { ContextDev::Models::BatchCancelResponse::Timing }
 
       # @!attribute key_metadata
-      #   API key usage for this request.
+      #   Credits this request used and your remaining balance.
       #
       #   @return [ContextDev::Models::BatchCancelResponse::KeyMetadata, nil]
       optional :key_metadata, -> { ContextDev::Models::BatchCancelResponse::KeyMetadata }
@@ -112,7 +112,7 @@ module ContextDev
       #
       #   @param timing [ContextDev::Models::BatchCancelResponse::Timing] Batch timestamps.
       #
-      #   @param key_metadata [ContextDev::Models::BatchCancelResponse::KeyMetadata] API key usage for this request.
+      #   @param key_metadata [ContextDev::Models::BatchCancelResponse::KeyMetadata] Credits this request used and your remaining balance.
 
       # @see ContextDev::Models::BatchCancelResponse#credits
       class Credits < ContextDev::Internal::Type::BaseModel
@@ -299,7 +299,7 @@ module ContextDev
         required :credits_remaining, Integer
 
         # @!method initialize(credits_consumed:, credits_remaining:)
-        #   API key usage for this request.
+        #   Credits this request used and your remaining balance.
         #
         #   @param credits_consumed [Integer] Credits charged for this request.
         #

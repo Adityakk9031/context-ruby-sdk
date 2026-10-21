@@ -129,7 +129,7 @@ module ContextDev
       end
       attr_writer :timing
 
-      # API key usage for this request.
+      # Credits this request used and your remaining balance.
       sig do
         returns(
           T.nilable(ContextDev::Models::BatchRetrieveResponse::KeyMetadata)
@@ -214,7 +214,7 @@ module ContextDev
         # Tags stored on the batch at submission.
         tags:,
         timing:,
-        # API key usage for this request.
+        # Credits this request used and your remaining balance.
         key_metadata: nil,
         # Batch completion delivery ID, when available.
         webhook_delivery_id: nil
@@ -767,7 +767,7 @@ module ContextDev
         sig { returns(Integer) }
         attr_accessor :credits_remaining
 
-        # API key usage for this request.
+        # Credits this request used and your remaining balance.
         sig do
           params(credits_consumed: Integer, credits_remaining: Integer).returns(
             T.attached_class

@@ -99,7 +99,7 @@ module ContextDev
       end
       attr_writer :timing
 
-      # API key usage for this request.
+      # Credits this request used and your remaining balance.
       sig do
         returns(T.nilable(ContextDev::Models::BatchCancelResponse::KeyMetadata))
       end
@@ -158,7 +158,7 @@ module ContextDev
         tags:,
         # Batch timestamps.
         timing:,
-        # API key usage for this request.
+        # Credits this request used and your remaining balance.
         key_metadata: nil
       )
       end
@@ -502,7 +502,7 @@ module ContextDev
         sig { returns(Integer) }
         attr_accessor :credits_remaining
 
-        # API key usage for this request.
+        # Credits this request used and your remaining balance.
         sig do
           params(credits_consumed: Integer, credits_remaining: Integer).returns(
             T.attached_class

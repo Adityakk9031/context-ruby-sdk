@@ -94,7 +94,7 @@ module ContextDev
       sig { returns(T::Array[String]) }
       attr_accessor :tags
 
-      # API key usage for this request.
+      # Credits this request used and your remaining balance.
       sig do
         returns(T.nilable(ContextDev::Models::BatchSubmitResponse::KeyMetadata))
       end
@@ -164,7 +164,7 @@ module ContextDev
         status:,
         # Tags stored on the batch.
         tags:,
-        # API key usage for this request.
+        # Credits this request used and your remaining balance.
         key_metadata: nil,
         # Secret for verifying `X-Context-Signature`. Only submit returns it, so store it.
         webhook_secret: nil
@@ -550,7 +550,7 @@ module ContextDev
         sig { returns(Integer) }
         attr_accessor :credits_remaining
 
-        # API key usage for this request.
+        # Credits this request used and your remaining balance.
         sig do
           params(credits_consumed: Integer, credits_remaining: Integer).returns(
             T.attached_class

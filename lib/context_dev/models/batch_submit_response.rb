@@ -79,7 +79,7 @@ module ContextDev
       required :tags, ContextDev::Internal::Type::ArrayOf[String]
 
       # @!attribute key_metadata
-      #   API key usage for this request.
+      #   Credits this request used and your remaining balance.
       #
       #   @return [ContextDev::Models::BatchSubmitResponse::KeyMetadata, nil]
       optional :key_metadata, -> { ContextDev::Models::BatchSubmitResponse::KeyMetadata }
@@ -118,7 +118,7 @@ module ContextDev
       #
       #   @param tags [Array<String>] Tags stored on the batch.
       #
-      #   @param key_metadata [ContextDev::Models::BatchSubmitResponse::KeyMetadata] API key usage for this request.
+      #   @param key_metadata [ContextDev::Models::BatchSubmitResponse::KeyMetadata] Credits this request used and your remaining balance.
       #
       #   @param webhook_secret [String] Secret for verifying `X-Context-Signature`. Only submit returns it, so store it.
 
@@ -314,7 +314,7 @@ module ContextDev
         required :credits_remaining, Integer
 
         # @!method initialize(credits_consumed:, credits_remaining:)
-        #   API key usage for this request.
+        #   Credits this request used and your remaining balance.
         #
         #   @param credits_consumed [Integer] Credits charged for this request.
         #
