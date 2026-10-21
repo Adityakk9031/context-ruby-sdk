@@ -400,6 +400,10 @@ module ContextDev
           pdf: ContextDev::WebWebCrawlMdParams::Pdf::OrHash,
           settle_animations: T::Boolean,
           shorten_base64_images: T::Boolean,
+          source_preference:
+            T::Array[
+              ContextDev::WebWebCrawlMdParams::SourcePreference::OrSymbol
+            ],
           stop_after_ms: Integer,
           tags: T::Array[String],
           timeout_opts: ContextDev::WebWebCrawlMdParams::TimeoutOpts::OrHash,
@@ -427,9 +431,11 @@ module ContextDev
         # When true, the contents of iframes are rendered to Markdown for each crawled
         # page.
         include_frames: nil,
-        # Include image references in the Markdown output
+        # Include image references in the Markdown output Only applies to
+        # `html-conversion` extractions.
         include_images: nil,
-        # Preserve hyperlinks in the Markdown output
+        # Preserve hyperlinks in the Markdown output Only applies to `html-conversion`
+        # extractions.
         include_links: nil,
         # Keep matching HTML subtrees before converting each page to Markdown.
         include_selectors: nil,
@@ -444,8 +450,19 @@ module ContextDev
         # Wait briefly for CSS animations and transitions to settle before reading each
         # page.
         settle_animations: nil,
-        # Truncate base64-encoded image data in the Markdown output
+        # Truncate base64-encoded image data in the Markdown output Only applies to
+        # `html-conversion` extractions.
         shorten_base64_images: nil,
+        # Where the Markdown should come from, in order of preference; the first usable
+        # source wins. `html-conversion` converts the page HTML, and counts as unusable
+        # when the conversion has almost no content (under 200 characters).
+        # `markdown-direct` uses the official Markdown version the page publishes through,
+        # returned as the site serves it. Defaults to
+        # `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
+        # that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
+        # Requests with include or exclude selectors never use `markdown-direct`, so they
+        # must include `html-conversion`.
+        source_preference: nil,
         # Soft crawl deadline in milliseconds. Returns pages collected before the next
         # deadline check.
         stop_after_ms: nil,

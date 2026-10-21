@@ -446,20 +446,22 @@ module ContextDev
             # @see ContextDev::Models::BatchSubmitParams::Input::Scrape::Data#markdown_params
             class MarkdownParams < ContextDev::Internal::Type::BaseModel
               # @!attribute include_images
-              #   Include images in the Markdown using image syntax with URLs and alt text.
+              #   Include images in the Markdown using image syntax with URLs and alt text. Only
+              #   applies to `html-conversion` extractions.
               #
               #   @return [Boolean, nil]
               optional :include_images, ContextDev::Internal::Type::Boolean, api_name: :includeImages
 
               # @!attribute include_links
-              #   Keep link URLs in the Markdown. Set false to return link text without URLs.
+              #   Keep link URLs in the Markdown. Set false to return link text without URLs. Only
+              #   applies to `html-conversion` extractions.
               #
               #   @return [Boolean, nil]
               optional :include_links, ContextDev::Internal::Type::Boolean, api_name: :includeLinks
 
               # @!attribute inline_images
               #   How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              #   `includeImages`.
+              #   `includeImages`. Only applies to `html-conversion` extractions.
               #
               #   @return [Symbol, ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::InlineImages, nil]
               optional :inline_images,
@@ -468,21 +470,41 @@ module ContextDev
                        },
                        api_name: :inlineImages
 
-              # @!method initialize(include_images: nil, include_links: nil, inline_images: nil)
+              # @!attribute source_preference
+              #   Where the Markdown should come from, in order of preference; the first usable
+              #   source wins. `html-conversion` converts the page HTML, and counts as unusable
+              #   when the conversion has almost no content (under 200 characters).
+              #   `markdown-direct` uses the official Markdown version the page publishes through,
+              #   returned as the site serves it. Defaults to
+              #   `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
+              #   that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
+              #   Requests with include or exclude selectors never use `markdown-direct`, so they
+              #   must include `html-conversion`.
+              #
+              #   @return [Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::SourcePreference>, nil]
+              optional :source_preference,
+                       -> {
+                         ContextDev::Internal::Type::ArrayOf[enum: ContextDev::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::SourcePreference]
+                       },
+                       api_name: :sourcePreference
+
+              # @!method initialize(include_images: nil, include_links: nil, inline_images: nil, source_preference: nil)
               #   Some parameter documentations has been truncated, see
               #   {ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams} for
               #   more details.
               #
               #   Markdown options. Requires `formats.markdown`.
               #
-              #   @param include_images [Boolean] Include images in the Markdown using image syntax with URLs and alt text.
+              #   @param include_images [Boolean] Include images in the Markdown using image syntax with URLs and alt text. Only a
               #
-              #   @param include_links [Boolean] Keep link URLs in the Markdown. Set false to return link text without URLs.
+              #   @param include_links [Boolean] Keep link URLs in the Markdown. Set false to return link text without URLs. Only
               #
               #   @param inline_images [Symbol, ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::InlineImages] How base64 images appear: `placeholder` (default) or `preserve`. Requires `inclu
+              #
+              #   @param source_preference [Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams::SourcePreference>] Where the Markdown should come from, in order of preference; the first usable so
 
               # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              # `includeImages`.
+              # `includeImages`. Only applies to `html-conversion` extractions.
               #
               # @see ContextDev::Models::BatchSubmitParams::Input::Scrape::Data::MarkdownParams#inline_images
               module InlineImages
@@ -490,6 +512,16 @@ module ContextDev
 
                 PLACEHOLDER = :placeholder
                 PRESERVE = :preserve
+
+                # @!method self.values
+                #   @return [Array<Symbol>]
+              end
+
+              module SourcePreference
+                extend ContextDev::Internal::Type::Enum
+
+                HTML_CONVERSION = :"html-conversion"
+                MARKDOWN_DIRECT = :"markdown-direct"
 
                 # @!method self.values
                 #   @return [Array<Symbol>]
@@ -2200,20 +2232,22 @@ module ContextDev
             # @see ContextDev::Models::BatchSubmitParams::Input::Crawl::Data#markdown_params
             class MarkdownParams < ContextDev::Internal::Type::BaseModel
               # @!attribute include_images
-              #   Include images in the Markdown using image syntax with URLs and alt text.
+              #   Include images in the Markdown using image syntax with URLs and alt text. Only
+              #   applies to `html-conversion` extractions.
               #
               #   @return [Boolean, nil]
               optional :include_images, ContextDev::Internal::Type::Boolean, api_name: :includeImages
 
               # @!attribute include_links
-              #   Keep link URLs in the Markdown. Set false to return link text without URLs.
+              #   Keep link URLs in the Markdown. Set false to return link text without URLs. Only
+              #   applies to `html-conversion` extractions.
               #
               #   @return [Boolean, nil]
               optional :include_links, ContextDev::Internal::Type::Boolean, api_name: :includeLinks
 
               # @!attribute inline_images
               #   How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              #   `includeImages`.
+              #   `includeImages`. Only applies to `html-conversion` extractions.
               #
               #   @return [Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::InlineImages, nil]
               optional :inline_images,
@@ -2222,21 +2256,41 @@ module ContextDev
                        },
                        api_name: :inlineImages
 
-              # @!method initialize(include_images: nil, include_links: nil, inline_images: nil)
+              # @!attribute source_preference
+              #   Where the Markdown should come from, in order of preference; the first usable
+              #   source wins. `html-conversion` converts the page HTML, and counts as unusable
+              #   when the conversion has almost no content (under 200 characters).
+              #   `markdown-direct` uses the official Markdown version the page publishes through,
+              #   returned as the site serves it. Defaults to
+              #   `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
+              #   that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
+              #   Requests with include or exclude selectors never use `markdown-direct`, so they
+              #   must include `html-conversion`.
+              #
+              #   @return [Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::SourcePreference>, nil]
+              optional :source_preference,
+                       -> {
+                         ContextDev::Internal::Type::ArrayOf[enum: ContextDev::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::SourcePreference]
+                       },
+                       api_name: :sourcePreference
+
+              # @!method initialize(include_images: nil, include_links: nil, inline_images: nil, source_preference: nil)
               #   Some parameter documentations has been truncated, see
               #   {ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams} for
               #   more details.
               #
               #   Markdown options. Requires `formats.markdown`.
               #
-              #   @param include_images [Boolean] Include images in the Markdown using image syntax with URLs and alt text.
+              #   @param include_images [Boolean] Include images in the Markdown using image syntax with URLs and alt text. Only a
               #
-              #   @param include_links [Boolean] Keep link URLs in the Markdown. Set false to return link text without URLs.
+              #   @param include_links [Boolean] Keep link URLs in the Markdown. Set false to return link text without URLs. Only
               #
               #   @param inline_images [Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::InlineImages] How base64 images appear: `placeholder` (default) or `preserve`. Requires `inclu
+              #
+              #   @param source_preference [Array<Symbol, ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams::SourcePreference>] Where the Markdown should come from, in order of preference; the first usable so
 
               # How base64 images appear: `placeholder` (default) or `preserve`. Requires
-              # `includeImages`.
+              # `includeImages`. Only applies to `html-conversion` extractions.
               #
               # @see ContextDev::Models::BatchSubmitParams::Input::Crawl::Data::MarkdownParams#inline_images
               module InlineImages
@@ -2244,6 +2298,16 @@ module ContextDev
 
                 PLACEHOLDER = :placeholder
                 PRESERVE = :preserve
+
+                # @!method self.values
+                #   @return [Array<Symbol>]
+              end
+
+              module SourcePreference
+                extend ContextDev::Internal::Type::Enum
+
+                HTML_CONVERSION = :"html-conversion"
+                MARKDOWN_DIRECT = :"markdown-direct"
 
                 # @!method self.values
                 #   @return [Array<Symbol>]

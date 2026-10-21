@@ -17,6 +17,7 @@ module ContextDev
         pdf: ContextDev::WebWebCrawlMdParams::Pdf,
         settle_animations: bool,
         :shorten_base64_images => bool,
+        source_preference: ::Array[ContextDev::Models::WebWebCrawlMdParams::source_preference],
         stop_after_ms: Integer,
         tags: ::Array[String],
         timeout_opts: ContextDev::WebWebCrawlMdParams::TimeoutOpts,
@@ -87,6 +88,12 @@ module ContextDev
 
       def shorten_base64_images=: (bool) -> bool
 
+      attr_reader source_preference: ::Array[ContextDev::Models::WebWebCrawlMdParams::source_preference]?
+
+      def source_preference=: (
+        ::Array[ContextDev::Models::WebWebCrawlMdParams::source_preference]
+      ) -> ::Array[ContextDev::Models::WebWebCrawlMdParams::source_preference]
+
       attr_reader stop_after_ms: Integer?
 
       def stop_after_ms=: (Integer) -> Integer
@@ -133,6 +140,7 @@ module ContextDev
         ?pdf: ContextDev::WebWebCrawlMdParams::Pdf,
         ?settle_animations: bool,
         ?shorten_base64_images: bool,
+        ?source_preference: ::Array[ContextDev::Models::WebWebCrawlMdParams::source_preference],
         ?stop_after_ms: Integer,
         ?tags: ::Array[String],
         ?timeout_opts: ContextDev::WebWebCrawlMdParams::TimeoutOpts,
@@ -159,6 +167,7 @@ module ContextDev
         pdf: ContextDev::WebWebCrawlMdParams::Pdf,
         settle_animations: bool,
         :shorten_base64_images => bool,
+        source_preference: ::Array[ContextDev::Models::WebWebCrawlMdParams::source_preference],
         stop_after_ms: Integer,
         tags: ::Array[String],
         timeout_opts: ContextDev::WebWebCrawlMdParams::TimeoutOpts,
@@ -619,6 +628,17 @@ module ContextDev
           should_parse: bool,
           start: Integer
         }
+      end
+
+      type source_preference = :"html-conversion" | :"markdown-direct"
+
+      module SourcePreference
+        extend ContextDev::Internal::Type::Enum
+
+        HTML_CONVERSION: :"html-conversion"
+        MARKDOWN_DIRECT: :"markdown-direct"
+
+        def self?.values: -> ::Array[ContextDev::Models::WebWebCrawlMdParams::source_preference]
       end
 
       type timeout_opts =

@@ -294,7 +294,8 @@ module ContextDev
         {
           include_images: bool,
           include_links: bool,
-          inline_images: ContextDev::Models::WebScrapeParams::MarkdownParams::inline_images
+          inline_images: ContextDev::Models::WebScrapeParams::MarkdownParams::inline_images,
+          source_preference: ::Array[ContextDev::Models::WebScrapeParams::MarkdownParams::source_preference]
         }
 
       class MarkdownParams < ContextDev::Internal::Type::BaseModel
@@ -312,16 +313,24 @@ module ContextDev
           ContextDev::Models::WebScrapeParams::MarkdownParams::inline_images
         ) -> ContextDev::Models::WebScrapeParams::MarkdownParams::inline_images
 
+        attr_reader source_preference: ::Array[ContextDev::Models::WebScrapeParams::MarkdownParams::source_preference]?
+
+        def source_preference=: (
+          ::Array[ContextDev::Models::WebScrapeParams::MarkdownParams::source_preference]
+        ) -> ::Array[ContextDev::Models::WebScrapeParams::MarkdownParams::source_preference]
+
         def initialize: (
           ?include_images: bool,
           ?include_links: bool,
-          ?inline_images: ContextDev::Models::WebScrapeParams::MarkdownParams::inline_images
+          ?inline_images: ContextDev::Models::WebScrapeParams::MarkdownParams::inline_images,
+          ?source_preference: ::Array[ContextDev::Models::WebScrapeParams::MarkdownParams::source_preference]
         ) -> void
 
         def to_hash: -> {
           include_images: bool,
           include_links: bool,
-          inline_images: ContextDev::Models::WebScrapeParams::MarkdownParams::inline_images
+          inline_images: ContextDev::Models::WebScrapeParams::MarkdownParams::inline_images,
+          source_preference: ::Array[ContextDev::Models::WebScrapeParams::MarkdownParams::source_preference]
         }
 
         type inline_images = :placeholder | :preserve
@@ -333,6 +342,17 @@ module ContextDev
           PRESERVE: :preserve
 
           def self?.values: -> ::Array[ContextDev::Models::WebScrapeParams::MarkdownParams::inline_images]
+        end
+
+        type source_preference = :"html-conversion" | :"markdown-direct"
+
+        module SourcePreference
+          extend ContextDev::Internal::Type::Enum
+
+          HTML_CONVERSION: :"html-conversion"
+          MARKDOWN_DIRECT: :"markdown-direct"
+
+          def self?.values: -> ::Array[ContextDev::Models::WebScrapeParams::MarkdownParams::source_preference]
         end
       end
 

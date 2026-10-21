@@ -51,13 +51,15 @@ module ContextDev
       optional :include_frames, ContextDev::Internal::Type::Boolean, api_name: :includeFrames
 
       # @!attribute include_images
-      #   Include image references in the Markdown output
+      #   Include image references in the Markdown output Only applies to
+      #   `html-conversion` extractions.
       #
       #   @return [Boolean, nil]
       optional :include_images, ContextDev::Internal::Type::Boolean, api_name: :includeImages
 
       # @!attribute include_links
-      #   Preserve hyperlinks in the Markdown output
+      #   Preserve hyperlinks in the Markdown output Only applies to `html-conversion`
+      #   extractions.
       #
       #   @return [Boolean, nil]
       optional :include_links, ContextDev::Internal::Type::Boolean, api_name: :includeLinks
@@ -103,10 +105,29 @@ module ContextDev
       optional :settle_animations, ContextDev::Internal::Type::Boolean, api_name: :settleAnimations
 
       # @!attribute shorten_base64_images
-      #   Truncate base64-encoded image data in the Markdown output
+      #   Truncate base64-encoded image data in the Markdown output Only applies to
+      #   `html-conversion` extractions.
       #
       #   @return [Boolean, nil]
       optional :shorten_base64_images, ContextDev::Internal::Type::Boolean, api_name: :shortenBase64Images
+
+      # @!attribute source_preference
+      #   Where the Markdown should come from, in order of preference; the first usable
+      #   source wins. `html-conversion` converts the page HTML, and counts as unusable
+      #   when the conversion has almost no content (under 200 characters).
+      #   `markdown-direct` uses the official Markdown version the page publishes through,
+      #   returned as the site serves it. Defaults to
+      #   `["html-conversion", "markdown-direct"]`. With only `markdown-direct`, a page
+      #   that publishes no Markdown fails with `NO_PUBLISHED_MARKDOWN` and is not billed.
+      #   Requests with include or exclude selectors never use `markdown-direct`, so they
+      #   must include `html-conversion`.
+      #
+      #   @return [Array<Symbol, ContextDev::Models::WebWebCrawlMdParams::SourcePreference>, nil]
+      optional :source_preference,
+               -> {
+                 ContextDev::Internal::Type::ArrayOf[enum: ContextDev::WebWebCrawlMdParams::SourcePreference]
+               },
+               api_name: :sourcePreference
 
       # @!attribute stop_after_ms
       #   Soft crawl deadline in milliseconds. Returns pages collected before the next
@@ -156,7 +177,7 @@ module ContextDev
       #   @return [Symbol, ContextDev::Models::WebWebCrawlMdParams::Zdr, nil]
       optional :zdr, enum: -> { ContextDev::WebWebCrawlMdParams::Zdr }
 
-      # @!method initialize(url:, country: nil, exclude_selectors: nil, exclude_url_regex: nil, follow_subdomains: nil, include_frames: nil, include_images: nil, include_links: nil, include_selectors: nil, max_age_ms: nil, max_depth: nil, max_pages: nil, pdf: nil, settle_animations: nil, shorten_base64_images: nil, stop_after_ms: nil, tags: nil, timeout_opts: nil, url_regex: nil, use_main_content_only: nil, wait_for_ms: nil, zdr: nil, request_options: {})
+      # @!method initialize(url:, country: nil, exclude_selectors: nil, exclude_url_regex: nil, follow_subdomains: nil, include_frames: nil, include_images: nil, include_links: nil, include_selectors: nil, max_age_ms: nil, max_depth: nil, max_pages: nil, pdf: nil, settle_animations: nil, shorten_base64_images: nil, source_preference: nil, stop_after_ms: nil, tags: nil, timeout_opts: nil, url_regex: nil, use_main_content_only: nil, wait_for_ms: nil, zdr: nil, request_options: {})
       #   Some parameter documentations has been truncated, see
       #   {ContextDev::Models::WebWebCrawlMdParams} for more details.
       #
@@ -172,9 +193,9 @@ module ContextDev
       #
       #   @param include_frames [Boolean] When true, the contents of iframes are rendered to Markdown for each crawled pag
       #
-      #   @param include_images [Boolean] Include image references in the Markdown output
+      #   @param include_images [Boolean] Include image references in the Markdown output Only applies to `html-conversion
       #
-      #   @param include_links [Boolean] Preserve hyperlinks in the Markdown output
+      #   @param include_links [Boolean] Preserve hyperlinks in the Markdown output Only applies to `html-conversion` ext
       #
       #   @param include_selectors [Array<String>, nil] Keep matching HTML subtrees before converting each page to Markdown.
       #
@@ -188,7 +209,9 @@ module ContextDev
       #
       #   @param settle_animations [Boolean] Wait briefly for CSS animations and transitions to settle before reading each pa
       #
-      #   @param shorten_base64_images [Boolean] Truncate base64-encoded image data in the Markdown output
+      #   @param shorten_base64_images [Boolean] Truncate base64-encoded image data in the Markdown output Only applies to `html-
+      #
+      #   @param source_preference [Array<Symbol, ContextDev::Models::WebWebCrawlMdParams::SourcePreference>] Where the Markdown should come from, in order of preference; the first usable so
       #
       #   @param stop_after_ms [Integer] Soft crawl deadline in milliseconds. Returns pages collected before the next dea
       #
@@ -459,6 +482,16 @@ module ContextDev
         #   @param should_parse [Boolean] When true, PDF pages are fetched and parsed. When false, PDF pages are skipped e
         #
         #   @param start [Integer] First 1-based PDF page to parse.
+      end
+
+      module SourcePreference
+        extend ContextDev::Internal::Type::Enum
+
+        HTML_CONVERSION = :"html-conversion"
+        MARKDOWN_DIRECT = :"markdown-direct"
+
+        # @!method self.values
+        #   @return [Array<Symbol>]
       end
 
       class TimeoutOpts < ContextDev::Internal::Type::BaseModel

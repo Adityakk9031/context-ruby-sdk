@@ -347,7 +347,7 @@ module ContextDev
       # Crawl a website and return page content as Markdown. Use a batch for crawls
       # beyond 500 pages.
       #
-      # @overload web_crawl_md(url:, country: nil, exclude_selectors: nil, exclude_url_regex: nil, follow_subdomains: nil, include_frames: nil, include_images: nil, include_links: nil, include_selectors: nil, max_age_ms: nil, max_depth: nil, max_pages: nil, pdf: nil, settle_animations: nil, shorten_base64_images: nil, stop_after_ms: nil, tags: nil, timeout_opts: nil, url_regex: nil, use_main_content_only: nil, wait_for_ms: nil, zdr: nil, request_options: {})
+      # @overload web_crawl_md(url:, country: nil, exclude_selectors: nil, exclude_url_regex: nil, follow_subdomains: nil, include_frames: nil, include_images: nil, include_links: nil, include_selectors: nil, max_age_ms: nil, max_depth: nil, max_pages: nil, pdf: nil, settle_animations: nil, shorten_base64_images: nil, source_preference: nil, stop_after_ms: nil, tags: nil, timeout_opts: nil, url_regex: nil, use_main_content_only: nil, wait_for_ms: nil, zdr: nil, request_options: {})
       #
       # @param url [String] Start URL, including `http://` or `https://`.
       #
@@ -361,9 +361,9 @@ module ContextDev
       #
       # @param include_frames [Boolean] When true, the contents of iframes are rendered to Markdown for each crawled pag
       #
-      # @param include_images [Boolean] Include image references in the Markdown output
+      # @param include_images [Boolean] Include image references in the Markdown output Only applies to `html-conversion
       #
-      # @param include_links [Boolean] Preserve hyperlinks in the Markdown output
+      # @param include_links [Boolean] Preserve hyperlinks in the Markdown output Only applies to `html-conversion` ext
       #
       # @param include_selectors [Array<String>, nil] Keep matching HTML subtrees before converting each page to Markdown.
       #
@@ -377,7 +377,9 @@ module ContextDev
       #
       # @param settle_animations [Boolean] Wait briefly for CSS animations and transitions to settle before reading each pa
       #
-      # @param shorten_base64_images [Boolean] Truncate base64-encoded image data in the Markdown output
+      # @param shorten_base64_images [Boolean] Truncate base64-encoded image data in the Markdown output Only applies to `html-
+      #
+      # @param source_preference [Array<Symbol, ContextDev::Models::WebWebCrawlMdParams::SourcePreference>] Where the Markdown should come from, in order of preference; the first usable so
       #
       # @param stop_after_ms [Integer] Soft crawl deadline in milliseconds. Returns pages collected before the next dea
       #

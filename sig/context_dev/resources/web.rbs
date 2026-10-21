@@ -118,6 +118,7 @@ module ContextDev
         ?pdf: ContextDev::WebWebCrawlMdParams::Pdf,
         ?settle_animations: bool,
         ?shorten_base64_images: bool,
+        ?source_preference: ::Array[ContextDev::Models::WebWebCrawlMdParams::source_preference],
         ?stop_after_ms: Integer,
         ?tags: ::Array[String],
         ?timeout_opts: ContextDev::WebWebCrawlMdParams::TimeoutOpts,
