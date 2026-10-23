@@ -45,6 +45,34 @@ module ContextDev
         )
       end
 
+      # Find people with a natural-language query.
+      #
+      # @overload search(query:, cursor: nil, filters: nil, tags: nil, request_options: {})
+      #
+      # @param query [String] Describe the people to find.
+      #
+      # @param cursor [String] Use next_cursor with the same query and filters to fetch the next page.
+      #
+      # @param filters [ContextDev::Models::PersonSearchParams::Filters] Additional constraints every result must match.
+      #
+      # @param tags [Array<String>] Labels for filtering usage in the dashboard.
+      #
+      # @param request_options [ContextDev::RequestOptions, Hash{Symbol=>Object}, nil]
+      #
+      # @return [ContextDev::Models::PersonSearchResponse]
+      #
+      # @see ContextDev::Models::PersonSearchParams
+      def search(params)
+        parsed, options = ContextDev::PersonSearchParams.dump_request(params)
+        @client.request(
+          method: :post,
+          path: "people/search",
+          body: parsed,
+          model: ContextDev::Models::PersonSearchResponse,
+          options: options
+        )
+      end
+
       # @api private
       #
       # @param client [ContextDev::Client]

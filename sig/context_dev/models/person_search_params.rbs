@@ -1,0 +1,82 @@
+module ContextDev
+  module Models
+    type person_search_params =
+      {
+        query: String,
+        cursor: String,
+        filters: ContextDev::PersonSearchParams::Filters,
+        tags: ::Array[String]
+      }
+      & ContextDev::Internal::Type::request_parameters
+
+    class PersonSearchParams < ContextDev::Internal::Type::BaseModel
+      extend ContextDev::Internal::Type::RequestParameters::Converter
+      include ContextDev::Internal::Type::RequestParameters
+
+      attr_accessor query: String
+
+      attr_reader cursor: String?
+
+      def cursor=: (String) -> String
+
+      attr_reader filters: ContextDev::PersonSearchParams::Filters?
+
+      def filters=: (
+        ContextDev::PersonSearchParams::Filters
+      ) -> ContextDev::PersonSearchParams::Filters
+
+      attr_reader tags: ::Array[String]?
+
+      def tags=: (::Array[String]) -> ::Array[String]
+
+      def initialize: (
+        query: String,
+        ?cursor: String,
+        ?filters: ContextDev::PersonSearchParams::Filters,
+        ?tags: ::Array[String],
+        ?request_options: ContextDev::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        query: String,
+        cursor: String,
+        filters: ContextDev::PersonSearchParams::Filters,
+        tags: ::Array[String],
+        request_options: ContextDev::RequestOptions
+      }
+
+      type filters =
+        {
+          countries: ::Array[String],
+          years_of_experience_max: Integer,
+          years_of_experience_min: Integer
+        }
+
+      class Filters < ContextDev::Internal::Type::BaseModel
+        attr_reader countries: ::Array[String]?
+
+        def countries=: (::Array[String]) -> ::Array[String]
+
+        attr_reader years_of_experience_max: Integer?
+
+        def years_of_experience_max=: (Integer) -> Integer
+
+        attr_reader years_of_experience_min: Integer?
+
+        def years_of_experience_min=: (Integer) -> Integer
+
+        def initialize: (
+          ?countries: ::Array[String],
+          ?years_of_experience_max: Integer,
+          ?years_of_experience_min: Integer
+        ) -> void
+
+        def to_hash: -> {
+          countries: ::Array[String],
+          years_of_experience_max: Integer,
+          years_of_experience_min: Integer
+        }
+      end
+    end
+  end
+end

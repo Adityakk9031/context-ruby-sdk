@@ -14,6 +14,14 @@ module ContextDev
         ?request_options: ContextDev::request_opts
       ) -> ContextDev::Models::PersonEnrichResponse
 
+      def search: (
+        query: String,
+        ?cursor: String,
+        ?filters: ContextDev::PersonSearchParams::Filters,
+        ?tags: ::Array[String],
+        ?request_options: ContextDev::request_opts
+      ) -> ContextDev::Models::PersonSearchResponse
+
       def initialize: (client: ContextDev::Client) -> void
     end
   end

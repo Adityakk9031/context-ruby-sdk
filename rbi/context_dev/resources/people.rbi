@@ -47,6 +47,29 @@ module ContextDev
       )
       end
 
+      # Find people with a natural-language query.
+      sig do
+        params(
+          query: String,
+          cursor: String,
+          filters: ContextDev::PersonSearchParams::Filters::OrHash,
+          tags: T::Array[String],
+          request_options: ContextDev::RequestOptions::OrHash
+        ).returns(ContextDev::Models::PersonSearchResponse)
+      end
+      def search(
+        # Describe the people to find.
+        query:,
+        # Use next_cursor with the same query and filters to fetch the next page.
+        cursor: nil,
+        # Additional constraints every result must match.
+        filters: nil,
+        # Labels for filtering usage in the dashboard.
+        tags: nil,
+        request_options: {}
+      )
+      end
+
       # @api private
       sig { params(client: ContextDev::Client).returns(T.attached_class) }
       def self.new(client:)

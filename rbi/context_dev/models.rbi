@@ -76,6 +76,8 @@ module ContextDev
 
   PersonEnrichParams = ContextDev::Models::PersonEnrichParams
 
+  PersonSearchParams = ContextDev::Models::PersonSearchParams
+
   RetryConfig = ContextDev::Models::RetryConfig
 
   UtilityPrefetchParams = ContextDev::Models::UtilityPrefetchParams
